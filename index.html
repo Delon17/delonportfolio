@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Delon Pyle — Software Developer, Georgetown Guyana</title>
+<meta name="description" content="Delon Pyle is a software developer and Assistant ICT Engineer at the National Data Management Authority in Georgetown, Guyana — building low-code applications on the Frappe Framework, mobile apps with FlutterFlow, and web software in Python and JavaScript." />
+<meta name="author" content="Delon Pyle" />
+<link rel="canonical" href="https://delonpyle.com/" />
+<meta name="theme-color" content="#0A0C10" />
+<meta name="color-scheme" content="dark" />
+
+<!-- Social preview -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Delon Pyle" />
+<meta property="og:url" content="https://delonpyle.com/" />
+<meta property="og:title" content="Delon Pyle — Software Developer" />
+<meta property="og:description" content="Software developer and Assistant ICT Engineer at the National Data Management Authority, Guyana. Frappe Framework, FlutterFlow, Python and JavaScript." />
+<meta property="og:image" content="https://delonpyle.com/assets/delon-pyle.jpg" />
+<meta property="og:image:width" content="992" />
+<meta property="og:image:height" content="1240" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Delon Pyle — Software Developer" />
+<meta name="twitter:description" content="Software developer and Assistant ICT Engineer at the National Data Management Authority, Guyana." />
+<meta name="twitter:image" content="https://delonpyle.com/assets/delon-pyle.jpg" />
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0C10'/%3E%3Ctext x='32' y='45' font-family='Segoe UI,system-ui,sans-serif' font-size='36' font-weight='700' fill='%236E8BFF' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --bg: #0A0C10;
+    --bg-elev: #12151B;
+    --bg-elev-2: #171B22;
+    --line: #232830;
+    --line-soft: #1A1E25;
+    --text: #ECEDEF;
+    --text-dim: #9AA0AB;
+    --text-faint: #626873;
+    --accent: #6E8BFF;
+    --accent-2: #4FD1C5;
+    --accent-glow: rgba(110, 139, 255, 0.45);
+
+    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --body: "Inter", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+    --maxw: 1100px;
+    --gutter: clamp(1.25rem, 5vw, 4rem);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* scroll-padding keeps anchored sections clear of the fixed nav */
+  html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--accent); color: #0A0C10; }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* Visible keyboard focus — the default outline all but disappears on this background */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 50%; top: 0;
+    transform: translate(-50%, -120%);
+    z-index: 400;
+    padding: 0.7rem 1.2rem;
+    background: var(--accent);
+    color: #0A0C10;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 0 0 10px 10px;
+    transition: transform 0.2s ease;
+  }
+  .skip-link:focus { transform: translate(-50%, 0); }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--gutter); }
+
+  .mono {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .accent-text {
+    background: linear-gradient(100deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.05rem var(--gutter);
+    background: rgba(10, 12, 16, 0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s ease, background 0.4s ease;
+  }
+  nav.scrolled {
+    border-bottom-color: var(--line-soft);
+    background: rgba(10, 12, 16, 0.82);
+  }
+  .brand {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.02rem;
+    letter-spacing: -0.01em;
+  }
+  .brand span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    letter-spacing: 0.01em;
+    transition: color 0.2s ease;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -5px;
+    width: 100%; height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.28s ease;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--text); }
+  .nav-links a.active::after { transform: scaleX(1); }
+
+  /* ---------- MOBILE NAV ---------- */
+  .nav-toggle {
+    display: none;
+    width: 42px; height: 42px;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text);
+  }
+  .nav-toggle .bars, .nav-toggle .bars::before, .nav-toggle .bars::after {
+    display: block;
+    width: 18px; height: 1.5px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform 0.28s ease, opacity 0.2s ease;
+  }
+  .nav-toggle .bars::before, .nav-toggle .bars::after { content: ""; position: absolute; }
+  .nav-toggle .bars::before { transform: translateY(-6px); }
+  .nav-toggle .bars::after { transform: translateY(6px); }
+  .nav-toggle[aria-expanded="true"] .bars { background: transparent; }
+  .nav-toggle[aria-expanded="true"] .bars::before { transform: rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] .bars::after { transform: rotate(-45deg); }
+
+  @media (max-width: 720px) {
+    .nav-toggle { display: inline-flex; position: relative; }
+    /* the bar itself must go opaque too, or it seams against the panel */
+    nav.menu-open { background: var(--bg); border-bottom-color: transparent; }
+    .nav-links {
+      position: fixed;
+      inset: 61px 0 auto 0;
+      flex-direction: column;
+      gap: 0;
+      padding: 0.5rem var(--gutter) 1.5rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line-soft);
+      transform: translateY(-8px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    }
+    .nav-links.open { opacity: 1; visibility: visible; transform: none; }
+    .nav-links a {
+      font-size: 1rem;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .nav-links a::after { display: none; }
+    .nav-links a.active { color: var(--accent); }
+  }
+
+  /* ---------- HERO ---------- */
+  header.hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .aurora {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.5;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .blob.b1 {
+    width: 46vw; height: 46vw;
+    top: -8vw; left: 6vw;
+    background: radial-gradient(circle at 30% 30%, var(--accent), transparent 68%);
+  }
+  .blob.b2 {
+    width: 40vw; height: 40vw;
+    bottom: -12vw; right: -4vw;
+    background: radial-gradient(circle at 60% 40%, var(--accent-2), transparent 66%);
+    opacity: 0.32;
+  }
+  /* a 90px blur over a 46vw box is a heavy paint on phone GPUs */
+  @media (max-width: 720px) {
+    .blob { filter: blur(60px); }
+    .blob.b1 { width: 78vw; height: 78vw; }
+    .blob.b2 { width: 70vw; height: 70vw; }
+  }
+  .grid-lines {
+    position: absolute; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 30%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 30%, transparent 78%);
+    opacity: 0.5;
+  }
+  .hero-inner { position: relative; z-index: 2; width: 100%; padding-block: 7rem 3rem; }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.4rem 0.85rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(23, 27, 34, 0.5);
+    margin-bottom: 2rem;
+  }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent-2);
+    box-shadow: 0 0 0 0 rgba(79, 209, 197, 0.6);
+    animation: pulse 2.4s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(79, 209, 197, 0.5); }
+    70% { box-shadow: 0 0 0 7px rgba(79, 209, 197, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(79, 209, 197, 0); }
+  }
+  .status .mono { color: var(--text-dim); font-size: 0.68rem; }
+
+  h1.name {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(3.4rem, 12vw, 8.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    margin-bottom: 1.6rem;
+  }
+  h1.name .line { display: block; overflow: hidden; padding-bottom: 0.06em; }
+  /* the .line/.span markup exists to mask this rise-in — wire it up */
+  h1.name .line > span {
+    display: inline-block;
+    transform: translateY(105%);
+    animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  h1.name .line:nth-child(2) > span { animation-delay: 0.12s; }
+  @keyframes rise { to { transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    h1.name .line > span { transform: none; }
+  }
+
+  .lede {
+    font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+    line-height: 1.5;
+    color: var(--text-dim);
+    max-width: 40ch;
+    margin-bottom: 2.6rem;
+    font-weight: 400;
+  }
+  .lede strong { color: var(--text); font-weight: 600; }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 0.9rem; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.5rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid var(--line);
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .btn.primary {
+    background: linear-gradient(100deg, var(--accent), var(--accent-2));
+    color: #0A0C10;
+    border-color: transparent;
+    font-weight: 600;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn.ghost:hover { border-color: var(--accent); color: #fff; }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem; left: var(--gutter);
+    z-index: 2;
+    display: flex; align-items: center; gap: 0.6rem;
+    color: var(--text-faint);
+  }
+  .scroll-hint .bar {
+    width: 34px; height: 1px; background: var(--text-faint);
+    position: relative; overflow: hidden;
+  }
+  .scroll-hint .bar::after {
+    content: ""; position: absolute; inset: 0;
+    background: var(--accent);
+    transform: translateX(-100%);
+    animation: slide 2.2s ease-in-out infinite;
+  }
+  @keyframes slide { 50% { transform: translateX(0); } 100% { transform: translateX(100%); } }
+
+  /* ---------- SECTIONS ---------- */
+  section { padding-block: clamp(4.5rem, 11vh, 8rem); position: relative; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .section-head h2 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    letter-spacing: -0.02em;
+  }
+  .section-head .idx { margin-left: auto; }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+  .about-grid p { color: var(--text-dim); margin-bottom: 1.2rem; }
+  .about-grid p strong { color: var(--text); font-weight: 600; }
+  .about-facts {
+    border: 1px solid var(--line-soft);
+    border-radius: 14px;
+    background: var(--bg-elev);
+    padding: 1.6rem;
+  }
+  .portrait {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    margin-bottom: 1.2rem;
+    line-height: 0;
+  }
+  .portrait img { width: 100%; display: block; filter: saturate(0.94); }
+  .portrait::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,12,16,0.45), transparent 45%);
+    pointer-events: none;
+  }
+  .portrait .tag-name {
+    position: absolute; left: 1rem; bottom: 0.85rem;
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--text);
+    line-height: 1.4;
+  }
+  .fact { padding: 0.9rem 0; border-bottom: 1px solid var(--line-soft); }
+  .fact:last-child { border-bottom: none; padding-bottom: 0; }
+  .fact:first-child { padding-top: 0; }
+  .fact .k { display: block; margin-bottom: 0.25rem; }
+  .fact .v { color: var(--text); font-weight: 500; }
+  @media (max-width: 760px) { .about-grid { grid-template-columns: 1fr; } }
+
+  /* EXPERIENCE */
+  .xp { display: flex; flex-direction: column; }
+  .job {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--line-soft);
+    transition: background 0.3s ease;
+  }
+  .job:first-child { border-top: none; }
+  .job:hover { background: linear-gradient(90deg, rgba(110,139,255,0.04), transparent); }
+  .job .years { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); padding-top: 0.3rem; }
+  .job h3 { font-family: var(--display); font-size: 1.35rem; font-weight: 600; letter-spacing: -0.01em; }
+  .job .company { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 0.7rem; }
+  .job .company b { color: var(--accent-2); font-weight: 500; }
+  .job p { color: var(--text-dim); font-size: 0.96rem; }
+  @media (max-width: 640px) {
+    .job { grid-template-columns: 1fr; gap: 0.6rem; }
+    .job .years { padding-top: 0; }
+  }
+
+  /* CERTIFICATIONS — image wall */
+  .certs { margin-top: 3rem; }
+  .certs .sub-label { display: block; margin-bottom: 1.6rem; }
+  .cert-wall { column-count: 2; column-gap: 1.2rem; }
+  @media (max-width: 620px) { .cert-wall { column-count: 1; } }
+  .cert-card {
+    break-inside: avoid;
+    margin-bottom: 1.2rem;
+    border: 1px solid var(--line-soft);
+    border-radius: 14px;
+    background: var(--bg-elev);
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  .cert-card:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .cert-card button {
+    display: block; width: 100%; padding: 0; border: none;
+    background: #fff; cursor: zoom-in; line-height: 0;
+  }
+  .cert-card img { width: 100%; display: block; }
+  .cert-card .meta { padding: 1rem 1.15rem; }
+  .cert-card .meta h4 { font-family: var(--display); font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; }
+  .cert-card .meta .row { display: flex; justify-content: space-between; gap: 0.75rem; margin-top: 0.35rem; align-items: baseline; }
+  .cert-card .meta .issuer { color: var(--text-dim); font-size: 0.85rem; }
+  .cert-card .meta .yr { font-family: var(--mono); font-size: 0.74rem; color: var(--accent); white-space: nowrap; }
+
+  .lightbox {
+    position: fixed; inset: 0; z-index: 200;
+    display: none; align-items: center; justify-content: center;
+    background: rgba(5, 6, 9, 0.9);
+    backdrop-filter: blur(6px);
+    padding: 5vw;
+    cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 100%; max-height: 90vh; border-radius: 10px; box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
+  .lightbox .close {
+    position: absolute; top: 1.4rem; right: 1.6rem;
+    color: var(--text-dim); font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.1em;
+    background: transparent; border: none; cursor: pointer; padding: 0.4rem;
+  }
+  .lightbox .close:hover { color: var(--text); }
+
+  /* SKILLS */
+  .skill-groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .skill-card {
+    border: 1px solid var(--line-soft);
+    border-radius: 14px;
+    background: var(--bg-elev);
+    padding: 1.5rem;
+  }
+  .skill-card h4 { font-family: var(--display); font-size: 1.05rem; font-weight: 600; margin-bottom: 1rem; }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg-elev-2);
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .tag:hover { color: var(--text); border-color: var(--accent); }
+  @media (max-width: 800px) { .skill-groups { grid-template-columns: 1fr; } }
+
+  /* WORK */
+  .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; }
+  .work-card {
+    display: block;
+    border: 1px solid var(--line-soft);
+    border-radius: 16px;
+    background: var(--bg-elev);
+    padding: 1.8rem;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .work-card::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 0%), rgba(110,139,255,0.08), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .work-card:hover { transform: translateY(-4px); border-color: var(--line); }
+  .work-card:hover::before { opacity: 1; }
+  .work-card .tagline { position: relative; }
+  .work-card h3 {
+    font-family: var(--display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0.8rem 0 0.6rem;
+    letter-spacing: -0.01em;
+    position: relative;
+  }
+  .work-card p { color: var(--text-dim); font-size: 0.94rem; position: relative; }
+  .work-card .arrow {
+    margin-top: 1.3rem;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.82rem; color: var(--accent);
+    position: relative;
+  }
+  .work-card.feature {
+    grid-column: 1 / -1;
+    padding: clamp(1.8rem, 4vw, 2.8rem);
+  }
+  .work-card.feature h3 { font-size: clamp(1.5rem, 4vw, 2.1rem); }
+  .work-card.feature p { font-size: 1.02rem; max-width: 62ch; }
+  .work-card em { color: var(--accent-2); font-style: normal; }
+  @media (max-width: 700px) { .work-grid { grid-template-columns: 1fr; } }
+
+  /* CONTACT */
+  #contact { text-align: center; }
+  #contact .big {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(2.2rem, 7vw, 4.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.6rem;
+  }
+  #contact .sub { color: var(--text-dim); max-width: 46ch; margin: 0 auto 2.4rem; }
+  .contact-links { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--line-soft);
+    padding: 2rem var(--gutter);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  footer .mono { color: var(--text-faint); }
+
+  /* Reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2,0.8,0.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+  /* ---------- PRINT (portfolios get saved as PDF) ---------- */
+  @media print {
+    nav, .nav-toggle, .scroll-hint, .scroll-progress, .aurora, .grid-lines,
+    .lightbox, .typed-line, .skip-link { display: none !important; }
+    body { background: #fff; color: #111; font-size: 11pt; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    section { padding-block: 1.2rem; break-inside: avoid; }
+    header.hero { min-height: auto; }
+    .hero-inner { padding-block: 0 1rem; }
+    h1.name { font-size: 34pt; }
+    h1.name .line > span { transform: none; animation: none; }
+    .accent-text { -webkit-text-fill-color: #2244cc; color: #2244cc; }
+    .lede, .about-grid p, .job p, .work-card p, .stat .label { color: #333; }
+    .about-facts, .skill-card, .work-card, .cert-card { border-color: #ccc; background: #fff; }
+    .cert-wall { column-count: 2; }
+    a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 8pt; color: #666; }
+  }
+
+  /* ---------- INTERACTIVE ADD-ONS ---------- */
+  /* scroll progress */
+  .scroll-progress {
+    position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    z-index: 300; transition: width 0.1s linear;
+  }
+
+  /* typed role line */
+  .typed-line {
+    font-family: var(--mono);
+    font-size: clamp(0.9rem, 2vw, 1.15rem);
+    letter-spacing: 0.02em;
+    color: var(--accent-2);
+    margin-bottom: 1.4rem;
+    min-height: 1.5em;
+  }
+  .typed-line .caret {
+    display: inline-block; width: 2px; height: 1.05em;
+    background: var(--accent); margin-left: 2px;
+    transform: translateY(2px);
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .typed-line .caret { animation: none; } }
+
+  /* stats band */
+  .stats-band { border-block: 1px solid var(--line-soft); background: var(--bg-elev); }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+  .stat { padding: 2.4rem 1rem; text-align: center; border-left: 1px solid var(--line-soft); }
+  .stat:first-child { border-left: none; }
+  .stat .num {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .stat .num .suffix { color: var(--accent); }
+  .stat .label { margin-top: 0.6rem; color: var(--text-dim); font-size: 0.82rem; }
+  @media (max-width: 620px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(3) { border-left: none; }
+    .stat:nth-child(3), .stat:nth-child(4) { border-top: 1px solid var(--line-soft); }
+  }
+
+  /* tilt */
+  .tilt { transform-style: preserve-3d; will-change: transform; }
+
+  /* lightbox gallery nav */
+  .lb-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 46px; height: 46px; border-radius: 50%;
+    border: 1px solid var(--line);
+    background: rgba(23,27,34,0.7); color: var(--text);
+    font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 210; transition: background 0.2s, border-color 0.2s;
+  }
+  .lb-nav:hover { background: var(--accent); color: #0A0C10; border-color: transparent; }
+  .lb-nav.prev { left: 3vw; }
+  .lb-nav.next { right: 3vw; }
+  .lb-count {
+    position: absolute; bottom: 1.6rem; left: 50%; transform: translateX(-50%);
+    font-family: var(--mono); font-size: 0.75rem; color: var(--text-dim); letter-spacing: 0.1em;
+  }
+  @media (max-width: 520px) { .lb-nav.prev { left: 1rem; } .lb-nav.next { right: 1rem; } }
+</style>
+
+<!-- Without JS the IntersectionObserver never fires, so .reveal content would stay invisible -->
+<noscript><style>
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .nav-links { position: static !important; opacity: 1 !important; visibility: visible !important; }
+  h1.name .line > span { transform: none !important; animation: none !important; }
+</style></noscript>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Delon Pyle",
+  "url": "https://delonpyle.com/",
+  "image": "https://delonpyle.com/assets/delon-pyle.jpg",
+  "jobTitle": "Assistant ICT Engineer",
+  "email": "mailto:pyledelon81@gmail.com",
+  "telephone": "+592-737-0991",
+  "worksFor": { "@type": "Organization", "name": "National Data Management Authority" },
+  "address": { "@type": "PostalAddress", "addressLocality": "Georgetown", "addressCountry": "GY" },
+  "sameAs": ["https://www.linkedin.com/in/delon-pyle-2a408327a/"],
+  "knowsAbout": ["Python", "JavaScript", "Frappe Framework", "FlutterFlow", "RESTful APIs", "Prompt Engineering"]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#about">Skip to content</a>
+<div class="scroll-progress" id="progress"></div>
+
+<!-- ============ NAV ============ -->
+<nav id="nav">
+  <a href="#top" class="brand">Delon<span>.</span>Pyle</a>
+  <div class="nav-links" id="nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#education">Education</a>
+    <a href="#skills">Skills</a>
+    <a href="#work">Work</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button class="nav-toggle" id="nav-toggle" type="button"
+          aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
+    <span class="bars"></span>
+  </button>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <div class="aurora">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+  </div>
+  <div class="grid-lines"></div>
+
+  <div class="wrap hero-inner">
+    <!-- EDIT: status line -->
+    <div class="status">
+      <span class="dot"></span>
+      <span class="mono">Open to new opportunities</span>
+    </div>
+
+    <h1 class="name">
+      <span class="line"><span>Delon</span></span>
+      <span class="line"><span class="accent-text">Pyle</span></span>
+    </h1>
+
+    <p class="typed-line"><span id="typed"></span><span class="caret"></span></p>
+
+    <!-- EDIT: refine this line as you like. -->
+    <p class="lede">
+      <strong>Software Developer</strong> — I build clean, reliable software.
+      Currently an Assistant ICT Engineer at the National Data Management Authority.
+    </p>
+
+    <div class="cta-row">
+      <a href="#contact" class="btn primary">Get in touch →</a>
+      <a href="tel:+5927370991" class="btn ghost">Call me</a>
+      <a href="https://www.linkedin.com/in/delon-pyle-2a408327a/" target="_blank" rel="noopener" class="btn ghost">LinkedIn</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span class="mono" style="font-size:0.62rem;">Scroll</span>
+    <span class="bar"></span>
+  </div>
+</header>
+
+<!-- ============ STATS ============ -->
+<section class="stats-band" style="padding-block:0;">
+  <div class="stats-grid" id="stats">
+    <div class="stat"><div class="num" data-target="3" data-suffix="+">0</div><div class="label">Years building software</div></div>
+    <div class="stat"><div class="num" data-target="5">0</div><div class="label">Roles held</div></div>
+    <div class="stat"><div class="num" data-target="6">0</div><div class="label">Certifications</div></div>
+    <div class="stat"><div class="num" data-target="13">0</div><div class="label">Skills</div></div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">01</span>
+      <h2>About</h2>
+      <span class="mono idx">Who I am</span>
+    </div>
+    <div class="about-grid reveal">
+      <!-- EDIT: opening line is from your CV; tweak anytime. -->
+      <div>
+        <p><strong>I have a knack for simplifying processes.</strong> I leverage
+        visual interfaces and pre-built modules to swiftly create powerful
+        applications — from automating workflows to crafting intuitive user
+        experiences. I'm all about efficiency and innovation in software
+        development.</p>
+        <p>I started through internships at the Guyana Lands &amp; Survey
+        Commission and the National Data Management Authority, then grew into an
+        Associate Developer at NDMA — building low-code applications on the
+        Frappe Framework and mobile apps with FlutterFlow, coding in Python,
+        JavaScript, HTML and CSS. Today I'm an Assistant ICT Engineer there,
+        working with AI tooling and prompt engineering alongside development.</p>
+        <p>Alongside work, I'm studying for a BSc in Information Technology
+        (specializing in network administration and technology development).
+        I'm always looking for interesting problems to solve and ways to keep
+        growing as a developer.</p>
+      </div>
+      <!-- EDIT: quick facts. -->
+      <div>
+        <div class="portrait reveal">
+          <img src="assets/delon-pyle.jpg" alt="Delon Pyle"
+               width="992" height="1240" loading="lazy" decoding="async" />
+          <span class="tag-name">Delon Pyle · Georgetown</span>
+        </div>
+        <div class="about-facts">
+        <div class="fact"><span class="k mono">Based in</span><span class="v">Georgetown, Guyana</span></div>
+        <div class="fact"><span class="k mono">Focus</span><span class="v">Software development</span></div>
+        <div class="fact"><span class="k mono">Currently</span><span class="v">National Data Management Authority</span></div>
+        <div class="fact"><span class="k mono">Availability</span><span class="v">Open to opportunities</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">02</span>
+      <h2>Experience</h2>
+      <span class="mono idx">Where I've worked</span>
+    </div>
+    <div class="xp">
+      <div class="job reveal">
+        <div class="years">2025 — Now</div>
+        <div>
+          <h3>Assistant ICT Engineer</h3>
+          <div class="company"><b>National Data Management Authority</b> · Georgetown, Guyana</div>
+          <p>Supporting and building the systems behind national data services.
+          Working with prompt engineering and AI tooling as part of the role.</p>
+        </div>
+      </div>
+      <div class="job reveal">
+        <div class="years">2023 — 2025</div>
+        <div>
+          <h3>Associate Developer</h3>
+          <div class="company"><b>National Data Management Authority</b> · Hybrid</div>
+          <p>Low-code development on the Frappe Framework (v13–15) and mobile
+          apps with FlutterFlow. Code contribution via Git and GitLab, coding in
+          Python, JavaScript, HTML and CSS.</p>
+        </div>
+      </div>
+      <div class="job reveal">
+        <div class="years">2024</div>
+        <div>
+          <h3>Trainee Testing &amp; Customization Assistant</h3>
+          <div class="company"><b>Guiana Holdings Inc.</b> · Georgetown, Guyana</div>
+          <p>Tested and validated game functionality and quality — identifying
+          bugs and glitches before release.</p>
+        </div>
+      </div>
+      <div class="job reveal">
+        <div class="years">2023</div>
+        <div>
+          <h3>Internship Trainee</h3>
+          <div class="company"><b>National Data Management Authority</b> · Georgetown, Guyana</div>
+          <p>Built a school registration website on the Frappe low-code platform,
+          and supported the fibre-optic team connecting government agencies —
+          including fibre splicing and site visits.</p>
+        </div>
+      </div>
+      <div class="job reveal">
+        <div class="years">2022</div>
+        <div>
+          <h3>Internship Trainee</h3>
+          <div class="company"><b>Guyana Lands &amp; Survey Commission</b> · Demerara-Mahaica, Guyana</div>
+          <p>Inventory management, network troubleshooting, and PC and hardware
+          repairs.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EDUCATION ============ -->
+<section id="education">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">03</span>
+      <h2>Education</h2>
+      <span class="mono idx">Qualifications</span>
+    </div>
+    <div class="xp">
+      <div class="job reveal">
+        <div class="years">2024 — Present</div>
+        <div>
+          <h3>BSc, Information Technology</h3>
+          <div class="company"><b>Texila American University</b> · Georgetown, Guyana</div>
+          <p>Specializing in network administration and technology development.
+          Currently in progress.</p>
+        </div>
+      </div>
+      <div class="job reveal">
+        <div class="years">2021 — 2023</div>
+        <div>
+          <h3>Diploma in Computer Science</h3>
+          <div class="company"><b>Government Technical Institute</b> · Georgetown, Guyana</div>
+          <p>Awarded by the Ministry of Education. Graduated with High Credit.</p>
+        </div>
+      </div>
+      <!-- EDIT: add any other qualifications or certifications here as .job blocks. -->
+    </div>
+
+        <div class="certs reveal">
+      <span class="mono sub-label">Certifications</span>
+      <div class="cert-wall">
+      <div class="cert-card reveal">
+        <button type="button" onclick="openLightbox(this)">
+          <img src="assets/cert-claude-code-101.jpg" alt="Claude Code 101 — Anthropic certificate awarded to Delon Pyle" width="1287" height="994" loading="lazy" decoding="async" />
+        </button>
+        <div class="meta">
+          <h4>Claude Code 101</h4>
+          <div class="row"><span class="issuer">Anthropic</span><span class="yr">2026</span></div>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <button type="button" onclick="openLightbox(this)">
+          <img src="assets/cert-claude-101.jpg" alt="Claude 101 — Anthropic certificate awarded to Delon Pyle" width="1287" height="994" loading="lazy" decoding="async" />
+        </button>
+        <div class="meta">
+          <h4>Claude 101</h4>
+          <div class="row"><span class="issuer">Anthropic</span><span class="yr">2026</span></div>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <button type="button" onclick="openLightbox(this)">
+          <img src="assets/cert-cybersecurity-awareness.jpg" alt="Cybersecurity Awareness Training — NDMA certificate awarded to Delon Pyle" width="982" height="694" loading="lazy" decoding="async" />
+        </button>
+        <div class="meta">
+          <h4>Cybersecurity Awareness Training</h4>
+          <div class="row"><span class="issuer">NDMA</span><span class="yr">2025</span></div>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <button type="button" onclick="openLightbox(this)">
+          <img src="assets/cert-chatgpt.jpg" alt="Exploring the Power of ChatGPT — Udemy certificate awarded to Delon Pyle" width="960" height="714" loading="lazy" decoding="async" />
+        </button>
+        <div class="meta">
+          <h4>Exploring the Power of ChatGPT</h4>
+          <div class="row"><span class="issuer">Udemy</span><span class="yr">2025</span></div>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <button type="button" onclick="openLightbox(this)">
+          <img src="assets/cert-tailwind-blog.jpg" alt="Build a Blog App with Tailwind CSS — Udemy certificate awarded to Delon Pyle" width="960" height="714" loading="lazy" decoding="async" />
+        </button>
+        <div class="meta">
+          <h4>Build a Blog App with Tailwind CSS</h4>
+          <div class="row"><span class="issuer">Udemy</span><span class="yr">2024</span></div>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <button type="button" onclick="openLightbox(this)">
+          <img src="assets/cert-industrial-attachment.jpg" alt="Industrial Attachment Programme — NDMA certificate awarded to Delon Pyle" width="1600" height="1267" loading="lazy" decoding="async" />
+        </button>
+        <div class="meta">
+          <h4>Industrial Attachment Programme</h4>
+          <div class="row"><span class="issuer">NDMA</span><span class="yr">2023</span></div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SKILLS ============ -->
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">04</span>
+      <h2>Skills</h2>
+      <span class="mono idx">What I bring</span>
+    </div>
+    <div class="skill-groups">
+      <!-- EDIT: adjust tags anytime. These reflect your CV. -->
+      <div class="skill-card reveal">
+        <h4>Languages &amp; Web</h4>
+        <div class="tags">
+          <span class="tag">Python</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <h4>Frameworks &amp; Tools</h4>
+        <div class="tags">
+          <span class="tag">Frappe Framework</span>
+          <span class="tag">FlutterFlow</span>
+          <span class="tag">Frappe Client Script</span>
+          <span class="tag">Git &amp; GitLab</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <h4>APIs &amp; Systems</h4>
+        <div class="tags">
+          <span class="tag">RESTful APIs</span>
+          <span class="tag">API Integration</span>
+          <span class="tag">Version Control</span>
+          <span class="tag">Virtual Containers</span>
+          <span class="tag">Prompt Engineering</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORK ============ -->
+<section id="work">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">05</span>
+      <h2>Selected Work</h2>
+      <span class="mono idx">A few highlights</span>
+    </div>
+    <div class="work-grid">
+      <a href="https://autobid.gy" target="_blank" rel="noopener" class="work-card feature reveal">
+        <span class="mono tagline">Vehicle marketplace · Guyana</span>
+        <h3>AutoBid GY</h3>
+        <p>A mobile marketplace and auction platform for buying and selling
+        vehicles in Guyana — <em>Find It · Love It · Buy It</em>. Users browse
+        featured listings from dealers, search cars and heavy equipment, follow
+        live auctions, and message sellers directly, with pricing in GYD. I'm
+        part of the team building it.</p>
+        <span class="arrow">Visit autobid.gy →</span>
+      </a>
+      <!-- EDIT: add more projects below as <a class="work-card reveal"> blocks, or leave just the one. -->
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="wrap">
+    <span class="mono">06 — Contact</span>
+    <h2 class="big reveal">Let's <span class="accent-text">work together</span>.</h2>
+    <!-- EDIT: closing line -->
+    <p class="sub reveal">Have a role, a project, or just want to connect? The
+    fastest way to reach me is below.</p>
+    <div class="contact-links reveal">
+      <a href="tel:+5927370991" class="btn primary">Call +592 737 0991</a>
+      <a href="mailto:pyledelon81@gmail.com" class="btn primary">pyledelon81@gmail.com</a>
+      <a href="https://www.linkedin.com/in/delon-pyle-2a408327a/" target="_blank" rel="noopener" class="btn ghost">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <span class="mono">© <span id="year"></span> Delon Pyle</span>
+  <span class="mono">Built as a single page</span>
+</footer>
+
+<!-- Lightbox for certificates -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Certificate viewer" onclick="closeLightbox()">
+  <button type="button" class="close" onclick="event.stopPropagation(); closeLightbox()">Close ✕</button>
+  <button type="button" class="lb-nav prev" onclick="event.stopPropagation(); lbStep(-1)" aria-label="Previous certificate">‹</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation()" />
+  <button type="button" class="lb-nav next" onclick="event.stopPropagation(); lbStep(1)" aria-label="Next certificate">›</button>
+  <span class="lb-count" id="lb-count"></span>
+</div>
+
+<script>
+  // Year
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Certificate lightbox gallery
+  const galleryImgs = [...document.querySelectorAll(".cert-card img")];
+  let lbIndex = 0;
+  let lbOpener = null;
+  function renderLb() {
+    const src = galleryImgs[lbIndex];
+    const lbImg = document.getElementById("lightbox-img");
+    lbImg.src = src.src;
+    lbImg.alt = src.alt;
+    document.getElementById("lb-count").textContent =
+      (lbIndex + 1) + " / " + galleryImgs.length;
+  }
+  function openLightbox(btn) {
+    const img = btn.querySelector("img");
+    lbIndex = Math.max(0, galleryImgs.indexOf(img));
+    lbOpener = btn;
+    renderLb();
+    document.getElementById("lightbox").classList.add("open");
+    document.body.style.overflow = "hidden";
+    document.querySelector(".lightbox .close").focus();
+  }
+  function closeLightbox() {
+    document.getElementById("lightbox").classList.remove("open");
+    document.body.style.overflow = "";
+    // send focus back to the thumbnail that opened it
+    if (lbOpener) { lbOpener.focus(); lbOpener = null; }
+  }
+  function lbStep(d) {
+    lbIndex = (lbIndex + d + galleryImgs.length) % galleryImgs.length;
+    renderLb();
+  }
+  document.addEventListener("keydown", (e) => {
+    if (!document.getElementById("lightbox").classList.contains("open")) return;
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowRight") lbStep(1);
+    if (e.key === "ArrowLeft") lbStep(-1);
+  });
+  window.openLightbox = openLightbox;
+  window.closeLightbox = closeLightbox;
+  window.lbStep = lbStep;
+
+  // Nav scrolled state
+  const nav = document.getElementById("nav");
+  const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 24);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  // Mobile menu
+  const navToggle = document.getElementById("nav-toggle");
+  const navLinks = document.getElementById("nav-links");
+  const setMenu = (open) => {
+    navLinks.classList.toggle("open", open);
+    nav.classList.toggle("menu-open", open);
+    navToggle.setAttribute("aria-expanded", String(open));
+  };
+  navToggle.addEventListener("click", () => {
+    setMenu(navToggle.getAttribute("aria-expanded") !== "true");
+  });
+  navLinks.addEventListener("click", (e) => {
+    if (e.target.tagName === "A") setMenu(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && navLinks.classList.contains("open")) {
+      setMenu(false);
+      navToggle.focus();
+    }
+  });
+  // a resize past the breakpoint should not leave the panel stranded open
+  window.matchMedia("(min-width: 721px)").addEventListener("change", (e) => {
+    if (e.matches) setMenu(false);
+  });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+  // Active nav link via sections
+  const links = [...document.querySelectorAll(".nav-links a")];
+  const sections = links.map((l) => document.querySelector(l.getAttribute("href"))).filter(Boolean);
+  const navIo = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        const id = "#" + e.target.id;
+        links.forEach((l) => l.classList.toggle("active", l.getAttribute("href") === id));
+      }
+    });
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  sections.forEach((s) => navIo.observe(s));
+
+  // Aurora parallax (respects reduced motion)
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduce && window.matchMedia("(pointer:fine)").matches) {
+    const b1 = document.querySelector(".blob.b1");
+    const b2 = document.querySelector(".blob.b2");
+    let mx = 0, my = 0, queued = false;
+    // writing transforms straight from mousemove repaints two 90px-blurred
+    // layers per event; batch into one frame instead
+    const paint = () => {
+      queued = false;
+      b1.style.transform = `translate(${mx * 40}px, ${my * 40}px)`;
+      b2.style.transform = `translate(${mx * -50}px, ${my * -30}px)`;
+    };
+    window.addEventListener("mousemove", (ev) => {
+      mx = ev.clientX / window.innerWidth - 0.5;
+      my = ev.clientY / window.innerHeight - 0.5;
+      if (!queued) { queued = true; requestAnimationFrame(paint); }
+    }, { passive: true });
+  }
+
+  // Work card cursor glow
+  document.querySelectorAll(".work-card").forEach((card) => {
+    card.addEventListener("mousemove", (ev) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", (ev.clientX - r.left) + "px");
+      card.style.setProperty("--my", (ev.clientY - r.top) + "px");
+    });
+  });
+
+  // Scroll progress bar
+  const progress = document.getElementById("progress");
+  const updateProgress = () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progress.style.width = pct + "%";
+  };
+  updateProgress();
+  window.addEventListener("scroll", updateProgress, { passive: true });
+
+  // Typed rotating role
+  (function typeRoles() {
+    const el = document.getElementById("typed");
+    if (!el) return;
+    const roles = ["Software Developer", "Low-Code Developer", "Frappe Developer", "Problem Solver"];
+    if (reduce) { el.textContent = roles[0]; return; }
+    let ri = 0, ci = 0, deleting = false;
+    function tick() {
+      const word = roles[ri];
+      el.textContent = word.slice(0, ci);
+      if (!deleting && ci < word.length) { ci++; setTimeout(tick, 70); }
+      else if (!deleting && ci === word.length) { deleting = true; setTimeout(tick, 1400); }
+      else if (deleting && ci > 0) { ci--; setTimeout(tick, 35); }
+      else { deleting = false; ri = (ri + 1) % roles.length; setTimeout(tick, 300); }
+    }
+    tick();
+  })();
+
+  // Count-up stats
+  const statsEl = document.getElementById("stats");
+  if (statsEl) {
+    const runCount = (el) => {
+      const target = +el.dataset.target;
+      const suffix = el.dataset.suffix || "";
+      if (reduce) { el.innerHTML = target + (suffix ? '<span class="suffix">' + suffix + '</span>' : ''); return; }
+      const dur = 1100; const start = performance.now();
+      const step = (t) => {
+        const p = Math.min(1, (t - start) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const val = Math.round(target * eased);
+        el.innerHTML = val + (suffix ? '<span class="suffix">' + suffix + '</span>' : '');
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    const statIo = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          statsEl.querySelectorAll(".num").forEach(runCount);
+          statIo.disconnect();
+        }
+      });
+    }, { threshold: 0.4 });
+    statIo.observe(statsEl);
+  }
+
+  // Subtle 3D tilt on cards
+  if (!reduce && window.matchMedia("(pointer:fine)").matches) {
+    document.querySelectorAll(".work-card, .cert-card").forEach((card) => {
+      card.addEventListener("mousemove", (ev) => {
+        const r = card.getBoundingClientRect();
+        const px = (ev.clientX - r.left) / r.width - 0.5;
+        const py = (ev.clientY - r.top) / r.height - 0.5;
+        card.style.transform =
+          `perspective(800px) rotateX(${-py * 5}deg) rotateY(${px * 5}deg) translateY(-4px)`;
+      });
+      card.addEventListener("mouseleave", () => { card.style.transform = ""; });
+    });
+  }
+</script>
+</body>
+</html>
