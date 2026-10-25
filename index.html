@@ -592,6 +592,27 @@
   }
   #contact .sub { color: var(--text-dim); max-width: 46ch; margin: 0 auto 2.4rem; }
   .contact-links { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; }
+  .contact-form {
+    max-width: 620px; margin: 3.5rem auto 0; text-align: left;
+    display: grid; gap: 1rem;
+    border: 1px solid var(--line-soft); border-radius: 16px; background: var(--bg-elev);
+    padding: clamp(1.4rem, 4vw, 2.2rem);
+  }
+  .contact-form .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 560px) { .contact-form .field-row { grid-template-columns: 1fr; } }
+  .contact-form label { display: grid; gap: 0.4rem; font-size: 0.85rem; color: var(--text-dim); }
+  .contact-form input, .contact-form textarea {
+    width: 100%; padding: 0.75rem 0.9rem; border-radius: 10px;
+    border: 1px solid var(--line); background: var(--bg); color: var(--text);
+    font: inherit; font-size: 0.95rem; resize: vertical;
+  }
+  .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--accent); }
+  .contact-form .hp { position: absolute; left: -9999px; }
+  .contact-form button { justify-self: start; cursor: pointer; }
+  .contact-form button:disabled { opacity: 0.6; cursor: wait; }
+  .form-status { font-size: 0.9rem; min-height: 1.3em; }
+  .form-status.ok { color: var(--accent-2); }
+  .form-status.err { color: #FF8A8A; }
 
   /* FOOTER */
   footer {
@@ -1118,12 +1139,27 @@
     <h2 class="big reveal">Let's <span class="accent-text">work together</span>.</h2>
     <!-- EDIT: closing line -->
     <p class="sub reveal">Have a role, a project, or just want to connect? The
-    fastest way to reach me is below.</p>
+    fastest way to reach me is below — or leave a message.</p>
     <div class="contact-links reveal">
       <a href="tel:+5927370991" class="btn primary">Call +592 737 0991</a>
       <a href="mailto:pyledelon81@gmail.com" class="btn primary">pyledelon81@gmail.com</a>
       <a href="https://www.linkedin.com/in/delon-pyle-2a408327a/" target="_blank" rel="noopener" class="btn ghost">LinkedIn</a>
     </div>
+
+    <!-- Messages are delivered by Formspree to pyledelon81@gmail.com -->
+    <form class="contact-form reveal" id="contact-form" action="https://formspree.io/f/maeeqeew" method="POST">
+      <span class="mono">Or send a message</span>
+      <div class="field-row">
+        <label>Name<input type="text" name="name" autocomplete="name" required maxlength="120" /></label>
+        <label>Email<input type="email" name="email" autocomplete="email" required maxlength="200" /></label>
+      </div>
+      <label>Message<textarea name="message" rows="5" required maxlength="5000"></textarea></label>
+      <!-- honeypot: real people never see or fill this, bots do -->
+      <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <input type="hidden" name="_subject" value="New message from delonpyle.com" />
+      <button type="submit" class="btn primary">Send message →</button>
+      <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+    </form>
   </div>
 </section>
 
@@ -1264,6 +1300,31 @@
       card.style.setProperty("--mx", (ev.clientX - r.left) + "px");
       card.style.setProperty("--my", (ev.clientY - r.top) + "px");
     });
+  });
+
+  // Contact form: send via fetch so visitors stay on the page
+  const contactForm = document.getElementById("contact-form");
+  const formStatus = document.getElementById("form-status");
+  contactForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = contactForm.querySelector("button");
+    btn.disabled = true;
+    formStatus.className = "form-status";
+    formStatus.textContent = "Sending…";
+    try {
+      const res = await fetch(contactForm.action, {
+        method: "POST", body: new FormData(contactForm), headers: { Accept: "application/json" },
+      });
+      if (!res.ok) throw new Error(res.status);
+      contactForm.reset();
+      formStatus.className = "form-status ok";
+      formStatus.textContent = "Thanks — your message was sent. I'll get back to you soon.";
+    } catch {
+      formStatus.className = "form-status err";
+      formStatus.textContent = "Sorry, that didn't send. Please email pyledelon81@gmail.com instead.";
+    } finally {
+      btn.disabled = false;
+    }
   });
 
   // Scroll progress bar
