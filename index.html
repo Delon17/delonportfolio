@@ -442,6 +442,12 @@
   .job .company { color: var(--text-dim); font-size: 0.95rem; margin-bottom: 0.7rem; }
   .job .company b { color: var(--accent-2); font-weight: 500; }
   .job p { color: var(--text-dim); font-size: 0.96rem; }
+  .job .view-cert {
+    margin-top: 0.9rem; padding: 0.45rem 0.85rem; border: 1px solid var(--accent); border-radius: 999px;
+    background: transparent; color: var(--accent); font-family: var(--mono); font-size: 0.72rem;
+    letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: background 0.2s, color 0.2s;
+  }
+  .job .view-cert:hover { background: var(--accent); color: #fff; }
   @media (max-width: 640px) {
     .job { grid-template-columns: 1fr; gap: 0.6rem; }
     .job .years { padding-top: 0; }
@@ -549,6 +555,8 @@
     font-size: 0.82rem; color: var(--accent);
     position: relative;
   }
+  .work-card .links { display: flex; flex-wrap: wrap; column-gap: 1.6rem; position: relative; }
+  .work-card .links .arrow:hover { text-decoration: underline; text-underline-offset: 3px; }
   .work-card.feature {
     grid-column: 1 / -1;
     padding: clamp(1.8rem, 4vw, 2.8rem);
@@ -591,7 +599,7 @@
   /* ---------- PRINT (portfolios get saved as PDF) ---------- */
   @media print {
     nav, .nav-toggle, .scroll-hint, .scroll-progress, .aurora, .grid-lines,
-    .lightbox, .typed-line, .skip-link { display: none !important; }
+    .lightbox, .typed-line, .skip-link, .view-cert { display: none !important; }
     body { background: #fff; color: #111; font-size: 11pt; }
     .reveal { opacity: 1 !important; transform: none !important; }
     section { padding-block: 1.2rem; break-inside: avoid; }
@@ -711,6 +719,7 @@
     <a href="#skills">Skills</a>
     <a href="#work">Work</a>
     <a href="#contact">Contact</a>
+    <a href="resume.html">Resume</a>
   </div>
   <button class="nav-toggle" id="nav-toggle" type="button"
           aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
@@ -748,6 +757,7 @@
 
     <div class="cta-row">
       <a href="#contact" class="btn primary">Get in touch →</a>
+      <a href="assets/Delon-Pyle-Resume.pdf" class="btn ghost" download>Download resume</a>
       <a href="tel:+5927370991" class="btn ghost">Call me</a>
       <a href="https://www.linkedin.com/in/delon-pyle-2a408327a/" target="_blank" rel="noopener" class="btn ghost">LinkedIn</a>
     </div>
@@ -898,6 +908,7 @@
           <h3>Diploma in Computer Science</h3>
           <div class="company"><b>Government Technical Institute</b> · Georgetown, Guyana</div>
           <p>Awarded by the Ministry of Education. Graduated with Credit.</p>
+          <button type="button" class="view-cert" data-cert="assets/diploma-computer-science.jpg" onclick="openLightbox(this)">View diploma →</button>
         </div>
       </div>
       <!-- EDIT: add any other qualifications or certifications here as .job blocks. -->
@@ -1034,7 +1045,7 @@
       <span class="mono idx">A few highlights</span>
     </div>
     <div class="work-grid">
-      <a href="https://autobid.gy" target="_blank" rel="noopener" class="work-card feature reveal">
+      <div class="work-card feature reveal">
         <span class="mono tagline">Vehicle marketplace · Guyana</span>
         <h3>AutoBid GY</h3>
         <p>A mobile marketplace and auction platform for buying and selling
@@ -1042,9 +1053,14 @@
         featured listings from dealers, search cars and heavy equipment, follow
         live auctions, and message sellers directly, with pricing in GYD. I'm
         part of the team building it.</p>
-        <span class="arrow">Visit autobid.gy →</span>
-      </a>
-      <!-- EDIT: add more projects below as <a class="work-card reveal"> blocks, or leave just the one. -->
+        <div class="links">
+          <a class="arrow" href="https://autobid.gy" target="_blank" rel="noopener">Visit autobid.gy →</a>
+          <a class="arrow" href="https://play.google.com/store/apps/details?id=com.lowcodefusion.autobidguyana" target="_blank" rel="noopener">Google Play →</a>
+          <a class="arrow" href="https://apps.apple.com/us/app/autobid-gy/id6770075374" target="_blank" rel="noopener">App Store →</a>
+        </div>
+      </div>
+      <!-- EDIT: add more projects below as <a class="work-card reveal"> blocks, or leave just the one.
+           A card with several links (like AutoBid) is a <div> with a .links row instead. -->
     </div>
   </div>
 </section>
@@ -1068,7 +1084,6 @@
 <!-- ============ FOOTER ============ -->
 <footer>
   <span class="mono">© <span id="year"></span> Delon Pyle</span>
-  <span class="mono">Built as a single page</span>
 </footer>
 
 <!-- Lightbox for certificates -->
@@ -1097,7 +1112,8 @@
       (lbIndex + 1) + " / " + galleryImgs.length;
   }
   function openLightbox(btn) {
-    const img = btn.querySelector("img");
+    // cert-card thumbnails hold their img; education buttons point at one via data-cert
+    const img = btn.querySelector("img") || galleryImgs.find((i) => i.getAttribute("src") === btn.dataset.cert);
     lbIndex = Math.max(0, galleryImgs.indexOf(img));
     lbOpener = btn;
     renderLb();

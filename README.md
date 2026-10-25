@@ -4,7 +4,9 @@ Personal portfolio for Delon Pyle — a single static page, no build step.
 
 ```
 index.html      the whole site (markup, CSS and JS inline)
-assets/         portrait + certificate images
+resume.html     the resume page; source of the downloadable PDF
+assets/         portrait, certificate images, resume PDF
+scripts/        build-resume-pdf.sh
 _headers        Cloudflare Pages response headers
 robots.txt
 sitemap.xml
@@ -19,6 +21,18 @@ comments, and the spots most likely to change carry an `<!-- EDIT: ... -->` note
 To add a certificate, drop the image in `assets/` and copy an existing
 `.cert-card` block. Set `width` and `height` on the `<img>` to the image's real
 pixel size so the page doesn't shift while it loads.
+
+## Resume
+
+`resume.html` is the resume, and `assets/Delon-Pyle-Resume.pdf` is generated
+from it. After editing the resume (or adding a certificate, which should also be
+listed there), rebuild the PDF from Git Bash:
+
+```
+./scripts/build-resume-pdf.sh
+```
+
+It prints `resume.html` with headless Edge (or Chrome) to a two-page Letter PDF.
 
 ## Deploying to Cloudflare Pages
 
