@@ -6,14 +6,16 @@ Static portfolio site, no build step. See README.md for layout and deployment.
 
 The resume must stay in sync with the site. Every new document means updating **all** of:
 
-1. **Image** — render it into `assets/` (PDFs: pypdfium2, scale 3, longest side 1600px, JPEG q85).
-   Name it `cert-<slug>.jpg`, or `diploma-<slug>.jpg` for academic awards.
+1. **Image** — render it into `assets/` (PDFs: pypdfium2, scale 3, longest side 1600px), saved as
+   WebP quality 80 via Pillow. Name it `cert-<slug>.webp`, or `diploma-<slug>.webp` for academic
+   awards — the Certifications stat counts `cert-` images, so the prefix matters.
 2. **`index.html`**
    - Add a `.cert-card` to the `.cert-wall`, ordered newest first, with real `width`/`height`.
-   - Bump the "Certifications" stat (`data-target`) for certifications — not for diplomas/degrees.
+   - The stats band counts roles, `cert-` images and skill tags itself (`data-count`); just keep
+     `data-target` roughly right as the no-JavaScript fallback.
    - Academic awards also belong in the Education `.xp` list, with a `.view-cert` button
      whose `data-cert` matches the image `src`.
-   - New roles go in Experience; update the "Roles held" stat.
+   - New roles go in Experience.
 3. **`resume.html`** — add it to the matching section (Certifications & Courses, Education,
    Employment History or Internships). Keep the cert list in the same order as the cert wall.
 4. **PDF** — run `./scripts/build-resume-pdf.sh`, then read the PDF back and check the layout

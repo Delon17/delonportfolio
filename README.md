@@ -5,7 +5,7 @@ Personal portfolio for Delon Pyle — a single static page, no build step.
 ```
 index.html      the whole site (markup, CSS and JS inline)
 resume.html     the resume page; source of the downloadable PDF
-assets/         portrait, certificate images, resume PDF
+assets/         portrait, certificate images, icons, resume PDF
 scripts/        build-resume-pdf.sh
 _headers        Cloudflare Pages response headers
 robots.txt
@@ -65,6 +65,12 @@ After that, every push to `main` redeploys automatically.
 - `assets/og-card.jpg` is the 1200×630 image shown when the link is shared
   (WhatsApp, LinkedIn, etc.). Re-render it if your title changes.
 - `404.html` is served by Cloudflare Pages for any missing URL.
+- Photos and certificates are WebP (about half the size of JPEG). `og-card.jpg`
+  stays JPEG because some link-preview crawlers don't read WebP.
+- `site.webmanifest` and `assets/icon-*.png` / `apple-touch-icon.png` give the
+  site a proper icon when saved to a phone's home screen.
+- Light/dark: the site follows the visitor's system setting; the nav switch
+  overrides it and the choice is remembered in `localStorage`.
 - Absolute URLs in the `og:`/`twitter:` meta tags, the canonical link and
   `sitemap.xml` all point at `https://delonpyle.com/`. Update them together if
   the domain ever changes.
