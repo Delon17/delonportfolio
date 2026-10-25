@@ -16,13 +16,14 @@
 <meta property="og:url" content="https://delonpyle.com/" />
 <meta property="og:title" content="Delon Pyle — Software Developer" />
 <meta property="og:description" content="Software developer and Assistant ICT Engineer at the National Data Management Authority, Guyana. Frappe Framework, FlutterFlow, Python and JavaScript." />
-<meta property="og:image" content="https://delonpyle.com/assets/delon-pyle.jpg" />
-<meta property="og:image:width" content="992" />
-<meta property="og:image:height" content="1240" />
+<meta property="og:image" content="https://delonpyle.com/assets/og-card.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Delon Pyle — Software Developer, Assistant ICT Engineer at NDMA" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Delon Pyle — Software Developer" />
 <meta name="twitter:description" content="Software developer and Assistant ICT Engineer at the National Data Management Authority, Guyana." />
-<meta name="twitter:image" content="https://delonpyle.com/assets/delon-pyle.jpg" />
+<meta name="twitter:image" content="https://delonpyle.com/assets/og-card.jpg" />
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0C10'/%3E%3Ctext x='32' y='45' font-family='Segoe UI,system-ui,sans-serif' font-size='36' font-weight='700' fill='%236E8BFF' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E" />
 
@@ -561,6 +562,19 @@
     grid-column: 1 / -1;
     padding: clamp(1.8rem, 4vw, 2.8rem);
   }
+  .work-card.feature {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2rem; align-items: center;
+  }
+  .work-card .shots { display: flex; gap: 0.7rem; position: relative; }
+  .work-card .shots img {
+    width: 118px; border-radius: 10px; border: 1px solid var(--line);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+  }
+  .work-card .shots img:nth-child(2) { transform: translateY(-14px); }
+  @media (max-width: 900px) {
+    .work-card.feature { grid-template-columns: 1fr; }
+    .work-card .shots img { width: auto; flex: 1; min-width: 0; }
+  }
   .work-card.feature h3 { font-size: clamp(1.5rem, 4vw, 2.1rem); }
   .work-card.feature p { font-size: 1.02rem; max-width: 62ch; }
   .work-card em { color: var(--accent-2); font-style: normal; }
@@ -700,6 +714,17 @@
   "worksFor": { "@type": "Organization", "name": "National Data Management Authority" },
   "address": { "@type": "PostalAddress", "addressLocality": "Georgetown", "addressCountry": "GY" },
   "sameAs": ["https://www.linkedin.com/in/delon-pyle-2a408327a/"],
+  "alumniOf": [
+    { "@type": "EducationalOrganization", "name": "Government Technical Institute" },
+    { "@type": "CollegeOrUniversity", "name": "Texila American University" }
+  ],
+  "hasCredential": [
+    { "@type": "EducationalOccupationalCredential", "name": "Diploma in Computer Science", "credentialCategory": "diploma", "recognizedBy": { "@type": "Organization", "name": "Ministry of Education, Guyana" } },
+    { "@type": "EducationalOccupationalCredential", "name": "Entrepreneurial Development Training Programme", "credentialCategory": "certificate", "recognizedBy": { "@type": "Organization", "name": "SBM Offshore Guyana" } },
+    { "@type": "EducationalOccupationalCredential", "name": "Claude Code 101", "credentialCategory": "certificate", "recognizedBy": { "@type": "Organization", "name": "Anthropic" } },
+    { "@type": "EducationalOccupationalCredential", "name": "Claude 101", "credentialCategory": "certificate", "recognizedBy": { "@type": "Organization", "name": "Anthropic" } },
+    { "@type": "EducationalOccupationalCredential", "name": "Cybersecurity Awareness Training", "credentialCategory": "certificate", "recognizedBy": { "@type": "Organization", "name": "National Data Management Authority" } }
+  ],
   "knowsAbout": ["Python", "JavaScript", "Frappe Framework", "FlutterFlow", "RESTful APIs", "Prompt Engineering"]
 }
 </script>
@@ -1046,6 +1071,7 @@
     </div>
     <div class="work-grid">
       <div class="work-card feature reveal">
+        <div>
         <span class="mono tagline">Vehicle marketplace · Guyana</span>
         <h3>AutoBid GY</h3>
         <p>A mobile marketplace and auction platform for buying and selling
@@ -1058,6 +1084,26 @@
           <a class="arrow" href="https://play.google.com/store/apps/details?id=com.lowcodefusion.autobidguyana" target="_blank" rel="noopener">Google Play →</a>
           <a class="arrow" href="https://apps.apple.com/us/app/autobid-gy/id6770075374" target="_blank" rel="noopener">App Store →</a>
         </div>
+        </div>
+        <div class="shots" aria-hidden="true">
+          <img src="assets/autobid-home.jpg" alt="" width="600" height="800" loading="lazy" decoding="async" />
+          <img src="assets/autobid-search.jpg" alt="" width="600" height="800" loading="lazy" decoding="async" />
+          <img src="assets/autobid-auctions.jpg" alt="" width="600" height="800" loading="lazy" decoding="async" />
+        </div>
+      </div>
+      <div class="work-card reveal">
+        <span class="mono tagline">Web app · Frappe Framework</span>
+        <h3>School Registration Website</h3>
+        <p>A student registration site built on the Frappe low-code platform
+        during my industrial attachment at the National Data Management
+        Authority.</p>
+      </div>
+      <div class="work-card reveal">
+        <span class="mono tagline">Portfolio · HTML, CSS, JavaScript</span>
+        <h3>delonpyle.com</h3>
+        <p>This site — a hand-written static page with no framework or build
+        step, plus a resume page that prints to a downloadable PDF. Hosted on
+        Cloudflare Pages.</p>
       </div>
       <!-- EDIT: add more projects below as <a class="work-card reveal"> blocks, or leave just the one.
            A card with several links (like AutoBid) is a <div> with a .links row instead. -->

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Page not found — Delon Pyle</title>
+<meta name="robots" content="noindex" />
+<meta name="theme-color" content="#0A0C10" />
+<meta name="color-scheme" content="dark" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0C10'/%3E%3Ctext x='32' y='45' font-family='Segoe UI,system-ui,sans-serif' font-size='36' font-weight='700' fill='%236E8BFF' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0A0C10;
+    --line: #232830;
+    --text: #ECEDEF;
+    --text-dim: #9AA0AB;
+    --text-faint: #626873;
+    --accent: #6E8BFF;
+    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --body: "Inter", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh; display: grid; place-items: center; padding: 2rem 16px;
+    background: radial-gradient(700px circle at 20% 10%, rgba(110,139,255,0.18), transparent 60%), var(--bg);
+    color: var(--text); font-family: var(--body); text-align: center;
+  }
+  .mono { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-faint); }
+  h1 { font-family: var(--display); font-weight: 800; font-size: clamp(5rem, 22vw, 9rem); line-height: 1; letter-spacing: -0.04em; margin: 1rem 0; }
+  h1 span { color: var(--accent); }
+  p { color: var(--text-dim); max-width: 34ch; margin: 0 auto 2rem; }
+  .row { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+  a { padding: 0.75rem 1.3rem; border-radius: 999px; text-decoration: none; font-weight: 500; font-size: 0.92rem; }
+  .primary { background: var(--accent); color: #0A0C10; }
+  .ghost { border: 1px solid var(--line); color: var(--text); }
+  .ghost:hover { border-color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <span class="mono">Delon.Pyle</span>
+  <h1>4<span>0</span>4</h1>
+  <p>That page doesn't exist — it may have moved, or the link has a typo.</p>
+  <div class="row">
+    <a class="primary" href="/">Back to home</a>
+    <a class="ghost" href="/resume.html">View resume</a>
+  </div>
+</main>
+</body>
+</html>

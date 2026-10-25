@@ -62,6 +62,9 @@ After that, every push to `main` redeploys automatically.
 - Images were originally base64-inlined in the HTML (870 KB). They now live in
   `assets/`, which cuts the HTML to ~40 KB and lets the browser cache and
   lazy-load them.
+- `assets/og-card.jpg` is the 1200×630 image shown when the link is shared
+  (WhatsApp, LinkedIn, etc.). Re-render it if your title changes.
+- `404.html` is served by Cloudflare Pages for any missing URL.
 - Absolute URLs in the `og:`/`twitter:` meta tags, the canonical link and
   `sitemap.xml` all point at `https://delonpyle.com/`. Update them together if
   the domain ever changes.
