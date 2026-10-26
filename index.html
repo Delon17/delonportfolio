@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Delon Pyle — Software Developer, Georgetown Guyana</title>
-<meta name="description" content="Delon Pyle is a software developer and Assistant ICT Engineer at the National Data Management Authority in Georgetown, Guyana — building low-code applications on the Frappe Framework, mobile apps with FlutterFlow, and web software in Python and JavaScript." />
+<title>Delon Pyle — ICT Engineer &amp; Software Developer, Georgetown, Guyana</title>
+<meta name="description" content="Delon Pyle is an Assistant ICT Engineer and software developer at Guyana's National Data Management Authority, building business applications on the Frappe Framework, mobile apps with FlutterFlow, and integrations in Python and JavaScript. Open to new opportunities." />
 <meta name="author" content="Delon Pyle" />
 <link rel="canonical" href="https://delonpyle.com/" />
 <meta name="theme-color" content="#0A0C10" />
@@ -24,15 +24,15 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Delon Pyle" />
 <meta property="og:url" content="https://delonpyle.com/" />
-<meta property="og:title" content="Delon Pyle — Software Developer" />
-<meta property="og:description" content="Software developer and Assistant ICT Engineer at the National Data Management Authority, Guyana. Frappe Framework, FlutterFlow, Python and JavaScript." />
+<meta property="og:title" content="Delon Pyle — ICT Engineer &amp; Software Developer" />
+<meta property="og:description" content="Assistant ICT Engineer and software developer at Guyana's National Data Management Authority. Frappe Framework, FlutterFlow, Python, JavaScript and APIs. Open to new opportunities." />
 <meta property="og:image" content="https://delonpyle.com/assets/og-card.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Delon Pyle — Software Developer, Assistant ICT Engineer at NDMA" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Delon Pyle — Software Developer" />
-<meta name="twitter:description" content="Software developer and Assistant ICT Engineer at the National Data Management Authority, Guyana." />
+<meta name="twitter:title" content="Delon Pyle — ICT Engineer &amp; Software Developer" />
+<meta name="twitter:description" content="Assistant ICT Engineer and software developer at Guyana's National Data Management Authority. Open to new opportunities." />
 <meta name="twitter:image" content="https://delonpyle.com/assets/og-card.jpg" />
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0C10'/%3E%3Ctext x='32' y='45' font-family='Segoe UI,system-ui,sans-serif' font-size='36' font-weight='700' fill='%236E8BFF' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E" />
@@ -790,6 +790,25 @@
   @media (min-width: 2400px) { html { font-size: 137.5%; } }
   @media (min-width: 3000px) { html { font-size: 156.25%; } }
 
+  /* UPDATES — dated trail of what's new on the site */
+  .updates { list-style: none; border-top: 1px solid var(--line-soft); }
+  .updates li {
+    display: grid; grid-template-columns: 8.5rem 1fr auto; gap: 1rem; align-items: baseline;
+    padding: 0.9rem 0; border-bottom: 1px solid var(--line-soft);
+  }
+  .updates time { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+  .updates .what { color: var(--text-dim); }
+  .updates .what b { color: var(--text); font-weight: 600; }
+  .updates .u-link {
+    padding: 0.3rem 0; border: none; background: none; cursor: pointer;
+    color: var(--accent); font: inherit; font-size: 0.85rem; white-space: nowrap;
+  }
+  .updates .u-link:hover { text-decoration: underline; }
+  .updates-more summary { margin-top: 1rem; padding: 0.4rem 0; cursor: pointer; color: var(--text-dim); font-size: 0.9rem; width: max-content; }
+  .updates-more summary:hover { color: var(--accent); }
+  footer a.mono:hover { color: var(--accent); }
+  @media (max-width: 600px) { .updates li { grid-template-columns: 1fr; gap: 0.25rem; } }
+
   /* CONTACT */
   #contact { text-align: center; }
   #contact .big {
@@ -998,7 +1017,7 @@
   </div>
   <div class="grid-lines"></div>
   <canvas class="net" id="net" aria-hidden="true"></canvas>
-  <span class="mono net-hint" aria-hidden="true">What drives me + my skills · hover a node · right-drag to rotate</span>
+  <span class="mono net-hint" aria-hidden="true">Explore my skills · hover one to see where I've used it</span>
   <div class="net-tip" id="net-tip" role="status" hidden><span class="g mono"></span><strong></strong><span class="u"></span></div>
 
   <div class="wrap hero-inner">
@@ -1017,8 +1036,10 @@
 
     <!-- EDIT: refine this line as you like. -->
     <p class="lede">
-      <strong>Software Developer</strong> — I build clean, reliable software.
-      Currently an Assistant ICT Engineer at the National Data Management Authority.
+      <strong>Assistant ICT Engineer</strong> at Guyana's National Data Management
+      Authority. I build and support the software behind national data services —
+      business apps on the Frappe Framework, mobile apps with FlutterFlow, and the
+      APIs that connect them.
     </p>
 
     <div class="cta-row">
@@ -1057,21 +1078,22 @@
     <div class="about-grid reveal">
       <!-- EDIT: opening line is from your CV; tweak anytime. -->
       <div>
-        <p><strong>I have a knack for simplifying processes.</strong> I leverage
-        visual interfaces and pre-built modules to swiftly create powerful
-        applications — from automating workflows to crafting intuitive user
-        experiences. I'm all about efficiency and innovation in software
-        development.</p>
-        <p>I started through internships at the Guyana Lands &amp; Surveys
-        Commission and the National Data Management Authority, then grew into an
-        Associate Developer at NDMA — building low-code applications on the
-        Frappe Framework and mobile apps with FlutterFlow, coding in Python,
-        JavaScript, HTML and CSS. Today I'm an Assistant ICT Engineer there,
-        working with AI tooling and prompt engineering alongside development.</p>
-        <p>Alongside work, I'm studying for a BSc in Information Technology
-        (specializing in network administration and technology development).
-        I'm always looking for interesting problems to solve and ways to keep
-        growing as a developer.</p>
+        <p><strong>I make complex processes simple.</strong> Whether it's a
+        registration system, an internal workflow or a mobile app, I aim for the
+        same result: software that is reliable, easy to use and quick to deliver.
+        Low-code platforms like Frappe and FlutterFlow let me get there fast, and
+        Python and JavaScript take me the rest of the way.</p>
+        <p>My career began with internships at the Guyana Lands &amp; Surveys
+        Commission and the National Data Management Authority (NDMA). At NDMA I
+        moved up to Associate Developer, building applications on the Frappe
+        Framework (versions 13–15) and mobile apps with FlutterFlow, and contributing
+        code through Git and GitLab. Since November 2025 I've been an Assistant ICT
+        Engineer there, supporting national data systems and bringing AI tools and
+        prompt engineering into my everyday work.</p>
+        <p>Alongside work, I'm completing a BSc in Information Technology,
+        specialising in network administration and technology development, on the
+        way to becoming a Senior ICT Engineer. I'm looking for a team where I can
+        take on bigger technical challenges and keep growing.</p>
       </div>
       <!-- EDIT: quick facts. -->
       <div>
@@ -1082,7 +1104,7 @@
         </div>
         <div class="about-facts">
         <div class="fact"><span class="k mono">Based in</span><span class="v">Georgetown, Guyana</span></div>
-        <div class="fact"><span class="k mono">Focus</span><span class="v">Software development</span></div>
+        <div class="fact"><span class="k mono">Focus</span><span class="v">ICT engineering &amp; software</span></div>
         <div class="fact"><span class="k mono">Currently</span><span class="v">National Data Management Authority</span></div>
         <div class="fact"><span class="k mono">Availability</span><span class="v">Open to opportunities</span></div>
         </div>
@@ -1102,8 +1124,9 @@
       <h2>Journey</h2>
       <span class="mono idx">Where I'm headed</span>
     </div>
-    <p class="journey-intro reveal">From secondary school to Assistant ICT Engineer — and the road
-    still ahead to <strong>Senior ICT Engineer</strong>. Scroll to climb the path.</p>
+    <p class="journey-intro reveal">My path so far, from secondary school to Assistant ICT
+    Engineer, and where I'm heading next: <strong>Senior ICT Engineer</strong>.
+    Scroll to follow it.</p>
   </div>
   <div class="journey-track" id="journey-track">
     <div class="journey-stage" id="journey-stage">
@@ -1188,8 +1211,9 @@
         <div>
           <h3>Assistant ICT Engineer</h3>
           <div class="company"><b>National Data Management Authority</b> · Georgetown, Guyana</div>
-          <p>Supporting and building the systems behind national data services.
-          Working with prompt engineering and AI tooling as part of the role.</p>
+          <p>Support and develop the systems behind Guyana's national data
+          services, and use AI tools and prompt engineering in day-to-day
+          engineering work.</p>
         </div>
       </div>
       <div class="job reveal">
@@ -1197,9 +1221,10 @@
         <div>
           <h3>Associate Developer</h3>
           <div class="company"><b>National Data Management Authority</b> · Hybrid</div>
-          <p>Low-code development on the Frappe Framework (v13–15) and mobile
-          apps with FlutterFlow. Code contribution via Git and GitLab, coding in
-          Python, JavaScript, HTML and CSS.</p>
+          <p>Built business applications on the Frappe Framework (v13–15),
+          including custom client scripts, and developed mobile apps with
+          FlutterFlow. Worked in Python, JavaScript, HTML and CSS, contributing
+          code through Git and GitLab.</p>
         </div>
       </div>
       <div class="job reveal">
@@ -1207,8 +1232,9 @@
         <div>
           <h3>Trainee Testing &amp; Customization Assistant</h3>
           <div class="company"><b>Guiana Holdings Inc.</b> · Georgetown, Guyana</div>
-          <p>Tested and validated game functionality and quality — identifying
-          bugs and glitches before release.</p>
+          <p>Tested game builds for functionality and quality, checked the
+          accuracy of in-game information, and stress-tested settings under
+          varying load to catch bugs before release.</p>
         </div>
       </div>
       <div class="job reveal">
@@ -1227,8 +1253,8 @@
           <h3>Internship Trainee</h3>
           <div class="company"><b>Guyana Lands &amp; Surveys Commission</b> · Demerara-Mahaica, Guyana</div>
           <p>Work-study attachment in the Information Systems Division (August –
-          September 2022): inventory management, network troubleshooting, and PC
-          and hardware repairs.</p>
+          September 2022): managed IT inventory, troubleshot network issues, and
+          repaired PCs and hardware.</p>
           <button type="button" class="view-cert" data-cert="assets/cert-glsc-work-study.webp" onclick="openLightbox(this)">View certificate →</button>
         </div>
       </div>
@@ -1250,8 +1276,8 @@
         <div>
           <h3>BSc, Information Technology</h3>
           <div class="company"><b>Texila American University</b> · Georgetown, Guyana</div>
-          <p>Specializing in network administration and technology development.
-          Currently in progress.</p>
+          <p>Specialising in network administration and technology development.
+          In progress.</p>
         </div>
       </div>
       <div class="job reveal">
@@ -1454,16 +1480,16 @@
       <div class="work-card reveal">
         <span class="mono tagline">Web app · Frappe Framework</span>
         <h3>School Registration Website</h3>
-        <p>A student registration site built on the Frappe low-code platform
-        during my industrial attachment at the National Data Management
-        Authority.</p>
+        <p>A student registration website I built on the Frappe low-code
+        platform during my industrial attachment at the National Data
+        Management Authority.</p>
       </div>
       <div class="work-card reveal">
         <span class="mono tagline">Portfolio · HTML, CSS, JavaScript</span>
         <h3>delonpyle.com</h3>
-        <p>This site — a hand-written static page with no framework or build
-        step, plus a resume page that prints to a downloadable PDF. Hosted on
-        Cloudflare Pages.</p>
+        <p>My portfolio: a fast static site with an interactive 3D skills
+        network, a scroll-driven career journey, light and dark modes, and a
+        resume that exports to PDF. Hosted on Cloudflare.</p>
       </div>
       <!-- EDIT: add more projects below as <a class="work-card reveal"> blocks, or leave just the one.
            A card with several links (like AutoBid) is a <div> with a .links row instead. -->
@@ -1471,14 +1497,58 @@
   </div>
 </section>
 
+<!-- ============ UPDATES ============ -->
+<!-- EDIT: newest first. Add a line whenever a certificate, qualification, role or skill is
+     added, dated the day it went on the site. The first five show; the rest fold away. -->
+<section id="updates">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">07</span>
+      <h2>Updates</h2>
+      <span class="mono idx">Recently added</span>
+    </div>
+    <ol class="updates reveal">
+      <li><time datetime="2026-10-26">26 Oct 2026</time>
+        <span class="what"><b>New certificate:</b> Work-Study Attachment, Guyana Lands &amp; Surveys Commission (2022)</span>
+        <button type="button" class="u-link" data-cert="assets/cert-glsc-work-study.webp" onclick="openLightbox(this)">View →</button></li>
+      <li><time datetime="2026-10-26">26 Oct 2026</time>
+        <span class="what"><b>New transcript:</b> Diploma in Computer Science, Pass with Credit (B+)</span>
+        <button type="button" class="u-link" data-cert="assets/transcript-computer-science.webp" onclick="openLightbox(this)">View →</button></li>
+      <li><time datetime="2026-10-26">26 Oct 2026</time>
+        <span class="what"><b>Education:</b> CSEC results added, five subjects passed (2020)</span>
+        <a class="u-link" href="#education">See →</a></li>
+      <li><time datetime="2026-10-26">26 Oct 2026</time>
+        <span class="what"><b>New:</b> interactive skills network and career Journey</span>
+        <a class="u-link" href="#journey">See →</a></li>
+      <li><time datetime="2026-10-25">25 Oct 2026</time>
+        <span class="what"><b>Skills:</b> TypeScript, Dart, C and SQL added</span>
+        <a class="u-link" href="#skills">See →</a></li>
+    </ol>
+    <details class="updates-more">
+      <summary>Show earlier updates</summary>
+      <ol class="updates">
+        <li><time datetime="2026-10-25">25 Oct 2026</time>
+          <span class="what"><b>Resume:</b> now available as a downloadable PDF</span>
+          <a class="u-link" href="assets/Delon-Pyle-Resume.pdf" download>Download →</a></li>
+        <li><time datetime="2026-10-25">25 Oct 2026</time>
+          <span class="what"><b>New qualification:</b> Diploma in Computer Science, Ministry of Education</span>
+          <button type="button" class="u-link" data-cert="assets/diploma-computer-science.webp" onclick="openLightbox(this)">View →</button></li>
+        <li><time datetime="2026-10-25">25 Oct 2026</time>
+          <span class="what"><b>New certificate:</b> Entrepreneurial Development Training Programme, SBM Offshore Guyana</span>
+          <button type="button" class="u-link" data-cert="assets/cert-sbm-entrepreneurial.webp" onclick="openLightbox(this)">View →</button></li>
+      </ol>
+    </details>
+  </div>
+</section>
+
 <!-- ============ CONTACT ============ -->
 <section id="contact">
   <div class="wrap">
-    <span class="mono">07 — Contact</span>
+    <span class="mono">08 — Contact</span>
     <h2 class="big reveal">Let's <span class="accent-text">work together</span>.</h2>
     <!-- EDIT: closing line -->
-    <p class="sub reveal">Have a role, a project, or just want to connect? The
-    fastest way to reach me is below — or leave a message.</p>
+    <p class="sub reveal">Hiring for an ICT or software role, or have a project in
+    mind? Reach me directly below, or send a message.</p>
     <div class="contact-links reveal">
       <a href="tel:+5927370991" class="btn primary">Call +592 737 0991</a>
       <a href="mailto:pyledelon81@gmail.com" class="btn primary">pyledelon81@gmail.com</a>
@@ -1506,6 +1576,8 @@
 <!-- ============ FOOTER ============ -->
 <footer>
   <span class="mono">© <span id="year"></span> Delon Pyle</span>
+  <!-- EDIT: match the newest entry in the Updates list -->
+  <a class="mono" href="#updates">Last updated 26 Oct 2026</a>
 </footer>
 
 <!-- Lightbox for certificates -->
@@ -2396,7 +2468,7 @@
   (function typeRoles() {
     const el = document.getElementById("typed");
     if (!el) return;
-    const roles = ["Software Developer", "Low-Code Developer", "Frappe Developer", "Problem Solver"];
+    const roles = ["ICT Engineer", "Software Developer", "Frappe Developer", "Problem Solver"];
     if (reduce) { el.textContent = roles[0]; return; }
     let ri = 0, ci = 0, deleting = false;
     function tick() {

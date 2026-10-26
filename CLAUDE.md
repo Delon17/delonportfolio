@@ -30,6 +30,15 @@ The resume must stay in sync with the site. Every new document means updating **
 4. **PDF** — run `./scripts/build-resume-pdf.sh`, then read the PDF back and check the layout
    (two Letter pages, navy sidebar on every page, nothing orphaned).
 5. Update `<lastmod>` in `sitemap.xml`.
+6. **Update trail** — add a dated line to the top of the `#updates` list in `index.html` (newest
+   first, dated the day it goes live, with a View/See link), move the oldest of the first five
+   into "Show earlier updates", and set the footer's "Last updated" date to match.
+
+## Voice
+
+The site and resume are read by recruiters. Write plainly and specifically: what Delon does, for
+whom, with what tools. No buzzwords ("results-driven", "leveraging", "passionate"), no invented
+metrics or outcomes — only facts the documents or Delon have given.
 
 Take dates, titles and issuers from the document itself. Where the document disagrees with what
 the site or resume already says (grade, dates, course title), use the document and tell Delon.
