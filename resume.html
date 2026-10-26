@@ -92,6 +92,13 @@
 
   @media screen and (max-width: 760px) {
     body { font-size: 10pt; }
+    /* let the columns shrink below their content's natural width */
+    main, aside { min-width: 0; }
+    .grades { grid-template-columns: max-content auto; max-width: none; column-gap: 1.2rem; }
+    .entry.compact { flex-wrap: wrap; gap: 0 1rem; }
+    /* contact links and the back link are easier to hit */
+    aside a, .toolbar a:not(.btn) { display: inline-block; padding-block: 0.35rem; }
+    .entry .when, aside .label, header.head .role { font-size: 8pt; }
     .sheet { grid-template-columns: 1fr; margin: 0 16px 2rem; }
     main { padding: 32px 20px; }
     aside { padding: 28px 20px; }
@@ -187,9 +194,10 @@
     </ul>
   </div>
   <div class="entry">
-    <h3>Internship Trainee, Guyana Lands and Survey Commission, Georgetown</h3>
+    <h3>Internship Trainee, Guyana Lands and Surveys Commission, Georgetown</h3>
     <div class="when">Aug 2022 — Sept 2022</div>
     <ul>
+      <li>Work-study attachment in the Information Systems Division.</li>
       <li>Inventory management.</li>
       <li>Network troubleshooting.</li>
       <li>PC and backup battery repairs.</li>
@@ -222,7 +230,8 @@
     Physical Education &amp; Sport <b>II</b> · English A <b>III</b> · Social Studies <b>III</b></p>
   </div>
 
-  <!-- Keep in step with the .cert-wall in index.html, newest first. -->
+  <!-- Keep in step with the .cert-wall in index.html, newest first. Attachment/internship
+       certificates are left out here: those placements are already under Internships. -->
   <h2>Certifications &amp; Courses</h2>
   <div class="entry compact">
     <h3>Entrepreneurial Development Training Programme, SBM Offshore Guyana &amp; Fiscal Frontier Inc.</h3>
@@ -247,10 +256,6 @@
   <div class="entry compact">
     <h3>Tailwind CSS: Build a Blog App Project Using Tailwind CSS, Udemy (Vapa Academy)</h3>
     <div class="when">May 2024</div>
-  </div>
-  <div class="entry compact">
-    <h3>Industrial Attachment Programme, National Data Management Authority</h3>
-    <div class="when">Jul 2023 — Sept 2023</div>
   </div>
 </main>
 
