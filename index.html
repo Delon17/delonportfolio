@@ -124,6 +124,8 @@
   /* width/height attributes on <img> are presentational hints; without an
      explicit height:auto any rule that sets only width distorts the image */
   img { max-width: 100%; height: auto; }
+  /* discourage saving: no long-press menu on phones, no selecting or dragging images */
+  img { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
 
   /* scroll-padding keeps anchored sections clear of the fixed nav */
   html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; }
@@ -528,6 +530,7 @@
     background: transparent; color: var(--accent); font-family: var(--mono); font-size: 0.72rem;
     letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: background 0.2s, color 0.2s;
   }
+  .job .view-cert + .view-cert { margin-left: 0.5rem; }
   .job .view-cert:hover { background: var(--accent); color: var(--on-accent); }
   @media (max-width: 640px) {
     .job { grid-template-columns: 1fr; gap: 0.6rem; }
@@ -1041,8 +1044,19 @@
         <div>
           <h3>Diploma in Computer Science</h3>
           <div class="company"><b>Government Technical Institute</b> · Georgetown, Guyana</div>
-          <p>Awarded by the Ministry of Education. Graduated with Credit.</p>
+          <p>Awarded by the Ministry of Education. Overall assessment: Pass with Credit (B+).</p>
           <button type="button" class="view-cert" data-cert="assets/diploma-computer-science.webp" onclick="openLightbox(this)">View diploma →</button>
+          <button type="button" class="view-cert" data-cert="assets/transcript-computer-science.webp" onclick="openLightbox(this)">View transcript →</button>
+        </div>
+      </div>
+      <div class="job reveal">
+        <div class="years">2015 — 2020</div>
+        <div>
+          <h3>CSEC — Caribbean Secondary Education Certificate</h3>
+          <div class="company"><b>Lancaster Secondary School</b> · Guyana</div>
+          <p>Five subjects passed (CXC, June 2020): Electronic Document Preparation
+          &amp; Management (I), Principles of Business (II), Physical Education &amp;
+          Sport (II), English A (III) and Social Studies (III).</p>
         </div>
       </div>
       <!-- EDIT: add any other qualifications or certifications here as .job blocks. -->
@@ -1112,6 +1126,15 @@
         <div class="meta">
           <h4>Diploma in Computer Science</h4>
           <div class="row"><span class="issuer">Ministry of Education · Government Technical Institute</span><span class="yr">2023</span></div>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <button type="button" onclick="openLightbox(this)">
+          <img src="assets/transcript-computer-science.webp" alt="Transcript, Diploma in Computer Science — Government Technical Institute, Delon Pyle, Pass with Credit (B+)" width="1252" height="1600" loading="lazy" decoding="async" />
+        </button>
+        <div class="meta">
+          <h4>Transcript — Diploma in Computer Science</h4>
+          <div class="row"><span class="issuer">Government Technical Institute</span><span class="yr">2023</span></div>
         </div>
       </div>
       <div class="cert-card reveal">
@@ -1271,6 +1294,11 @@
 </div>
 
 <script>
+  // Discourage saving images: no right-click menu ("Save image as", "Open image in new tab")
+  // and no dragging them out of the page. Screenshots can't be blocked — this stops casual saving.
+  document.addEventListener("contextmenu", (e) => { if (e.target.closest("img, .lightbox")) e.preventDefault(); });
+  document.addEventListener("dragstart", (e) => { if (e.target.closest("img")) e.preventDefault(); });
+
   // Year
   document.getElementById("year").textContent = new Date().getFullYear();
 

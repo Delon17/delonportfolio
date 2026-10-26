@@ -9,6 +9,10 @@ The resume must stay in sync with the site. Every new document means updating **
 1. **Image** — render it into `assets/` (PDFs: pypdfium2, scale 3, longest side 1600px), saved as
    WebP quality 80 via Pillow. Name it `cert-<slug>.webp`, or `diploma-<slug>.webp` for academic
    awards — the Certifications stat counts `cert-` images, so the prefix matters.
+   Then watermark it once: `python -I scripts/watermark.py <rendered image> assets/<name>.webp`
+   (render to the scratchpad first; never re-run it on an already watermarked file).
+   Transcripts are `transcript-<slug>.webp` and get a card on the wall plus a "View transcript"
+   button next to the matching Education entry's "View diploma".
 2. **`index.html`**
    - Add a `.cert-card` to the `.cert-wall`, ordered newest first, with real `width`/`height`.
    - The stats band counts roles, `cert-` images and skill tags itself (`data-count`); just keep
@@ -24,7 +28,12 @@ The resume must stay in sync with the site. Every new document means updating **
 
 Take dates, titles and issuers from the document itself. Where the document disagrees with what
 the site or resume already says (grade, dates, course title), use the document and tell Delon.
+Documents that show a date of birth, candidate/ID numbers or similar (e.g. CSEC result slips) are
+never published as images — list the qualification and grades as text instead.
 If a document has no date, say what year you assumed.
+
+The resume photo is `assets/delon-pyle-resume.jpg` (320px JPEG), not the WebP portrait: Chrome
+embeds WebP uncompressed when printing, which bloated the PDF to 2 MB.
 
 ## Personal details kept off the public resume
 

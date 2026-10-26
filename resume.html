@@ -36,6 +36,8 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   img { max-width: 100%; height: auto; }
+  /* discourage saving: no long-press menu on phones, no selecting or dragging images */
+  img { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; -webkit-user-drag: none; }
   body { background: var(--page-bg); color: var(--ink); font: 400 10.5pt/1.5 var(--body); }
   a { color: inherit; }
 
@@ -66,7 +68,11 @@
 
   main h2 { font: 500 15pt/1.2 var(--display); margin: 1.5rem 0 0.6rem; }
   main h2:first-of-type { margin-top: 0; }
-  .entry { margin-bottom: 1rem; break-inside: avoid; }
+  .entry { margin-bottom: 1rem; }
+  /* long entries may continue on the next page, but never strand a title or a single line */
+  .entry h3, .entry .when { break-after: avoid; }
+  .entry li, .entry p, .entry.compact, .grades { break-inside: avoid; }
+  .entry ul, .entry p { orphans: 2; widows: 2; }
   .entry h3 { font-size: 10.5pt; font-weight: 700; line-height: 1.4; }
   .entry .when { font-size: 7pt; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-faint); margin: 0.2rem 0 0.35rem; }
   .entry p { color: var(--ink-dim); }
@@ -106,7 +112,8 @@
     main, aside { position: relative; z-index: 1; }
     body { font-size: 9.75pt; line-height: 1.42; }
     main h2 { margin-top: 1.1rem; break-after: avoid; }
-    .entry { margin-bottom: 0.75rem; }
+    .entry { margin-bottom: 0.6rem; }
+    .entry.compact { margin-bottom: 0.3rem; }
     aside { background: transparent; }
     /* clone repeats main's padding at the top and bottom of every printed page */
     main { padding-block: 0.5in; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
@@ -123,7 +130,7 @@
 <div class="sheet">
 <main>
   <header class="head">
-    <img src="assets/delon-pyle.webp" alt="Delon Pyle" width="992" height="1240" />
+    <img src="assets/delon-pyle-resume.jpg" alt="Delon Pyle" width="320" height="400" />
     <div>
       <h1>Delon Pyle</h1>
       <div class="role">Assistant ICT Engineer</div>
@@ -197,16 +204,22 @@
   <div class="entry">
     <h3>Diploma in Computer Science, Government Technical Institute (GTI), Georgetown</h3>
     <div class="when">Sept 2021 — Jul 2023</div>
-    <p>Technical Education Diploma awarded by the Ministry of Education, Guyana. Graduated with Credit.</p>
+    <p>Technical Education Diploma awarded by the Ministry of Education, Guyana. Overall: Pass with Credit (B+).</p>
     <div class="grades">
       <span>Programming</span><b>A-</b>
-      <span>Hardware</span><b>A</b>
-      <span>Software</span><b>B</b>
+      <span>Computer Hardware</span><b>A</b>
+      <span>Computer Software</span><b>B</b>
       <span>Management</span><b>B-</b>
       <span>Mathematics</span><b>B</b>
       <span>English</span><b>B-</b>
       <span>Statistics</span><b>A+</b>
     </div>
+  </div>
+  <div class="entry">
+    <h3>CSEC (Caribbean Secondary Education Certificate), Lancaster Secondary School</h3>
+    <div class="when">2015 — 2020</div>
+    <p>Five subjects passed, CXC June 2020: EDPM <b>I</b> · Principles of Business <b>II</b> ·
+    Physical Education &amp; Sport <b>II</b> · English A <b>III</b> · Social Studies <b>III</b></p>
   </div>
 
   <!-- Keep in step with the .cert-wall in index.html, newest first. -->
@@ -286,5 +299,11 @@
 </aside>
 </div>
 
+<script>
+  // Discourage saving images: no right-click menu ("Save image as", "Open image in new tab")
+  // and no dragging them out of the page. Screenshots can't be blocked — this stops casual saving.
+  document.addEventListener("contextmenu", (e) => { if (e.target.closest("img, .lightbox")) e.preventDefault(); });
+  document.addEventListener("dragstart", (e) => { if (e.target.closest("img")) e.preventDefault(); });
+</script>
 </body>
 </html>
