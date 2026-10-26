@@ -322,6 +322,17 @@
     color: var(--text-faint); pointer-events: none;
   }
   @media (max-width: 720px) { .net-hint { display: none; } }
+  .net-tip {
+    position: absolute; z-index: 3; pointer-events: none;
+    max-width: 240px; padding: 0.6rem 0.8rem;
+    border: 1px solid var(--accent-2); border-radius: 10px;
+    background: var(--chip-bg); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    box-shadow: 0 12px 30px var(--shadow);
+  }
+  .net-tip[hidden] { display: none; }
+  .net-tip .g { display: block; font-size: 0.6rem; color: var(--accent-2); }
+  .net-tip strong { display: block; font-family: var(--display); font-size: 1rem; font-weight: 600; margin: 0.15rem 0; }
+  .net-tip .u { display: block; color: var(--text-dim); font-size: 0.82rem; line-height: 1.4; }
   /* let clicks fall through the text block to the globe, except on its links */
   .hero-inner { pointer-events: none; }
   .hero-inner a, .hero-inner button { pointer-events: auto; }
@@ -970,7 +981,8 @@
   </div>
   <div class="grid-lines"></div>
   <canvas class="net" id="net" aria-hidden="true"></canvas>
-  <span class="mono net-hint" aria-hidden="true">Move · click the network</span>
+  <span class="mono net-hint" aria-hidden="true">My skills network · hover or click a skill</span>
+  <div class="net-tip" id="net-tip" role="status" hidden><span class="g mono"></span><strong></strong><span class="u"></span></div>
 
   <div class="wrap hero-inner">
     <!-- EDIT: status line -->
@@ -1597,44 +1609,103 @@
     }, { passive: true });
   }
 
-  // 3D network globe: nodes on a sphere, linked to their nearest neighbours,
-  // with packets travelling along the links. Tilts toward the cursor; a click
-  // fires a burst of packets from the nearest node.
+  // Skills network globe: each labelled node is a skill from the Skills section,
+  // clustered by group, with links between skills used together. Smaller mesh
+  // nodes fill out the sphere. Hover a skill to see where it's used; click to
+  // light up everything it connects to.
   (() => {
     const canvas = document.getElementById("net");
     if (!canvas || !canvas.getContext) return;
     const ctx = canvas.getContext("2d");
     const hero = canvas.parentElement;
+    const tip = document.getElementById("net-tip");
     const small = matchMedia("(max-width: 720px)").matches;
-    const N = small ? 60 : 110;
 
-    // a Fibonacci sphere spreads the nodes evenly
+    // EDIT: keep in step with the #skills tags. "used" is the tooltip line.
+    const GROUPS = [
+      { name: "Languages & Web", dir: [-0.55, 0.35, -0.75] },
+      { name: "Frameworks & Tools", dir: [0.7, 0.25, -0.65] },
+      { name: "APIs & Systems", dir: [0.05, -0.8, -0.6] },
+    ];
+    const SKILLS = [
+      ["Python", 0, "Frappe apps at NDMA"],
+      ["JavaScript", 0, "Frappe client scripts and web work"],
+      ["TypeScript", 0, "Typed JavaScript for web work"],
+      ["Dart", 0, "The language behind FlutterFlow apps"],
+      ["C", 0, "Programming foundations"],
+      ["SQL", 0, "The databases behind Frappe apps"],
+      ["HTML", 0, "This site and web projects"],
+      ["CSS", 0, "This site; Tailwind CSS course"],
+      ["Frappe Framework", 1, "NDMA, versions 13–15; school registration site"],
+      ["Frappe Client Script", 1, "Form logic in NDMA's Frappe apps"],
+      ["FlutterFlow", 1, "Mobile app development at NDMA"],
+      ["Git & GitLab", 1, "Code contribution workflows at NDMA"],
+      ["RESTful APIs", 2, "Connecting systems at NDMA"],
+      ["API Integration", 2, "Wiring services together"],
+      ["Version Control", 2, "Git workflows"],
+      ["Virtual Containers", 2, "Running and shipping apps"],
+      ["Prompt Engineering", 2, "AI tooling as Assistant ICT Engineer"],
+    ];
+    const RELATED = [
+      ["Frappe Framework", "Python"], ["Frappe Framework", "JavaScript"], ["Frappe Framework", "SQL"],
+      ["Frappe Framework", "Frappe Client Script"], ["Frappe Framework", "RESTful APIs"],
+      ["Frappe Framework", "Virtual Containers"], ["Frappe Client Script", "JavaScript"],
+      ["FlutterFlow", "Dart"], ["FlutterFlow", "API Integration"], ["TypeScript", "JavaScript"],
+      ["HTML", "CSS"], ["HTML", "JavaScript"], ["Git & GitLab", "Version Control"],
+      ["RESTful APIs", "API Integration"], ["RESTful APIs", "Python"], ["RESTful APIs", "JavaScript"],
+      ["Prompt Engineering", "API Integration"], ["Prompt Engineering", "Python"], ["C", "Python"],
+    ];
+
+    const norm = ([x, y, z]) => { const l = Math.hypot(x, y, z); return [x / l, y / l, z / l]; };
+    // spread each group's skills in a small cap around the group's direction
     const nodes = [];
-    for (let i = 0; i < N; i++) {
-      const y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y);
-      const t = i * Math.PI * (3 - Math.sqrt(5));
-      nodes.push({ x: Math.cos(t) * r, y, z: Math.sin(t) * r, glow: 0, links: [] });
+    GROUPS.forEach((g, gi) => {
+      const members = SKILLS.filter((s) => s[1] === gi);
+      const d = norm(g.dir);
+      // two vectors perpendicular to d
+      const a = norm(Math.abs(d[1]) < 0.9 ? [d[2], 0, -d[0]] : [1, 0, 0]);
+      const b = [d[1] * a[2] - d[2] * a[1], d[2] * a[0] - d[0] * a[2], d[0] * a[1] - d[1] * a[0]];
+      members.forEach((s, k) => {
+        const ang = (k / members.length) * Math.PI * 2 + gi;
+        const rad = 0.5 + (k % 2) * 0.22;
+        const p = norm([0, 1, 2].map((i) => d[i] + (a[i] * Math.cos(ang) + b[i] * Math.sin(ang)) * rad));
+        nodes.push({ x: p[0], y: p[1], z: p[2], skill: s[0], group: gi, used: s[2], glow: 0, links: [] });
+      });
+    });
+    const S = nodes.length;
+    // filler mesh on a Fibonacci sphere, kept away from the skill nodes
+    const M = small ? 40 : 70;
+    for (let i = 0; i < M; i++) {
+      const y = 1 - (i / (M - 1)) * 2, r = Math.sqrt(1 - y * y), t = i * Math.PI * (3 - Math.sqrt(5));
+      const p = { x: Math.cos(t) * r, y, z: Math.sin(t) * r };
+      if (nodes.slice(0, S).some((n) => (n.x - p.x) ** 2 + (n.y - p.y) ** 2 + (n.z - p.z) ** 2 < 0.03)) continue;
+      nodes.push({ ...p, glow: 0, links: [] });
     }
+
     const edges = [];
     const seen = new Set();
+    const link = (i, j, kind) => {
+      const key = i < j ? i + "-" + j : j + "-" + i;
+      if (i === j || seen.has(key)) return;
+      seen.add(key);
+      edges.push({ i, j, kind });
+      nodes[i].links.push(j); nodes[j].links.push(i);
+    };
+    const bySkill = (name) => nodes.findIndex((n) => n.skill === name);
+    RELATED.forEach(([p, q]) => link(bySkill(p), bySkill(q), "skill"));
+    // mesh: every node to its nearest neighbours
     nodes.forEach((a, i) => {
       nodes.map((b, j) => [j, (a.x - b.x) ** 2 + (a.y - b.y) ** 2 + (a.z - b.z) ** 2])
         .filter(([j]) => j !== i).sort((p, q) => p[1] - q[1]).slice(0, 3)
-        .forEach(([j]) => {
-          const key = i < j ? i + "-" + j : j + "-" + i;
-          if (seen.has(key)) return;
-          seen.add(key);
-          edges.push([i, j]);
-          a.links.push(j); nodes[j].links.push(i);
-        });
+        .forEach(([j]) => link(i, j, "mesh"));
     });
 
     let packets = [];
     const spawn = (from, to, fast) =>
       packets.push({ from, to, t: 0, fast, v: fast ? 0.035 : 0.008 + Math.random() * 0.01 });
     for (let i = 0; i < (small ? 10 : 18); i++) {
-      const [a, b] = edges[(Math.random() * edges.length) | 0];
-      spawn(a, b);
+      const e = edges[(Math.random() * edges.length) | 0];
+      spawn(e.i, e.j);
     }
 
     let W = 0, H = 0, cx = 0, cy = 0, R = 0;
@@ -1657,6 +1728,7 @@
       colors = {
         a: cs.getPropertyValue("--accent").trim(),
         b: cs.getPropertyValue("--accent-2").trim(),
+        text: cs.getPropertyValue("--text").trim(),
         // fainter in light mode, and on phones where it sits behind the text
         dim: (document.documentElement.dataset.theme === "light" ? 0.6 : 1) * (small ? 0.55 : 1),
       };
@@ -1664,21 +1736,14 @@
     readColors();
     new MutationObserver(readColors)
       .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-
-    const rgba = (c, a) => {
+    const rgba = (c, a, full) => {
       const n = parseInt(c.slice(1), 16);
-      return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a * colors.dim})`;
+      return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a * (full ? 1 : colors.dim)})`;
     };
 
     let rotY = 0, tiltX = 0, tiltY = 0, aimX = 0, aimY = 0, mouse = null;
+    let hover = -1, selected = -1;
     const baseX = -0.25;
-    hero.addEventListener("pointermove", (e) => {
-      const r = hero.getBoundingClientRect();
-      mouse = { x: e.clientX - r.left, y: e.clientY - r.top };
-      aimY = (mouse.x / W - 0.5) * 0.9;
-      aimX = (mouse.y / H - 0.5) * 0.6;
-    });
-    hero.addEventListener("pointerleave", () => { mouse = null; aimX = aimY = 0; });
 
     let proj = [];
     const project = () => {
@@ -1693,55 +1758,131 @@
         return { x: cx + x * R * s, y: cy + y * R * s, z, s, f: (1 - z) / 2 };   // f: 1 front, 0 back
       });
     };
+    project();
 
+    // the front-facing skill nearest a point, if it's close enough
+    const pick = (px, py, radius) => {
+      let best = -1, bd = radius * radius;
+      for (let i = 0; i < S; i++) {
+        const p = proj[i];
+        const d = (p.x - px) ** 2 + (p.y - py) ** 2;
+        if (p.z < 0.35 && d < bd) { bd = d; best = i; }
+      }
+      return best;
+    };
+
+    const showTip = (i) => {
+      if (i < 0) { tip.hidden = true; return; }
+      const n = nodes[i];
+      tip.querySelector("strong").textContent = n.skill;
+      tip.querySelector(".g").textContent = GROUPS[n.group].name;
+      tip.querySelector(".u").textContent = n.used;
+      tip.hidden = false;
+    };
+    const placeTip = () => {
+      const i = hover >= 0 ? hover : selected;
+      if (i < 0 || tip.hidden) return;
+      const p = proj[i];
+      const left = p.x + 16 + tip.offsetWidth > W - 8 ? p.x - 16 - tip.offsetWidth : p.x + 16;
+      tip.style.left = Math.max(8, left) + "px";
+      tip.style.top = Math.max(70, p.y - tip.offsetHeight / 2) + "px";
+    };
+
+    hero.addEventListener("pointermove", (e) => {
+      const r = hero.getBoundingClientRect();
+      mouse = { x: e.clientX - r.left, y: e.clientY - r.top };
+      aimY = (mouse.x / W - 0.5) * 0.9;
+      aimX = (mouse.y / H - 0.5) * 0.6;
+      if (e.pointerType === "mouse") {
+        const h = e.target.closest("a, button") ? -1 : pick(mouse.x, mouse.y, 26);
+        if (h !== hover) { hover = h; showTip(h >= 0 ? h : selected); }
+        canvas.style.cursor = h >= 0 ? "pointer" : "crosshair";
+      }
+    });
+    hero.addEventListener("pointerleave", () => {
+      mouse = null; aimX = aimY = 0; hover = -1; showTip(selected);
+    });
     hero.addEventListener("click", (e) => {
       if (e.target.closest("a, button")) return;
       const r = hero.getBoundingClientRect();
       const px = e.clientX - r.left, py = e.clientY - r.top;
-      let best = -1, bd = Infinity;
-      proj.forEach((p, i) => {
-        const d = (p.x - px) ** 2 + (p.y - py) ** 2;
-        if (p.z < 0.3 && d < bd) { bd = d; best = i; }
-      });
-      if (best < 0 || bd > 200 ** 2) return;
-      nodes[best].glow = 1;
-      nodes[best].links.forEach((j) => spawn(best, j, true));
+      const i = pick(px, py, small ? 34 : 26);
+      selected = i === selected ? -1 : i;
+      showTip(selected);
+      if (selected >= 0) {
+        nodes[selected].glow = 1;
+        nodes[selected].links.forEach((j) => spawn(selected, j, true));
+      } else {
+        // a click on empty space still fires a burst from the nearest node
+        let best = -1, bd = 200 ** 2;
+        proj.forEach((p, k) => {
+          const d = (p.x - px) ** 2 + (p.y - py) ** 2;
+          if (p.z < 0.3 && d < bd) { bd = d; best = k; }
+        });
+        if (best >= 0) { nodes[best].glow = 1; nodes[best].links.forEach((j) => spawn(best, j, true)); }
+      }
       if (reduce) draw();
     });
 
     const draw = () => {
       ctx.clearRect(0, 0, W, H);
       project();
+      const focus = hover >= 0 ? hover : selected;
+      const lit = new Set(focus >= 0 ? [focus, ...nodes[focus].links] : []);
 
-      // links fade toward the back of the globe
       ctx.lineWidth = 1;
-      edges.forEach(([i, j]) => {
-        const p = proj[i], q = proj[j];
-        ctx.strokeStyle = rgba(colors.a, 0.06 + ((p.f + q.f) / 2) * 0.32);
+      edges.forEach((e) => {
+        const p = proj[e.i], q = proj[e.j];
+        const f = (p.f + q.f) / 2;
+        const on = focus >= 0 && (e.i === focus || e.j === focus);
+        if (on) {
+          ctx.strokeStyle = rgba(colors.b, 0.9, true);
+          ctx.lineWidth = 1.8;
+        } else if (e.kind === "skill") {
+          ctx.strokeStyle = rgba(colors.b, (0.08 + f * 0.4) * (focus >= 0 ? 0.4 : 1));
+          ctx.lineWidth = 1.2;
+        } else {
+          ctx.strokeStyle = rgba(colors.a, (0.05 + f * 0.25) * (focus >= 0 ? 0.5 : 1));
+          ctx.lineWidth = 1;
+        }
         ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
       });
 
-      // the cursor links to nearby front-facing nodes
-      if (mouse) {
+      if (mouse && focus < 0) {
+        ctx.lineWidth = 1;
         proj.forEach((p, i) => {
           const d = Math.hypot(p.x - mouse.x, p.y - mouse.y);
           if (d < 140 && p.z < 0.2) {
-            ctx.strokeStyle = rgba(colors.b, (1 - d / 140) * 0.5);
+            ctx.strokeStyle = rgba(colors.b, (1 - d / 140) * 0.45);
             ctx.beginPath(); ctx.moveTo(mouse.x, mouse.y); ctx.lineTo(p.x, p.y); ctx.stroke();
-            nodes[i].glow = Math.max(nodes[i].glow, 1 - d / 140);
+            nodes[i].glow = Math.max(nodes[i].glow, (1 - d / 140) * 0.7);
           }
         });
       }
 
-      proj.forEach((p, i) => {
-        const n = nodes[i];
-        const r = (1.2 + p.f * 1.8 + n.glow * 3) * p.s;
-        if (n.glow > 0.05) {
-          ctx.fillStyle = rgba(colors.b, n.glow * 0.25);
-          ctx.beginPath(); ctx.arc(p.x, p.y, r * 4, 0, 7); ctx.fill();
+      // draw back to front so near labels sit on top
+      const order = proj.map((p, i) => i).sort((i, j) => proj[j].z - proj[i].z);
+      ctx.font = `500 ${small ? 10 : 12}px Inter, system-ui, sans-serif`;
+      ctx.textBaseline = "middle";
+      order.forEach((i) => {
+        const p = proj[i], n = nodes[i];
+        const isSkill = i < S;
+        const hl = lit.has(i);
+        const r = ((isSkill ? 2.6 : 1.2) + p.f * (isSkill ? 2.2 : 1.6) + n.glow * 3 + (i === focus ? 2.5 : 0)) * p.s;
+        if (n.glow > 0.05 || i === focus) {
+          ctx.fillStyle = rgba(colors.b, Math.max(n.glow, i === focus ? 0.6 : 0) * 0.3, hl);
+          ctx.beginPath(); ctx.arc(p.x, p.y, r * 3.5, 0, 7); ctx.fill();
         }
-        ctx.fillStyle = rgba(n.glow > 0.3 ? colors.b : colors.a, 0.25 + p.f * 0.75);
+        ctx.fillStyle = hl ? rgba(colors.b, 1, true)
+          : rgba(isSkill ? colors.b : colors.a, (isSkill ? 0.35 : 0.2) + p.f * (isSkill ? 0.65 : 0.6));
         ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7); ctx.fill();
+
+        // skill names on the front half; on phones only for the highlighted ones
+        if (isSkill && p.z < 0.15 && (!small || hl)) {
+          const a = hl ? 1 : Math.min(1, (0.15 - p.z) * 1.6) * (focus >= 0 ? 0.35 : 0.85);
+          ctx.fillStyle = rgba(colors.text, a, hl);
+          ctx.fillText(n.skill, p.x + r + 6, p.y);
+        }
       });
 
       packets.forEach((k) => {
@@ -1752,10 +1893,12 @@
         ctx.arc(p.x + (q.x - p.x) * k.t, p.y + (q.y - p.y) * k.t, 1.6 + f * 1.6, 0, 7);
         ctx.fill();
       });
+      placeTip();
     };
 
     const step = () => {
-      rotY += 0.0018;
+      // hold still while a skill is being looked at, so its label doesn't slide away
+      if (hover < 0 && selected < 0) rotY += 0.0018;
       tiltX += (aimX - tiltX) * 0.05;
       tiltY += (aimY - tiltY) * 0.05;
       nodes.forEach((n) => { n.glow *= 0.94; });
@@ -1776,6 +1919,7 @@
     if (reduce) {
       draw();
       window.addEventListener("resize", () => { resize(); draw(); });
+      hero.addEventListener("pointermove", () => requestAnimationFrame(draw));
       return;
     }
     window.addEventListener("resize", resize);

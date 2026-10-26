@@ -38,6 +38,12 @@ If a document has no date, say what year you assumed.
 The resume photo is `assets/delon-pyle-resume.jpg` (320px JPEG), not the WebP portrait: Chrome
 embeds WebP uncompressed when printing, which bloated the PDF to 2 MB.
 
+## Skills
+
+Skills live in three places that must match: the `#skills` tags in `index.html`, the Skills list in
+`resume.html` (then rebuild the PDF), and the `SKILLS` / `RELATED` arrays in the hero's skills-network
+script (each skill's "used" line is its tooltip; only claim uses the site already states).
+
 ## Personal details kept off the public resume
 
 The site is public, so `resume.html` and the PDF deliberately leave out: street address, place of
