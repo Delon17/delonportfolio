@@ -981,7 +981,7 @@
   </div>
   <div class="grid-lines"></div>
   <canvas class="net" id="net" aria-hidden="true"></canvas>
-  <span class="mono net-hint" aria-hidden="true">My skills network · hover or click a skill</span>
+  <span class="mono net-hint" aria-hidden="true">What drives me + my skills · hover a node · right-drag to rotate</span>
   <div class="net-tip" id="net-tip" role="status" hidden><span class="g mono"></span><strong></strong><span class="u"></span></div>
 
   <div class="wrap hero-inner">
@@ -1612,7 +1612,8 @@
   // Skills network globe: each labelled node is a skill from the Skills section,
   // clustered by group, with links between skills used together. Smaller mesh
   // nodes fill out the sphere. Hover a skill to see where it's used; click to
-  // light up everything it connects to.
+  // light up everything it connects to. At the centre sits the core — what
+  // drives Delon — powering every skill cluster through the spokes.
   (() => {
     const canvas = document.getElementById("net");
     if (!canvas || !canvas.getContext) return;
@@ -1673,6 +1674,14 @@
       });
     });
     const S = nodes.length;
+    // each cluster's centre, used for the spokes from the core and the group labels
+    GROUPS.forEach((gr, gi) => {
+      const m = nodes.filter((n) => n.group === gi);
+      gr.c = norm([0, 1, 2].map((k) => m.reduce((t, n) => t + [n.x, n.y, n.z][k], 0)));
+    });
+    const CORE = -2;
+    // EDIT: what drives me, shown one at a time in the core
+    const DRIVES = ["SIMPLIFY", "INNOVATE", "SOLVE", "GROW"];
     // filler mesh on a Fibonacci sphere, kept away from the skill nodes
     const M = small ? 40 : 70;
     for (let i = 0; i < M; i++) {
@@ -1729,6 +1738,7 @@
         a: cs.getPropertyValue("--accent").trim(),
         b: cs.getPropertyValue("--accent-2").trim(),
         text: cs.getPropertyValue("--text").trim(),
+        light: document.documentElement.dataset.theme === "light",
         // fainter in light mode, and on phones where it sits behind the text
         dim: (document.documentElement.dataset.theme === "light" ? 0.6 : 1) * (small ? 0.55 : 1),
       };
@@ -1744,24 +1754,49 @@
     let rotY = 0, tiltX = 0, tiltY = 0, aimX = 0, aimY = 0, mouse = null;
     let hover = -1, selected = -1;
     const baseX = -0.25;
+    // right-click and drag spins the globe; it keeps some momentum when let go
+    let drag = null, spinX = 0, spinY = 0, userX = 0;
+    canvas.addEventListener("contextmenu", (e) => e.preventDefault());
+    canvas.addEventListener("pointerdown", (e) => {
+      if (e.button !== 2) return;
+      e.preventDefault();
+      drag = { x: e.clientX, y: e.clientY };
+      spinX = spinY = 0;
+      hover = -1; showTip(selected);
+      try { canvas.setPointerCapture(e.pointerId); } catch (_) {}   // keeps the drag going outside the canvas
+      canvas.style.cursor = "grabbing";
+    });
+    const endDrag = (e) => {
+      if (!drag) return;
+      drag = null;
+      if (canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
+      canvas.style.cursor = "crosshair";
+    };
+    canvas.addEventListener("pointerup", endDrag);
+    canvas.addEventListener("pointercancel", endDrag);
 
-    let proj = [];
+    let proj = [], coreP = null, groupP = [], labelP = [];
     const project = () => {
       const cY = Math.cos(rotY + tiltY), sY = Math.sin(rotY + tiltY);
-      const cX = Math.cos(baseX + tiltX), sX = Math.sin(baseX + tiltX);
-      proj = nodes.map((n) => {
-        const x = n.x * cY - n.z * sY;
-        let z = n.x * sY + n.z * cY;
-        const y = n.y * cX - z * sX;
-        z = n.y * sX + z * cX;
+      const cX = Math.cos(baseX + userX + tiltX), sX = Math.sin(baseX + userX + tiltX);
+      const tp = (px, py, pz) => {
+        const x = px * cY - pz * sY;
+        let z = px * sY + pz * cY;
+        const y = py * cX - z * sX;
+        z = py * sX + z * cX;
         const s = 3.4 / (3.4 + z);               // perspective
         return { x: cx + x * R * s, y: cy + y * R * s, z, s, f: (1 - z) / 2 };   // f: 1 front, 0 back
-      });
+      };
+      proj = nodes.map((n) => tp(n.x, n.y, n.z));
+      coreP = tp(0, 0, 0);
+      groupP = GROUPS.map((gr) => tp(...gr.c));
+      labelP = GROUPS.map((gr) => tp(...gr.c.map((v) => v * 1.28)));
     };
     project();
 
     // the front-facing skill nearest a point, if it's close enough
     const pick = (px, py, radius) => {
+      if ((coreP.x - px) ** 2 + (coreP.y - py) ** 2 < coreR() ** 2) return CORE;
       let best = -1, bd = radius * radius;
       for (let i = 0; i < S; i++) {
         const p = proj[i];
@@ -1772,7 +1807,15 @@
     };
 
     const showTip = (i) => {
-      if (i < 0) { tip.hidden = true; return; }
+      if (i === -1) { tip.hidden = true; return; }
+      if (i === CORE) {
+        tip.querySelector(".g").textContent = "What drives me";
+        tip.querySelector("strong").textContent = "Simplify → Innovate → Solve → Grow";
+        tip.querySelector(".u").textContent =
+          "Making complex things simple, finding better ways to build, solving real problems, and growing toward Senior ICT Engineer. Click to see my journey ↓";
+        tip.hidden = false;
+        return;
+      }
       const n = nodes[i];
       tip.querySelector("strong").textContent = n.skill;
       tip.querySelector(".g").textContent = GROUPS[n.group].name;
@@ -1780,9 +1823,9 @@
       tip.hidden = false;
     };
     const placeTip = () => {
-      const i = hover >= 0 ? hover : selected;
-      if (i < 0 || tip.hidden) return;
-      const p = proj[i];
+      const i = hover !== -1 ? hover : selected;
+      if (i === -1 || tip.hidden) return;
+      const p = i === CORE ? { ...coreP, x: coreP.x + coreR() - 10 } : proj[i];
       const left = p.x + 16 + tip.offsetWidth > W - 8 ? p.x - 16 - tip.offsetWidth : p.x + 16;
       tip.style.left = Math.max(8, left) + "px";
       tip.style.top = Math.max(70, p.y - tip.offsetHeight / 2) + "px";
@@ -1793,10 +1836,19 @@
       mouse = { x: e.clientX - r.left, y: e.clientY - r.top };
       aimY = (mouse.x / W - 0.5) * 0.9;
       aimX = (mouse.y / H - 0.5) * 0.6;
+      if (drag) {
+        spinY = (e.clientX - drag.x) * 0.008;
+        spinX = (e.clientY - drag.y) * 0.006;
+        rotY += spinY;
+        userX = Math.max(-1.2, Math.min(1.2, userX + spinX));
+        drag = { x: e.clientX, y: e.clientY };
+        if (reduce) requestAnimationFrame(draw);
+        return;
+      }
       if (e.pointerType === "mouse") {
         const h = e.target.closest("a, button") ? -1 : pick(mouse.x, mouse.y, 26);
-        if (h !== hover) { hover = h; showTip(h >= 0 ? h : selected); }
-        canvas.style.cursor = h >= 0 ? "pointer" : "crosshair";
+        if (h !== hover) { hover = h; showTip(h !== -1 ? h : selected); }
+        canvas.style.cursor = h !== -1 ? "pointer" : "crosshair";
       }
     });
     hero.addEventListener("pointerleave", () => {
@@ -1807,6 +1859,10 @@
       const r = hero.getBoundingClientRect();
       const px = e.clientX - r.left, py = e.clientY - r.top;
       const i = pick(px, py, small ? 34 : 26);
+      if (i === CORE) {
+        document.getElementById("journey").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+        return;
+      }
       selected = i === selected ? -1 : i;
       showTip(selected);
       if (selected >= 0) {
@@ -1827,8 +1883,23 @@
     const draw = () => {
       ctx.clearRect(0, 0, W, H);
       project();
-      const focus = hover >= 0 ? hover : selected;
+      const focus = hover !== -1 ? hover : selected;
       const lit = new Set(focus >= 0 ? [focus, ...nodes[focus].links] : []);
+      const coreOn = focus === CORE;
+
+      // spokes from the core out to each cluster, with packets heading outward
+      groupP.forEach((gp, gi) => {
+        ctx.setLineDash([4, 6]);
+        ctx.lineWidth = coreOn ? 1.6 : 1;
+        ctx.strokeStyle = rgba(colors.b, coreOn ? 0.85 : 0.12 + gp.f * 0.3, coreOn);
+        ctx.beginPath(); ctx.moveTo(coreP.x, coreP.y); ctx.lineTo(gp.x, gp.y); ctx.stroke();
+        ctx.setLineDash([]);
+        for (let k = 0; k < 2; k++) {
+          const t = (clock * 0.35 + k / 2 + gi / 3) % 1;
+          ctx.fillStyle = rgba(colors.b, 0.5 + gp.f * 0.5, coreOn);
+          ctx.beginPath(); ctx.arc(coreP.x + (gp.x - coreP.x) * t, coreP.y + (gp.y - coreP.y) * t, 2.2, 0, 7); ctx.fill();
+        }
+      });
 
       ctx.lineWidth = 1;
       edges.forEach((e) => {
@@ -1848,7 +1919,7 @@
         ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
       });
 
-      if (mouse && focus < 0) {
+      if (mouse && focus === -1) {
         ctx.lineWidth = 1;
         proj.forEach((p, i) => {
           const d = Math.hypot(p.x - mouse.x, p.y - mouse.y);
@@ -1862,10 +1933,63 @@
 
       // draw back to front so near labels sit on top
       const order = proj.map((p, i) => i).sort((i, j) => proj[j].z - proj[i].z);
+      // the core is drawn between the back half of the globe and the front half
+      let coreDrawn = false;
+      const drawCore = () => {
+        coreDrawn = true;
+        const r = coreR(), x = coreP.x, y = coreP.y;
+        const pulse = reduce ? 0.5 : (Math.sin(clock * 2.2) + 1) / 2;
+
+        // glow and orb
+        const glow = ctx.createRadialGradient(x, y, 0, x, y, r * 1.9);
+        glow.addColorStop(0, rgba(colors.b, (coreOn ? 0.45 : 0.3) + pulse * 0.1, true));
+        glow.addColorStop(0.55, rgba(colors.a, 0.12, true));
+        glow.addColorStop(1, rgba(colors.a, 0, true));
+        ctx.fillStyle = glow;
+        ctx.beginPath(); ctx.arc(x, y, r * 1.9, 0, 7); ctx.fill();
+        ctx.fillStyle = rgba(colors.light ? "#FFFFFF" : "#0A0C10", 0.82, true);
+        ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill();
+
+        // three orbit rings turning at different angles, like an engine
+        ctx.lineWidth = 1.4;
+        for (let k = 0; k < 3; k++) {
+          const ang = clock * (0.5 + k * 0.25) * (k % 2 ? -1 : 1) + k * 1.05;
+          ctx.strokeStyle = rgba(k === 1 ? colors.a : colors.b, coreOn ? 0.95 : 0.7, true);
+          ctx.beginPath(); ctx.ellipse(x, y, r * 1.22, r * 0.42, ang, 0, Math.PI * 2); ctx.stroke();
+          // an electron riding each ring
+          const t = clock * (1.2 + k * 0.4) + k * 2;
+          const ex = Math.cos(t) * r * 1.22, ey = Math.sin(t) * r * 0.42;
+          ctx.fillStyle = rgba(colors.b, 1, true);
+          ctx.beginPath();
+          ctx.arc(x + ex * Math.cos(ang) - ey * Math.sin(ang), y + ex * Math.sin(ang) + ey * Math.cos(ang), 2.4, 0, 7);
+          ctx.fill();
+        }
+        ctx.lineWidth = coreOn ? 2.4 : 1.6;
+        ctx.strokeStyle = rgba(colors.b, 0.9, true);
+        ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.stroke();
+
+        // the drive word, cross-fading to the next every 2.4 seconds
+        const phase = clock / 2.4;
+        const word = reduce ? DRIVES[0] : DRIVES[Math.floor(phase) % DRIVES.length];
+        const f = reduce ? 1 : Math.min(1, Math.min(phase % 1, 1 - (phase % 1)) * 6);
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.font = `800 ${Math.round(Math.max(9, r * 0.3))}px "Bricolage Grotesque", Inter, sans-serif`;
+        ctx.fillStyle = rgba(colors.text, f, true);
+        ctx.fillText(word, x, y + 1);
+        if (!small) {
+          ctx.font = "500 9px 'JetBrains Mono', ui-monospace, monospace";
+          ctx.fillStyle = rgba(colors.b, 0.9, true);
+          ctx.fillText("WHAT DRIVES ME", x, y + r + 26);
+        }
+        ctx.textAlign = "start";
+        ctx.font = `500 ${small ? 10 : 12}px Inter, system-ui, sans-serif`;
+      };
       ctx.font = `500 ${small ? 10 : 12}px Inter, system-ui, sans-serif`;
       ctx.textBaseline = "middle";
       order.forEach((i) => {
         const p = proj[i], n = nodes[i];
+        if (!coreDrawn && p.z < 0) drawCore();
         const isSkill = i < S;
         const hl = lit.has(i);
         const r = ((isSkill ? 2.6 : 1.2) + p.f * (isSkill ? 2.2 : 1.6) + n.glow * 3 + (i === focus ? 2.5 : 0)) * p.s;
@@ -1879,11 +2003,25 @@
 
         // skill names on the front half; on phones only for the highlighted ones
         if (isSkill && p.z < 0.15 && (!small || hl)) {
-          const a = hl ? 1 : Math.min(1, (0.15 - p.z) * 1.6) * (focus >= 0 ? 0.35 : 0.85);
+          const a = hl ? 1 : Math.min(1, (0.15 - p.z) * 1.6) * (focus !== -1 ? 0.35 : 0.85);
           ctx.fillStyle = rgba(colors.text, a, hl);
           ctx.fillText(n.skill, p.x + r + 6, p.y);
         }
       });
+
+      if (!coreDrawn) drawCore();
+
+      // cluster names float just outside the globe, on the side facing the viewer
+      if (!small) {
+        ctx.font = "500 10px 'JetBrains Mono', ui-monospace, monospace";
+        ctx.textAlign = "center";
+        labelP.forEach((lp, gi) => {
+          if (lp.z > 0.1) return;
+          ctx.fillStyle = rgba(colors.b, Math.min(1, (0.1 - lp.z) * 1.8) * (coreOn ? 1 : 0.7), coreOn);
+          ctx.fillText(GROUPS[gi].name.toUpperCase(), Math.max(80, Math.min(W - 80, lp.x)), Math.max(90, lp.y));
+        });
+        ctx.textAlign = "start";
+      }
 
       packets.forEach((k) => {
         const p = proj[k.from], q = proj[k.to];
@@ -1896,9 +2034,17 @@
       placeTip();
     };
 
+    let clock = 0;
+    const coreR = () => Math.max(22, R * 0.2);
     const step = () => {
+      clock += 1 / 60;
       // hold still while a skill is being looked at, so its label doesn't slide away
-      if (hover < 0 && selected < 0) rotY += 0.0018;
+      if (!drag) {
+        // drift on after a drag, then settle back into the slow idle spin
+        rotY += spinY; spinY *= 0.95;
+        userX = Math.max(-1.2, Math.min(1.2, userX + spinX)); spinX *= 0.9;
+        if (hover < 0 && selected < 0) rotY += 0.0018;
+      }
       tiltX += (aimX - tiltX) * 0.05;
       tiltY += (aimY - tiltY) * 0.05;
       nodes.forEach((n) => { n.glow *= 0.94; });
