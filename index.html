@@ -311,6 +311,20 @@
     align-items: center;
     overflow: hidden;
   }
+  /* 3D network globe behind the hero text */
+  .net {
+    position: absolute; inset: 0; z-index: 1;
+    width: 100%; height: 100%;
+    cursor: crosshair;
+  }
+  .net-hint {
+    position: absolute; right: var(--gutter); bottom: 2rem; z-index: 2;
+    color: var(--text-faint); pointer-events: none;
+  }
+  @media (max-width: 720px) { .net-hint { display: none; } }
+  /* let clicks fall through the text block to the globe, except on its links */
+  .hero-inner { pointer-events: none; }
+  .hero-inner a, .hero-inner button { pointer-events: auto; }
   .aurora {
     position: absolute;
     inset: 0;
@@ -870,6 +884,8 @@
     <div class="blob b2"></div>
   </div>
   <div class="grid-lines"></div>
+  <canvas class="net" id="net" aria-hidden="true"></canvas>
+  <span class="mono net-hint" aria-hidden="true">Move · click the network</span>
 
   <div class="wrap hero-inner">
     <!-- EDIT: status line -->
@@ -1413,6 +1429,203 @@
       if (!queued) { queued = true; requestAnimationFrame(paint); }
     }, { passive: true });
   }
+
+  // 3D network globe: nodes on a sphere, linked to their nearest neighbours,
+  // with packets travelling along the links. Tilts toward the cursor; a click
+  // fires a burst of packets from the nearest node.
+  (() => {
+    const canvas = document.getElementById("net");
+    if (!canvas || !canvas.getContext) return;
+    const ctx = canvas.getContext("2d");
+    const hero = canvas.parentElement;
+    const small = matchMedia("(max-width: 720px)").matches;
+    const N = small ? 60 : 110;
+
+    // a Fibonacci sphere spreads the nodes evenly
+    const nodes = [];
+    for (let i = 0; i < N; i++) {
+      const y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y);
+      const t = i * Math.PI * (3 - Math.sqrt(5));
+      nodes.push({ x: Math.cos(t) * r, y, z: Math.sin(t) * r, glow: 0, links: [] });
+    }
+    const edges = [];
+    const seen = new Set();
+    nodes.forEach((a, i) => {
+      nodes.map((b, j) => [j, (a.x - b.x) ** 2 + (a.y - b.y) ** 2 + (a.z - b.z) ** 2])
+        .filter(([j]) => j !== i).sort((p, q) => p[1] - q[1]).slice(0, 3)
+        .forEach(([j]) => {
+          const key = i < j ? i + "-" + j : j + "-" + i;
+          if (seen.has(key)) return;
+          seen.add(key);
+          edges.push([i, j]);
+          a.links.push(j); nodes[j].links.push(i);
+        });
+    });
+
+    let packets = [];
+    const spawn = (from, to, fast) =>
+      packets.push({ from, to, t: 0, fast, v: fast ? 0.035 : 0.008 + Math.random() * 0.01 });
+    for (let i = 0; i < (small ? 10 : 18); i++) {
+      const [a, b] = edges[(Math.random() * edges.length) | 0];
+      spawn(a, b);
+    }
+
+    let W = 0, H = 0, cx = 0, cy = 0, R = 0;
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = hero.clientWidth; H = hero.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // right of the text on wide screens, behind it on phones
+      const wide = W > 900;
+      cx = wide ? W * 0.73 : W * 0.5;
+      cy = H * (wide ? 0.53 : 0.4);
+      R = Math.min(wide ? W * 0.2 : W * 0.4, H * 0.29);
+    };
+    resize();
+
+    let colors = {};
+    const readColors = () => {
+      const cs = getComputedStyle(document.documentElement);
+      colors = {
+        a: cs.getPropertyValue("--accent").trim(),
+        b: cs.getPropertyValue("--accent-2").trim(),
+        // fainter in light mode, and on phones where it sits behind the text
+        dim: (document.documentElement.dataset.theme === "light" ? 0.6 : 1) * (small ? 0.55 : 1),
+      };
+    };
+    readColors();
+    new MutationObserver(readColors)
+      .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+    const rgba = (c, a) => {
+      const n = parseInt(c.slice(1), 16);
+      return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a * colors.dim})`;
+    };
+
+    let rotY = 0, tiltX = 0, tiltY = 0, aimX = 0, aimY = 0, mouse = null;
+    const baseX = -0.25;
+    hero.addEventListener("pointermove", (e) => {
+      const r = hero.getBoundingClientRect();
+      mouse = { x: e.clientX - r.left, y: e.clientY - r.top };
+      aimY = (mouse.x / W - 0.5) * 0.9;
+      aimX = (mouse.y / H - 0.5) * 0.6;
+    });
+    hero.addEventListener("pointerleave", () => { mouse = null; aimX = aimY = 0; });
+
+    let proj = [];
+    const project = () => {
+      const cY = Math.cos(rotY + tiltY), sY = Math.sin(rotY + tiltY);
+      const cX = Math.cos(baseX + tiltX), sX = Math.sin(baseX + tiltX);
+      proj = nodes.map((n) => {
+        const x = n.x * cY - n.z * sY;
+        let z = n.x * sY + n.z * cY;
+        const y = n.y * cX - z * sX;
+        z = n.y * sX + z * cX;
+        const s = 3.4 / (3.4 + z);               // perspective
+        return { x: cx + x * R * s, y: cy + y * R * s, z, s, f: (1 - z) / 2 };   // f: 1 front, 0 back
+      });
+    };
+
+    hero.addEventListener("click", (e) => {
+      if (e.target.closest("a, button")) return;
+      const r = hero.getBoundingClientRect();
+      const px = e.clientX - r.left, py = e.clientY - r.top;
+      let best = -1, bd = Infinity;
+      proj.forEach((p, i) => {
+        const d = (p.x - px) ** 2 + (p.y - py) ** 2;
+        if (p.z < 0.3 && d < bd) { bd = d; best = i; }
+      });
+      if (best < 0 || bd > 200 ** 2) return;
+      nodes[best].glow = 1;
+      nodes[best].links.forEach((j) => spawn(best, j, true));
+      if (reduce) draw();
+    });
+
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      project();
+
+      // links fade toward the back of the globe
+      ctx.lineWidth = 1;
+      edges.forEach(([i, j]) => {
+        const p = proj[i], q = proj[j];
+        ctx.strokeStyle = rgba(colors.a, 0.06 + ((p.f + q.f) / 2) * 0.32);
+        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+      });
+
+      // the cursor links to nearby front-facing nodes
+      if (mouse) {
+        proj.forEach((p, i) => {
+          const d = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+          if (d < 140 && p.z < 0.2) {
+            ctx.strokeStyle = rgba(colors.b, (1 - d / 140) * 0.5);
+            ctx.beginPath(); ctx.moveTo(mouse.x, mouse.y); ctx.lineTo(p.x, p.y); ctx.stroke();
+            nodes[i].glow = Math.max(nodes[i].glow, 1 - d / 140);
+          }
+        });
+      }
+
+      proj.forEach((p, i) => {
+        const n = nodes[i];
+        const r = (1.2 + p.f * 1.8 + n.glow * 3) * p.s;
+        if (n.glow > 0.05) {
+          ctx.fillStyle = rgba(colors.b, n.glow * 0.25);
+          ctx.beginPath(); ctx.arc(p.x, p.y, r * 4, 0, 7); ctx.fill();
+        }
+        ctx.fillStyle = rgba(n.glow > 0.3 ? colors.b : colors.a, 0.25 + p.f * 0.75);
+        ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7); ctx.fill();
+      });
+
+      packets.forEach((k) => {
+        const p = proj[k.from], q = proj[k.to];
+        const f = (p.f + q.f) / 2;
+        ctx.fillStyle = rgba(colors.b, 0.35 + f * 0.65);
+        ctx.beginPath();
+        ctx.arc(p.x + (q.x - p.x) * k.t, p.y + (q.y - p.y) * k.t, 1.6 + f * 1.6, 0, 7);
+        ctx.fill();
+      });
+    };
+
+    const step = () => {
+      rotY += 0.0018;
+      tiltX += (aimX - tiltX) * 0.05;
+      tiltY += (aimY - tiltY) * 0.05;
+      nodes.forEach((n) => { n.glow *= 0.94; });
+      const next = [];
+      packets.forEach((k) => {
+        k.t += k.v;
+        if (k.t < 1) { next.push(k); return; }
+        nodes[k.to].glow = Math.max(nodes[k.to].glow, 0.6);
+        // background traffic always hops on; click bursts ripple out a little further
+        if (!k.fast || Math.random() < 0.35) {
+          const nx = nodes[k.to].links;
+          next.push({ from: k.to, to: nx[(Math.random() * nx.length) | 0], t: 0, fast: k.fast, v: k.v });
+        }
+      });
+      packets = next.slice(-90);
+    };
+
+    if (reduce) {
+      draw();
+      window.addEventListener("resize", () => { resize(); draw(); });
+      return;
+    }
+    window.addEventListener("resize", resize);
+
+    // animate only while the hero is on screen and the tab is visible
+    let running = false, raf = 0, onScreen = true;
+    const loop = () => { step(); draw(); raf = requestAnimationFrame(loop); };
+    const update = () => {
+      const on = onScreen && !document.hidden;
+      if (on === running) return;
+      running = on;
+      if (on) raf = requestAnimationFrame(loop); else cancelAnimationFrame(raf);
+    };
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; update(); }).observe(hero);
+    document.addEventListener("visibilitychange", update);
+    update();
+  })();
 
   // Work card cursor glow
   document.querySelectorAll(".work-card").forEach((card) => {
