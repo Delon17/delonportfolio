@@ -678,6 +678,90 @@
   .work-card em { color: var(--accent-2); font-style: normal; }
   @media (max-width: 700px) { .work-grid { grid-template-columns: 1fr; } }
 
+  /* JOURNEY — a plain timeline by default; JavaScript adds .is-3d for the climbing path */
+  .journey { padding-bottom: 0; }
+  .journey-intro { color: var(--text-dim); max-width: 60ch; margin-top: -1.2rem; }
+  .journey-intro strong { color: var(--text); font-weight: 600; }
+  .journey-stage { position: relative; }
+  .journey-canvas, .journey-hint { display: none; }
+  .journey-list {
+    list-style: none; display: grid; gap: 1rem;
+    max-width: var(--maxw); margin: 2rem auto 0; padding: 0 var(--gutter);
+  }
+  .journey-list li { border-left: 2px solid var(--accent); padding: 0.2rem 0 0.2rem 1rem; }
+  .journey-list li[data-state="future"], .journey-list li[data-state="goal"] { border-left-style: dashed; border-left-color: var(--line); }
+  .journey-list .yr {
+    display: block; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent);
+  }
+  .journey-list strong { display: block; font-family: var(--display); font-size: 1.02rem; font-weight: 600; letter-spacing: -0.01em; }
+  .journey-list .sub { display: block; color: var(--text-dim); font-size: 0.85rem; }
+  .journey-list .more { display: block; color: var(--text-dim); font-size: 0.82rem; margin-top: 0.35rem; }
+  .journey-list .here {
+    display: inline-block; margin-bottom: 0.35rem; padding: 0.15rem 0.5rem; border-radius: 999px;
+    background: var(--accent-2); color: var(--on-accent);
+    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600;
+  }
+  .journey-list .j-cert {
+    display: block; margin-top: 0.4rem; padding: 0; border: none; background: none; cursor: pointer;
+    color: var(--accent); font: inherit; font-size: 0.8rem;
+  }
+  .journey-list .j-cert:hover { text-decoration: underline; }
+  .journey-progress { max-width: var(--maxw); margin: 1.6rem auto 0; padding: 0 var(--gutter) 3rem; }
+  .journey-progress .mono { color: var(--text-dim); }
+  .journey-progress .bar { margin-top: 0.5rem; height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
+  .journey-progress .bar span {
+    display: block; height: 100%; width: 0; border-radius: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  }
+
+  /* 3D mode: a tall track whose scroll drives the camera up a sticky stage */
+  .journey.is-3d .journey-track { height: 340vh; }
+  .journey.is-3d .journey-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+  .journey.is-3d .journey-canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; }
+  .journey.is-3d .journey-list { position: absolute; inset: 0; margin: 0; padding: 0; max-width: none; display: block; pointer-events: none; }
+  .journey.is-3d .journey-list li {
+    position: absolute; left: 0; top: 0;
+    width: max-content; max-width: min(250px, 44vw);
+    transform: translate(18px, -50%);
+    padding: 0.55rem 0.8rem;
+    border: 1px solid var(--line); border-radius: 10px;
+    background: var(--chip-bg);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    pointer-events: auto; cursor: default;
+    transition: opacity 0.25s ease, border-color 0.2s ease;
+  }
+  .journey.is-3d .journey-list li.flip { transform: translate(calc(-100% - 18px), -50%); }
+  .journey.is-3d .journey-list li.far { padding: 0.3rem 0.6rem; }
+  .journey.is-3d .journey-list li.far .yr, .journey.is-3d .journey-list li.far .sub,
+  .journey.is-3d .journey-list li.far .more { display: none; }
+  .journey.is-3d .journey-list li.far strong { font-size: 0.8rem; }
+  .journey.is-3d .journey-list li.far .here { margin-bottom: 0.2rem; }
+  .journey.is-3d .journey-list li[data-state="future"],
+  .journey.is-3d .journey-list li[data-state="goal"] { border-style: dashed; }
+  .journey.is-3d .journey-list li[data-state="goal"] { border-color: var(--accent); }
+  .journey.is-3d .journey-list li[data-state="current"] { border-color: var(--accent-2); box-shadow: 0 10px 30px var(--shadow); }
+  .journey.is-3d .journey-list .more { display: none; }
+  .journey.is-3d .journey-list li:hover, .journey.is-3d .journey-list li:focus-within { border-color: var(--accent); z-index: 2; }
+  .journey.is-3d .journey-list li:hover .more, .journey.is-3d .journey-list li:focus-within .more { display: block; }
+  .journey.is-3d .journey-progress {
+    position: absolute; left: var(--gutter); bottom: 1.6rem; z-index: 3;
+    width: min(440px, calc(100% - 2 * var(--gutter))); margin: 0; padding: 0;
+  }
+  .journey.is-3d .journey-hint {
+    display: block; position: absolute; right: var(--gutter); bottom: 1.6rem; z-index: 3;
+    color: var(--text-faint); transition: opacity 0.4s ease;
+  }
+  @media (max-width: 720px) {
+    .journey.is-3d .journey-track { height: 300vh; }
+    .journey.is-3d .journey-list li { padding: 0.45rem 0.65rem; }
+    .journey.is-3d .journey-list strong { font-size: 0.9rem; }
+    .journey.is-3d .journey-list .sub { font-size: 0.75rem; }
+    .journey.is-3d .journey-hint { display: none; }
+  }
+  /* the nav gains a link; tighten it before it would wrap */
+  @media (max-width: 1000px) and (min-width: 721px) { .nav-links { gap: 1.2rem; } }
+
   /* CONTACT */
   #contact { text-align: center; }
   #contact .big {
@@ -858,6 +942,7 @@
   <a href="#top" class="brand">Delon<span>.</span>Pyle</a>
   <div class="nav-links" id="nav-links">
     <a href="#about">About</a>
+    <a href="#journey">Journey</a>
     <a href="#experience">Experience</a>
     <a href="#education">Education</a>
     <a href="#skills">Skills</a>
@@ -977,11 +1062,93 @@
   </div>
 </section>
 
+<!-- ============ JOURNEY ============ -->
+<!-- EDIT: one <li> per milestone, oldest first. data-state is done, progress (started, not
+     finished), current (exactly one: "you are here"), future or goal. The 3D path is drawn
+     from this list; without JavaScript it shows as a plain timeline. -->
+<section id="journey" class="journey">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">02</span>
+      <h2>Journey</h2>
+      <span class="mono idx">Where I'm headed</span>
+    </div>
+    <p class="journey-intro reveal">From secondary school to Assistant ICT Engineer — and the road
+    still ahead to <strong>Senior ICT Engineer</strong>. Scroll to climb the path.</p>
+  </div>
+  <div class="journey-track" id="journey-track">
+    <div class="journey-stage" id="journey-stage">
+      <canvas class="journey-canvas" id="journey-canvas" aria-hidden="true"></canvas>
+      <ol class="journey-list" id="journey-list">
+        <li tabindex="0" data-state="done">
+          <span class="yr">2020</span><strong>CSEC</strong>
+          <span class="sub">Lancaster Secondary School</span>
+          <span class="more">Five subjects passed, CXC June 2020.</span>
+        </li>
+        <li tabindex="0" data-state="done">
+          <span class="yr">2022</span><strong>First internship</strong>
+          <span class="sub">Guyana Lands &amp; Survey Commission</span>
+          <span class="more">Inventory, network troubleshooting and PC repairs.</span>
+        </li>
+        <li tabindex="0" data-state="done">
+          <span class="yr">2023</span><strong>Diploma in Computer Science</strong>
+          <span class="sub">Government Technical Institute</span>
+          <span class="more">Pass with Credit (B+).
+            <button type="button" class="j-cert" data-cert="assets/diploma-computer-science.webp" onclick="openLightbox(this)">View diploma →</button></span>
+        </li>
+        <li tabindex="0" data-state="done">
+          <span class="yr">2023</span><strong>Industrial attachment</strong>
+          <span class="sub">National Data Management Authority</span>
+          <span class="more">Built a school registration site on Frappe; fibre-optic field work.
+            <button type="button" class="j-cert" data-cert="assets/cert-industrial-attachment.webp" onclick="openLightbox(this)">View certificate →</button></span>
+        </li>
+        <li tabindex="0" data-state="done">
+          <span class="yr">2023</span><strong>Associate Developer</strong>
+          <span class="sub">National Data Management Authority</span>
+          <span class="more">Frappe Framework, FlutterFlow, Python and JavaScript.</span>
+        </li>
+        <li tabindex="0" data-state="progress">
+          <span class="yr">2024 — in progress</span><strong>BSc Information Technology</strong>
+          <span class="sub">Texila American University</span>
+          <span class="more">Network administration and technology development.</span>
+        </li>
+        <li tabindex="0" data-state="current">
+          <span class="here">You are here</span>
+          <span class="yr">2025</span><strong>Assistant ICT Engineer</strong>
+          <span class="sub">National Data Management Authority</span>
+          <span class="more">Building and supporting national data systems.</span>
+        </li>
+        <li tabindex="0" data-state="future">
+          <span class="yr">Next</span><strong>BSc IT complete</strong>
+          <span class="sub">Texila American University</span>
+        </li>
+        <li tabindex="0" data-state="future">
+          <span class="yr">Then</span><strong>Master's degree</strong>
+          <span class="sub">Postgraduate study</span>
+        </li>
+        <li tabindex="0" data-state="future">
+          <span class="yr">Then</span><strong>More years of experience</strong>
+          <span class="sub">Leading ICT systems and teams</span>
+        </li>
+        <li tabindex="0" data-state="goal">
+          <span class="yr">Goal</span><strong>Senior ICT Engineer</strong>
+          <span class="sub">The summit</span>
+        </li>
+      </ol>
+      <div class="journey-progress">
+        <span class="mono" id="journey-count"></span>
+        <div class="bar"><span id="journey-bar"></span></div>
+      </div>
+      <span class="mono journey-hint" aria-hidden="true">Scroll to climb ↓</span>
+    </div>
+  </div>
+</section>
+
 <!-- ============ EXPERIENCE ============ -->
 <section id="experience">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="mono">02</span>
+      <span class="mono">03</span>
       <h2>Experience</h2>
       <span class="mono idx">Where I've worked</span>
     </div>
@@ -1041,7 +1208,7 @@
 <section id="education">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="mono">03</span>
+      <span class="mono">04</span>
       <h2>Education</h2>
       <span class="mono idx">Qualifications</span>
     </div>
@@ -1171,7 +1338,7 @@
 <section id="skills">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="mono">04</span>
+      <span class="mono">05</span>
       <h2>Skills</h2>
       <span class="mono idx">What I bring</span>
     </div>
@@ -1217,7 +1384,7 @@
 <section id="work">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="mono">05</span>
+      <span class="mono">06</span>
       <h2>Selected Work</h2>
       <span class="mono idx">A few highlights</span>
     </div>
@@ -1266,7 +1433,7 @@
 <!-- ============ CONTACT ============ -->
 <section id="contact">
   <div class="wrap">
-    <span class="mono">06 — Contact</span>
+    <span class="mono">07 — Contact</span>
     <h2 class="big reveal">Let's <span class="accent-text">work together</span>.</h2>
     <!-- EDIT: closing line -->
     <p class="sub reveal">Have a role, a project, or just want to connect? The
@@ -1625,6 +1792,240 @@
     new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; update(); }).observe(hero);
     document.addEventListener("visibilitychange", update);
     update();
+  })();
+
+  // Journey: the milestone list becomes a 3D path climbing away from the viewer.
+  // Scrolling through the tall track moves the camera up the path; finished
+  // steps glow with packets flowing along them, the future is drawn as outlines.
+  (() => {
+    const section = document.getElementById("journey");
+    const canvas = document.getElementById("journey-canvas");
+    if (!section || !canvas || !canvas.getContext) return;
+    const ctx = canvas.getContext("2d");
+    const track = document.getElementById("journey-track");
+    const stage = document.getElementById("journey-stage");
+    const items = [...document.getElementById("journey-list").children];
+    const hint = stage.querySelector(".journey-hint");
+    const N = items.length;
+    const states = items.map((li) => li.dataset.state);
+    const cur = Math.max(0, states.indexOf("current"));
+
+    const reached = states.filter((s) => s !== "future" && s !== "goal").length;
+    document.getElementById("journey-count").textContent =
+      `${reached} of ${N} milestones · next: ${items[cur + 1] ? items[cur + 1].querySelector("strong").textContent : "—"}`;
+    document.getElementById("journey-bar").style.width = (reached / N) * 100 + "%";
+
+    section.classList.add("is-3d");
+    const small = () => stage.clientWidth < 720;
+
+    // milestones wind left and right as they climb up and away
+    const pts = items.map((_, i) => ({ x: Math.sin(i * 0.9) * 1.5, y: i * 0.75, z: i * 1.1 }));
+    // Catmull-Rom through the milestones; u is the (fractional) milestone index
+    const at = (u) => {
+      const i = Math.max(0, Math.min(N - 2, Math.floor(u))), t = Math.min(1, u - i);
+      const p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(N - 1, i + 2)];
+      const f = (a, b, c, d) => 0.5 * (2 * b + (-a + c) * t + (2 * a - 5 * b + 4 * c - d) * t * t + (-a + 3 * b - 3 * c + d) * t * t * t);
+      return { x: f(p0.x, p1.x, p2.x, p3.x), y: f(p0.y, p1.y, p2.y, p3.y), z: f(p0.z, p1.z, p2.z, p3.z) };
+    };
+    const SAMPLES = 24;
+    const curve = [];
+    for (let k = 0; k <= (N - 1) * SAMPLES; k++) { const u = k / SAMPLES; curve.push({ u, ...at(u) }); }
+
+    // faint dust around the path for depth
+    const dust = Array.from({ length: 140 }, () => ({
+      x: (Math.random() - 0.5) * 9, y: Math.random() * (N * 0.75 + 3) - 1.5, z: Math.random() * (N * 1.1 + 6) - 2,
+    }));
+
+    let W = 0, H = 0;
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = stage.clientWidth; H = stage.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+
+    let colors = {};
+    const readColors = () => {
+      const cs = getComputedStyle(document.documentElement);
+      colors = {
+        a: cs.getPropertyValue("--accent").trim(),
+        b: cs.getPropertyValue("--accent-2").trim(),
+        dim: document.documentElement.dataset.theme === "light" ? 0.75 : 1,
+      };
+    };
+    readColors();
+    new MutationObserver(() => { readColors(); if (reduce) frame(); })
+      .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    const rgba = (c, a) => {
+      const n = parseInt(c.slice(1), 16);
+      return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${Math.max(0, a) * colors.dim})`;
+    };
+
+    let cam = 0, mx = 0, my = 0, smx = 0, smy = 0, time = 0;
+    const scrollTarget = () => {
+      const r = track.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - stage.clientHeight)));
+      return p * (N - 1);
+    };
+    stage.addEventListener("pointermove", (e) => {
+      const r = stage.getBoundingClientRect();
+      mx = (e.clientX - r.left) / r.width - 0.5;
+      my = (e.clientY - r.top) / r.height - 0.5;
+    });
+    stage.addEventListener("pointerleave", () => { mx = my = 0; });
+
+    let eye, F, CX, CY;
+    const setCamera = () => {
+      const c = at(Math.min(cam, N - 1.001));
+      const amp = small() ? 0.55 : 0.8;
+      eye = { x: c.x * amp + smx * 0.8, y: c.y + 0.15 - smy * 0.4, z: c.z - 2.4 };
+      F = Math.min(W * (small() ? 0.95 : 0.7), H * 0.95);
+      CX = W * (small() ? 0.42 : 0.5);
+      CY = H * (small() ? 0.6 : 0.72);
+    };
+    const proj = (p) => {
+      const dz = p.z - eye.z;
+      if (dz < 0.25) return null;
+      return { x: CX + ((p.x - eye.x) * F) / dz, y: CY - ((p.y - eye.y) * F) / dz, dz, k: 3 / dz };
+    };
+    const fade = (dz) => Math.max(0, Math.min(1, 1.15 - (dz - 1.5) / 11));
+
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      setCamera();
+
+      dust.forEach((d) => {
+        const p = proj(d);
+        if (!p) return;
+        ctx.fillStyle = rgba(colors.a, 0.35 * fade(p.dz));
+        ctx.fillRect(p.x, p.y, 1.4 * Math.min(2, p.k), 1.4 * Math.min(2, p.k));
+      });
+
+      // the path: solid and glowing up to "you are here", dashed beyond it
+      for (let k = 1; k < curve.length; k++) {
+        const s0 = curve[k - 1], s1 = curve[k];
+        const p = proj(s0), q = proj(s1);
+        if (!p || !q) continue;
+        const a = fade((p.dz + q.dz) / 2);
+        const w = Math.max(0.6, Math.min(5, 2.2 * p.k));
+        const done = s1.u <= cur;
+        ctx.setLineDash(done ? [] : [w * 2.5, w * 2.5]);
+        if (done) {
+          ctx.strokeStyle = rgba(colors.a, 0.18 * a);
+          ctx.lineWidth = w * 3.5;
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+        }
+        ctx.strokeStyle = done ? rgba(colors.a, 0.85 * a) : rgba(colors.a, 0.35 * a);
+        ctx.lineWidth = w;
+        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+      }
+      ctx.setLineDash([]);
+
+      // packets flowing up the finished stretch
+      if (cur > 0) {
+        for (let j = 0; j < 6; j++) {
+          const u = ((time * 0.25 + j * (cur / 6)) % cur);
+          const p = proj(at(u));
+          if (!p) continue;
+          ctx.fillStyle = rgba(colors.b, 0.9 * fade(p.dz));
+          ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(1.2, Math.min(4, 2.2 * p.k)), 0, 7); ctx.fill();
+        }
+      }
+
+      const pulse = reduce ? 0.5 : (Math.sin(time * 3) + 1) / 2;
+      items.forEach((li, i) => {
+        const p = proj(pts[i]);
+        const st = states[i];
+        if (!p) { li.style.opacity = 0; li.style.visibility = "hidden"; return; }
+        const a = fade(p.dz);
+        const r = Math.max(2.5, Math.min(14, 6 * p.k));
+        ctx.lineWidth = Math.max(1, 1.6 * p.k);
+        if (st === "done") {
+          ctx.fillStyle = rgba(colors.a, a);
+          ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7); ctx.fill();
+        } else if (st === "progress") {
+          ctx.strokeStyle = rgba(colors.b, a);
+          ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 7); ctx.stroke();
+          ctx.fillStyle = rgba(colors.b, a);
+          ctx.beginPath(); ctx.arc(p.x, p.y, r, Math.PI / 2, Math.PI * 1.5); ctx.fill();
+        } else if (st === "current") {
+          ctx.fillStyle = rgba(colors.b, 0.22 * a);
+          ctx.beginPath(); ctx.arc(p.x, p.y, r * (2.2 + pulse * 1.4), 0, 7); ctx.fill();
+          ctx.strokeStyle = rgba(colors.b, (1 - pulse) * a);
+          ctx.beginPath(); ctx.arc(p.x, p.y, r * (1.5 + pulse * 2), 0, 7); ctx.stroke();
+          ctx.fillStyle = rgba(colors.b, a);
+          ctx.beginPath(); ctx.arc(p.x, p.y, r * 1.2, 0, 7); ctx.fill();
+        } else {
+          // future steps and the goal: wireframe octahedra, still to be built
+          const s = r * (st === "goal" ? 2.2 : 1.4), spin = time * 0.6 + i;
+          const c = Math.cos(spin) * s, sn = Math.sin(spin) * s * 0.45;
+          ctx.strokeStyle = rgba(st === "goal" ? colors.b : colors.a, (st === "goal" ? 0.9 : 0.6) * a);
+          ctx.beginPath();
+          [[c, sn], [-sn, c * 0.45], [-c, -sn], [sn, -c * 0.45]].forEach(([dx, dy]) => {
+            ctx.moveTo(p.x, p.y - s * 1.3); ctx.lineTo(p.x + dx, p.y + dy * 0.6);
+            ctx.lineTo(p.x, p.y + s * 1.3);
+          });
+          ctx.moveTo(p.x + c, p.y + sn * 0.6); ctx.lineTo(p.x - sn, p.y + c * 0.27);
+          ctx.lineTo(p.x - c, p.y - sn * 0.6); ctx.lineTo(p.x + sn, p.y - c * 0.27); ctx.closePath();
+          ctx.stroke();
+          if (st === "goal") {
+            ctx.fillStyle = rgba(colors.b, (0.12 + pulse * 0.1) * a);
+            ctx.beginPath(); ctx.arc(p.x, p.y, s * 2.4, 0, 7); ctx.fill();
+          }
+        }
+
+        // the HTML card follows its node; it's sharpest near the camera
+        // full cards only for the milestones around the camera; "you are here" and the
+        // goal stay visible from afar as compact tags so the cards don't pile up
+        const d = i - cam;
+        const near = Math.max(0, Math.min(1, (d + 1.4) / 0.8, (2.3 - d) / 0.8));
+        const pinned = st === "current" || st === "goal";
+        li.classList.toggle("far", pinned && near < 0.5);
+        const o = Math.min(a, pinned ? Math.max(near, 0.7) : near);
+        const vis = o > 0.04 && p.y > 40 && p.y < H - 40;
+        li.style.visibility = vis ? "visible" : "hidden";
+        li.style.opacity = vis ? o.toFixed(3) : 0;
+        li.style.left = Math.max(8, Math.min(W - 8, p.x)) + "px";
+        li.style.top = p.y + "px";
+        li.classList.toggle("flip", p.x > W * 0.58);
+      });
+
+      if (hint) hint.style.opacity = cam < 0.4 ? 1 : 0;
+    };
+
+    const frame = () => {
+      const target = scrollTarget();
+      cam += reduce ? target - cam : (target - cam) * 0.1;
+      smx += (mx - smx) * 0.06; smy += (my - smy) * 0.06;
+      draw();
+    };
+
+    if (reduce) {
+      cam = scrollTarget();
+      frame();
+      window.addEventListener("scroll", () => requestAnimationFrame(frame), { passive: true });
+      window.addEventListener("resize", () => { resize(); frame(); });
+      return;
+    }
+    window.addEventListener("resize", resize);
+
+    // animate only while the journey is on screen and the tab is visible
+    let running = false, raf = 0, onScreen = false, last = 0;
+    const loop = (t) => {
+      time += Math.min(0.05, (t - (last || t)) / 1000); last = t;
+      frame();
+      raf = requestAnimationFrame(loop);
+    };
+    const update = () => {
+      const on = onScreen && !document.hidden;
+      if (on === running) return;
+      running = on; last = 0;
+      if (on) raf = requestAnimationFrame(loop); else cancelAnimationFrame(raf);
+    };
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; update(); }).observe(track);
+    document.addEventListener("visibilitychange", update);
+    frame();
   })();
 
   // Work card cursor glow

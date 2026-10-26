@@ -20,6 +20,9 @@ The resume must stay in sync with the site. Every new document means updating **
    - Academic awards also belong in the Education `.xp` list, with a `.view-cert` button
      whose `data-cert` matches the image `src`.
    - New roles go in Experience.
+   - Milestones (a finished degree, a new role, a Master's) also go in the Journey `<ol>`: flip the
+     matching `future` item to `done`, and move `data-state="current"` (and its "You are here"
+     badge) to the newest role. The 3D path and the progress count are drawn from that list.
 3. **`resume.html`** — add it to the matching section (Certifications & Courses, Education,
    Employment History or Internships). Keep the cert list in the same order as the cert wall.
 4. **PDF** — run `./scripts/build-resume-pdf.sh`, then read the PDF back and check the layout
