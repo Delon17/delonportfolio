@@ -14,5 +14,5 @@ out="$(cygpath -w "$PWD/assets/Delon-Pyle-Resume.pdf")"
 src="file:///$(cygpath -m "$PWD/resume.html")"
 # virtual-time-budget gives the Google Fonts a moment to load before printing
 "$browser" --headless --disable-gpu --no-pdf-header-footer \
-  --virtual-time-budget=5000 --print-to-pdf="$out" "$src"
+  --virtual-time-budget=12000 --print-to-pdf="$out" "$src"
 echo "wrote assets/Delon-Pyle-Resume.pdf"

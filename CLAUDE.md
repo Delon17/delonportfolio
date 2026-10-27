@@ -9,8 +9,7 @@ The resume must stay in sync with the site. Every new document means updating **
 1. **Image** — render it into `assets/` (PDFs: pypdfium2, scale 3, longest side 1600px), saved as
    WebP quality 80 via Pillow. Name it `cert-<slug>.webp`, or `diploma-<slug>.webp` for academic
    awards — the Certifications stat counts `cert-` images, so the prefix matters.
-   Then watermark it once: `python -I scripts/watermark.py <rendered image> assets/<name>.webp`
-   (render to the scratchpad first; never re-run it on an already watermarked file).
+   Certificates are published without a watermark (Delon's choice).
    Transcripts are `transcript-<slug>.webp` and get a card on the wall plus a "View transcript"
    button next to the matching Education entry's "View diploma".
 2. **`index.html`**
