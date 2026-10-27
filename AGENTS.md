@@ -42,6 +42,9 @@ embeds WebP uncompressed when printing, which bloated the PDF to 2 MB.
 Skills live in three places that must match: the `#skills` tags in `index.html`, the Skills list in
 `resume.html` (then rebuild the PDF), and the `SKILLS` / `RELATED` arrays in the hero's skills-network
 script (each skill's "used" line is its tooltip; only claim uses the site already states).
+The Role fit section's `FIT_PROFILE` (what Delon can show evidence for, with a link to the proof) and
+`FIT_GAPS` (common asks he doesn't have yet) must also follow new skills, roles and certificates —
+move an item from `FIT_GAPS` to `FIT_PROFILE` once the site shows evidence for it.
 
 ## Personal details kept off the public resume
 

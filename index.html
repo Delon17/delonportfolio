@@ -810,6 +810,46 @@
   footer a.mono:hover { color: var(--accent); }
   @media (max-width: 600px) { .updates li { grid-template-columns: 1fr; gap: 0.25rem; } }
 
+  /* ROLE FIT — recruiters paste a job description and see the match */
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .fit-intro { color: var(--text-dim); max-width: 62ch; margin: -1.2rem 0 1.6rem; }
+  .fit-form textarea {
+    width: 100%; padding: 1rem 1.1rem; border-radius: 12px;
+    border: 1px solid var(--line); background: var(--bg-elev); color: var(--text);
+    font: inherit; font-size: 0.95rem; line-height: 1.5; resize: vertical;
+  }
+  .fit-form textarea:focus { outline: none; border-color: var(--accent); }
+  .fit-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: 0.9rem; }
+  .fit-actions .btn { cursor: pointer; }
+  .fit-try { color: var(--text-faint); margin-left: 0.4rem; }
+  .fit-chip {
+    padding: 0.5rem 0.85rem; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--text-dim);
+    font: inherit; font-size: 0.82rem; transition: border-color 0.2s, color 0.2s;
+  }
+  .fit-chip:hover { border-color: var(--accent); color: var(--text); }
+  .fit-privacy { margin-top: 0.7rem; color: var(--text-faint); font-size: 0.8rem; }
+
+  .fit-result { margin-top: 2rem; padding: clamp(1.2rem, 3vw, 2rem); border: 1px solid var(--line-soft); border-radius: 16px; background: var(--bg-elev); }
+  .fit-score { display: grid; grid-template-columns: auto 1fr; align-items: baseline; gap: 0.2rem 1rem; }
+  .fit-pct { font-family: var(--display); font-weight: 800; font-size: clamp(2.4rem, 6vw, 3.4rem); line-height: 1; letter-spacing: -0.03em; }
+  .fit-lbl { color: var(--text-dim); }
+  .fit-bar { grid-column: 1 / -1; margin-top: 0.8rem; height: 6px; border-radius: 6px; background: var(--line); overflow: hidden; }
+  .fit-bar span { display: block; height: 100%; width: 0; border-radius: 6px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .fit-cols { display: grid; grid-template-columns: 3fr 2fr; gap: 2rem; margin-top: 1.8rem; }
+  @media (max-width: 760px) { .fit-cols { grid-template-columns: 1fr; gap: 1.4rem; } }
+  .fit-cols h3 { font-family: var(--display); font-size: 1.05rem; font-weight: 600; margin-bottom: 0.7rem; }
+  .fit-list { list-style: none; display: grid; gap: 0.55rem; }
+  .fit-list li { padding-left: 1.5rem; position: relative; color: var(--text-dim); font-size: 0.9rem; line-height: 1.45; }
+  .fit-list li::before { content: "✓"; position: absolute; left: 0; top: 0; color: var(--accent-2); font-weight: 700; }
+  .fit-list.gaps li::before { content: "–"; color: var(--text-faint); }
+  .fit-list b { color: var(--text); font-weight: 600; }
+  .fit-list a { color: var(--accent); white-space: nowrap; }
+  .fit-list .empty { padding-left: 0; }
+  .fit-list .empty::before { content: none; }
+  .fit-cta { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.8rem; }
+  .fit-cta .btn { cursor: pointer; }
+
   /* CONTACT */
   #contact { text-align: center; }
   #contact .big {
@@ -997,6 +1037,7 @@
     <a href="#experience">Experience</a>
     <a href="#education">Education</a>
     <a href="#skills">Skills</a>
+    <a href="#fit">Role fit</a>
     <a href="#work">Work</a>
     <a href="#contact">Contact</a>
     <a href="resume.html">Resume</a>
@@ -1470,11 +1511,63 @@
   </div>
 </section>
 
+<!-- ============ ROLE FIT ============ -->
+<!-- The matching rules live in the role-fit script near the end of the page (FIT_PROFILE /
+     FIT_GAPS). Keep them in step with the Skills section and Experience. -->
+<section id="fit">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="mono">06</span>
+      <h2>Role fit</h2>
+      <span class="mono idx">For recruiters</span>
+    </div>
+    <p class="fit-intro reveal">Paste a job description, or just list what you're hiring for,
+    and see how my experience lines up. Each match shows the evidence behind it, and anything
+    I don't have yet is listed honestly.</p>
+    <form class="fit-form reveal" id="fit-form">
+      <label for="fit-input" class="sr-only">Job description or requirements</label>
+      <textarea id="fit-input" rows="6" maxlength="20000"
+        placeholder="e.g. ICT Officer: 3+ years in IT, networking, Python, REST APIs, a diploma or degree in IT…"></textarea>
+      <div class="fit-actions">
+        <button type="submit" class="btn primary">Check my fit →</button>
+        <span class="mono fit-try">Try an example:</span>
+        <button type="button" class="fit-chip" data-sample="ICT Officer needed for a government ministry. 2+ years in IT support and networking, hardware troubleshooting and Microsoft Office. A diploma or degree in IT. Knowledge of cybersecurity and Linux is an asset.">ICT Officer</button>
+        <button type="button" class="fit-chip" data-sample="Frappe / ERPNext developer. Python, JavaScript and SQL, REST API integrations, Git and CI/CD. Docker experience preferred. 3 years of experience.">Frappe developer</button>
+        <button type="button" class="fit-chip" data-sample="Mobile app developer to build iOS and Android apps with Flutter and Dart, backed by Firebase. API integration, testing and Git. Startup experience is a plus.">Mobile developer</button>
+        <button type="button" class="fit-chip" data-sample="Software Engineer for a public sector agency. Build web applications and integrations with Python or JavaScript, SQL databases and REST APIs. Version control, cloud (AWS or Azure), 5+ years of experience and a bachelor's degree.">Public-sector engineer</button>
+      </div>
+      <p class="fit-privacy">Runs entirely in your browser. Nothing you paste is sent or stored.</p>
+    </form>
+
+    <div class="fit-result" id="fit-result" hidden aria-live="polite">
+      <div class="fit-score">
+        <span class="fit-pct" id="fit-pct"></span>
+        <span class="fit-lbl" id="fit-lbl"></span>
+        <div class="fit-bar"><span id="fit-bar"></span></div>
+      </div>
+      <div class="fit-cols">
+        <div>
+          <h3>Where I match</h3>
+          <ul class="fit-list" id="fit-hits"></ul>
+        </div>
+        <div>
+          <h3>Not on my profile yet</h3>
+          <ul class="fit-list gaps" id="fit-gaps"></ul>
+        </div>
+      </div>
+      <div class="fit-cta">
+        <button type="button" class="btn primary" id="fit-contact">Discuss this role with me →</button>
+        <a class="btn ghost" href="assets/Delon-Pyle-Resume.pdf" download>Download resume</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ WORK ============ -->
 <section id="work">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="mono">06</span>
+      <span class="mono">07</span>
       <h2>Selected Work</h2>
       <span class="mono idx">Public sector · Growing economy</span>
     </div>
@@ -1526,11 +1619,14 @@
 <section id="updates">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="mono">07</span>
+      <span class="mono">08</span>
       <h2>Updates</h2>
       <span class="mono idx">Recently added</span>
     </div>
     <ol class="updates reveal">
+      <li><time datetime="2026-10-27">27 Oct 2026</time>
+        <span class="what"><b>New for recruiters:</b> Role fit, see how I match your job description</span>
+        <a class="u-link" href="#fit">Try it →</a></li>
       <li><time datetime="2026-10-27">27 Oct 2026</time>
         <span class="what"><b>Experience:</b> Founder &amp; Developer, AutoBid GY</span>
         <a class="u-link" href="#work">See →</a></li>
@@ -1543,13 +1639,13 @@
       <li><time datetime="2026-10-26">26 Oct 2026</time>
         <span class="what"><b>New transcript:</b> Diploma in Computer Science, Pass with Credit (B+)</span>
         <button type="button" class="u-link" data-cert="assets/transcript-computer-science.webp" onclick="openLightbox(this)">View →</button></li>
-      <li><time datetime="2026-10-26">26 Oct 2026</time>
-        <span class="what"><b>Education:</b> CSEC results added, five subjects passed (2020)</span>
-        <a class="u-link" href="#education">See →</a></li>
     </ol>
     <details class="updates-more">
       <summary>Show earlier updates</summary>
       <ol class="updates">
+        <li><time datetime="2026-10-26">26 Oct 2026</time>
+          <span class="what"><b>Education:</b> CSEC results added, five subjects passed (2020)</span>
+          <a class="u-link" href="#education">See →</a></li>
         <li><time datetime="2026-10-26">26 Oct 2026</time>
           <span class="what"><b>New:</b> interactive skills network and career Journey</span>
           <a class="u-link" href="#journey">See →</a></li>
@@ -1573,7 +1669,7 @@
 <!-- ============ CONTACT ============ -->
 <section id="contact">
   <div class="wrap">
-    <span class="mono">08 — Contact</span>
+    <span class="mono">09 — Contact</span>
     <h2 class="big reveal">Let's <span class="accent-text">work together</span>.</h2>
     <!-- EDIT: closing line -->
     <p class="sub reveal">Hiring for an ICT or software role, or have a project in
@@ -2451,6 +2547,112 @@
     new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; update(); }).observe(track);
     document.addEventListener("visibilitychange", update);
     frame();
+  })();
+
+  // Role fit: match a pasted job description against Delon's profile. Pure keyword
+  // matching in the browser; every match cites evidence that's on this site.
+  (() => {
+    const form = document.getElementById("fit-form");
+    if (!form) return;
+    const input = document.getElementById("fit-input");
+    const result = document.getElementById("fit-result");
+
+    // EDIT: what I can show evidence for. `re` runs on the lower-cased text; `href` links the proof.
+    const FIT_PROFILE = [
+      { k: "Python", re: /\bpython\b/, ev: "Frappe applications at NDMA", href: "#experience" },
+      { k: "JavaScript", re: /\bjavascript\b|\bjs\b/, ev: "Frappe client scripts and web work at NDMA", href: "#experience" },
+      { k: "TypeScript", re: /\btypescript\b/, ev: "In my skill set", href: "#skills" },
+      { k: "Dart / Flutter", re: /\bdart\b|\bflutter\b|flutterflow/, ev: "Mobile apps with FlutterFlow (Flutter and Dart) at NDMA", href: "#experience" },
+      { k: "C", test: (raw) => /(^|[\s,(\/])C(?=[\s,)\/;]|$)/.test(raw), ev: "In my skill set", href: "#skills" },
+      { k: "SQL and databases", re: /\bsql\b|mysql|mariadb|postgres|database/, ev: "The databases behind Frappe applications", href: "#skills" },
+      { k: "HTML and CSS", re: /\bhtml\b|\bcss\b|tailwind/, ev: "Web projects, including the AutoBid GY website; Tailwind CSS course (2024)", href: "#work" },
+      { k: "Frappe / ERPNext", re: /frappe|erpnext/, ev: "Frappe Framework v13–15 at NDMA, including custom client scripts", href: "#experience" },
+      { k: "Low-code platforms", re: /low[- ]?code|no[- ]?code/, ev: "Frappe and FlutterFlow", href: "#experience" },
+      { k: "Mobile app development", re: /\bmobile\b|\bios\b|\bandroid\b/, ev: "Built the AutoBid GY iOS and Android app; FlutterFlow apps at NDMA", href: "#work" },
+      { k: "Web and backend development", re: /\bweb\b|website|front[- ]?end|back[- ]?end|full[- ]?stack/, ev: "Built AutoBid GY's backend, APIs and website", href: "#work" },
+      { k: "Firebase", re: /firebase/, ev: "In my skill set", href: "#skills" },
+      { k: "REST APIs and integration", re: /\brest(ful)?\b|\bapis?\b|integrat|web services?/, ev: "Integrations at NDMA; AutoBid GY's backend and APIs", href: "#work" },
+      { k: "Git and version control", re: /\bgit\b|gitlab|github|version control|source control/, ev: "Code contribution through Git and GitLab at NDMA", href: "#experience" },
+      { k: "CI/CD and DevOps", re: /ci\s*\/\s*cd|continuous (integration|delivery|deployment)|\bpipelines?\b|devops/, ev: "In my skill set", href: "#skills" },
+      { k: "Containers and virtualisation", re: /docker|containers?|virtuali[sz]|virtual machines?/, ev: "In my skill set (virtual containers)", href: "#skills" },
+      { k: "AI and prompt engineering", re: /\bai\b|artificial intelligence|prompt|\bllms?\b|chatgpt|generative/, ev: "AI tooling in my NDMA role; Claude 101, Claude Code 101 and ChatGPT courses", href: "#education" },
+      { k: "Networking", re: /network|\blan\b|\bwan\b|fib(re|er)|tcp\/?ip/, ev: "Network troubleshooting at GLSC; fibre-optic work at NDMA; BSc in network administration (in progress)", href: "#experience" },
+      { k: "IT support and hardware", re: /hardware|it support|technical support|help ?desk|troubleshoot|pc repair|end[- ]users?/, ev: "PC and hardware repair at GLSC; Computer Hardware grade A in my diploma", href: "#experience" },
+      { k: "Testing and QA", re: /\btest(s|ing|er)?\b|\bqa\b|quality assurance|\bbugs?\b/, ev: "Testing and customisation at Guiana Holdings (2024)", href: "#experience" },
+      { k: "Cybersecurity awareness", re: /cyber|security/, ev: "NDMA Cybersecurity Awareness Training (2025)", href: "#education" },
+      { k: "Microsoft Office", re: /microsoft office|ms office|office 365|microsoft 365|\bexcel\b|powerpoint|microsoft word/, ev: "In my skill set", href: "#skills" },
+      { k: "Public sector experience", re: /government|public sector|ministry|agency|govtech|e-?government|civil service|\bnational\b/, ev: "3+ years at Guyana's National Data Management Authority", href: "#experience" },
+      { k: "Startup and product ownership", re: /start-?ups?|founder|entrepreneur|product owner|ownership/, ev: "Founder of AutoBid GY; SBM Offshore entrepreneurial programme (2026)", href: "#work" },
+      { k: "Communication and teamwork", re: /communicat|team ?work|team player|collaborat|interpersonal/, ev: "Cross-team work at NDMA", href: "#experience" },
+      { k: "Diploma or degree", re: /bachelor|\bb\.?sc\b|degree|diploma|associate'?s/, ev: "Diploma in Computer Science, Pass with Credit (B+); BSc IT in progress", href: "#education" },
+      { k: "Based in Guyana", re: /guyana|georgetown|caribbean/, ev: "Based in Georgetown, Guyana", href: "#about" },
+    ];
+    // EDIT: common requirements I don't have yet, listed honestly when a role asks for them
+    const FIT_GAPS = [
+      ["Java", /\bjava\b(?!script)/], ["C#", /c#/], [".NET", /\.net\b/], ["C++", /c\+\+/], ["PHP", /\bphp\b/],
+      ["React", /\breact\b/], ["Angular", /angular/], ["Vue", /\bvue/], ["Node.js", /node\.?js/], ["Go", /\bgolang\b/],
+      ["Kotlin", /kotlin/], ["Swift", /\bswift\b/], ["Ruby", /\bruby\b/], ["Rust", /\brust\b/],
+      ["AWS", /\baws\b|amazon web services/], ["Azure", /azure/], ["Google Cloud", /\bgcp\b|google cloud/],
+      ["Kubernetes", /kubernetes|\bk8s\b/], ["Linux administration", /linux|unix/],
+      ["Windows Server / Active Directory", /windows server|active directory/], ["Cisco / CCNA", /cisco|ccna|ccnp/],
+      ["Power BI", /power ?bi/], ["Tableau", /tableau/], ["Salesforce", /salesforce/], ["SAP", /\bsap\b/],
+      ["Terraform", /terraform/], ["Machine learning", /machine learning|data science/],
+      ["PMP / PRINCE2", /\bpmp\b|prince2/], ["Master's degree", /master'?s|\bmsc\b/], ["Spanish", /spanish/], ["Portuguese", /portuguese/],
+    ];
+    const MY_YEARS = 3;
+
+    const esc = (t) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+    const check = () => {
+      const raw = input.value.trim();
+      if (!raw) { input.focus(); return; }
+      const text = raw.toLowerCase();
+      const hits = FIT_PROFILE.filter((p) => (p.test ? p.test(raw) : p.re.test(text)));
+      const gaps = FIT_GAPS.filter(([, re]) => re.test(text)).map(([k]) => k);
+
+      // years of experience asked for, e.g. "3+ years", "5 years of experience", "2-4 years"
+      const y = text.match(/(\d{1,2})\s*\+?\s*(?:(?:-|–|to)\s*\d{1,2}\s*)?(?:years?|yrs?)\b/);
+      const items = hits.map((p) => `<li><b>${esc(p.k)}</b>: ${esc(p.ev)} <a href="${p.href}">See →</a></li>`);
+      if (y) {
+        const want = +y[1];
+        if (want <= MY_YEARS) items.unshift(`<li><b>Experience (${want}+ years asked)</b>: 3+ years building software <a href="#experience">See →</a></li>`);
+        else gaps.unshift(`${want}+ years of experience (I have ${MY_YEARS}+)`);
+      }
+
+      const total = items.length + gaps.length;
+      document.getElementById("fit-hits").innerHTML = items.length ? items.join("")
+        : `<li class="empty">No direct matches found. Try listing the skills you need, one per line.</li>`;
+      document.getElementById("fit-gaps").innerHTML = gaps.length
+        ? gaps.map((g) => `<li>${esc(g)}</li>`).join("")
+        : `<li class="empty">Nothing missing from what you listed.</li>`;
+      const pct = total ? Math.round((items.length / total) * 100) : 0;
+      document.getElementById("fit-pct").textContent = total ? pct + "%" : "–";
+      document.getElementById("fit-lbl").textContent = total
+        ? `of the ${total} requirement${total === 1 ? "" : "s"} I recognised in your description`
+        : "I couldn't pick out specific requirements";
+      result.hidden = false;
+      const bar = document.getElementById("fit-bar");
+      bar.style.width = "0";
+      requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.width = pct + "%"; }));
+      result.dataset.summary = hits.map((p) => p.k).slice(0, 6).join(", ");
+      result.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" });
+    };
+
+    form.addEventListener("submit", (e) => { e.preventDefault(); check(); });
+    document.querySelectorAll(".fit-chip").forEach((b) =>
+      b.addEventListener("click", () => { input.value = b.dataset.sample; check(); }));
+
+    // hand the role over to the contact form, ready to send
+    document.getElementById("fit-contact").addEventListener("click", () => {
+      const msg = document.querySelector('#contact-form textarea[name="message"]');
+      if (msg && !msg.value.trim()) {
+        const s = result.dataset.summary;
+        msg.value = `Hi Delon, I'm hiring for a role${s ? ` that needs ${s}` : ""}. Here are the details:\n\n` +
+          input.value.trim().slice(0, 3000);
+      }
+      document.getElementById("contact").scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+      setTimeout(() => document.querySelector('#contact-form input[name="name"]')?.focus({ preventScroll: true }), reduce ? 0 : 700);
+    });
   })();
 
   // Work card cursor glow
