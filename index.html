@@ -586,6 +586,13 @@
     background: #fff; cursor: zoom-in; line-height: 0;
   }
   .cert-card img { width: 100%; height: auto; display: block; }
+  .cert-card.in-progress { border-style: dashed; border-color: var(--accent); }
+  .cert-card .ip-face { display: grid; gap: 0.5rem; padding: 1.4rem 1.15rem 0.4rem; color: var(--text-dim); font-size: 0.88rem; }
+  .cert-card .ip-face strong { font-family: var(--display); font-size: 1.25rem; font-weight: 600; color: var(--text); line-height: 1.2; }
+  .cert-card .ip-badge {
+    justify-self: start; padding: 0.25rem 0.6rem; border-radius: 999px;
+    background: var(--accent-2); color: var(--on-accent); font-size: 0.62rem; font-weight: 600;
+  }
   .cert-card .meta { padding: 1rem 1.15rem; }
   .cert-card .meta h4 { font-family: var(--display); font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; }
   .cert-card .meta .row { display: flex; justify-content: space-between; gap: 0.75rem; margin-top: 0.35rem; align-items: baseline; }
@@ -1237,6 +1244,11 @@
           <span class="sub">Texila American University</span>
           <span class="more">Network administration and technology development.</span>
         </li>
+        <li tabindex="0" data-state="progress">
+          <span class="yr">2026 — in progress</span><strong>Google IT Support certificate</strong>
+          <span class="sub">Google · Coursera</span>
+          <span class="more">Troubleshooting, networking, operating systems, system administration and IT security.</span>
+        </li>
         <li tabindex="0" data-state="current">
           <span class="here">You are here</span>
           <span class="yr">2025</span><strong>Assistant ICT Engineer</strong>
@@ -1394,6 +1406,18 @@
         <div class="certs reveal">
       <span class="mono sub-label">Certifications</span>
       <div class="cert-wall">
+      <!-- EDIT: swap for a normal .cert-card with the certificate image once it's earned -->
+      <div class="cert-card in-progress reveal">
+        <div class="ip-face">
+          <span class="mono ip-badge">In progress</span>
+          <strong>Google IT Support Professional Certificate</strong>
+          <span>Six-course program: troubleshooting, networking, operating systems, system administration and IT security.</span>
+        </div>
+        <div class="meta">
+          <h4>Currently studying</h4>
+          <div class="row"><span class="issuer">Google · Coursera</span><span class="yr">2026</span></div>
+        </div>
+      </div>
       <div class="cert-card reveal">
         <button type="button" onclick="openLightbox(this)">
           <img src="assets/cert-sbm-entrepreneurial.webp" alt="Entrepreneurial Development Training Programme — SBM Offshore Guyana and Fiscal Frontier certificate awarded to Delon Pyle" width="1600" height="1271" loading="lazy" decoding="async" />
@@ -1677,6 +1701,9 @@
       <span class="mono idx">Recently added</span>
     </div>
     <ol class="updates reveal">
+      <li><time datetime="2026-10-28">28 Oct 2026</time>
+        <span class="what"><b>Now studying:</b> Google IT Support Professional Certificate</span>
+        <a class="u-link" href="#education">See →</a></li>
       <li><time datetime="2026-10-27">27 Oct 2026</time>
         <span class="what"><b>New for recruiters:</b> Role fit, see how I match your job description</span>
         <a class="u-link" href="#fit">Try it →</a></li>
@@ -1689,13 +1716,13 @@
       <li><time datetime="2026-10-26">26 Oct 2026</time>
         <span class="what"><b>New certificate:</b> Work-Study Attachment, Guyana Lands &amp; Surveys Commission (2022)</span>
         <button type="button" class="u-link" data-cert="assets/cert-glsc-work-study.webp" onclick="openLightbox(this)">View →</button></li>
-      <li><time datetime="2026-10-26">26 Oct 2026</time>
-        <span class="what"><b>New transcript:</b> Diploma in Computer Science, Pass with Credit (B+)</span>
-        <button type="button" class="u-link" data-cert="assets/transcript-computer-science.webp" onclick="openLightbox(this)">View →</button></li>
     </ol>
     <details class="updates-more">
       <summary>Show earlier updates</summary>
       <ol class="updates">
+        <li><time datetime="2026-10-26">26 Oct 2026</time>
+          <span class="what"><b>New transcript:</b> Diploma in Computer Science, Pass with Credit (B+)</span>
+          <button type="button" class="u-link" data-cert="assets/transcript-computer-science.webp" onclick="openLightbox(this)">View →</button></li>
         <li><time datetime="2026-10-26">26 Oct 2026</time>
           <span class="what"><b>Education:</b> CSEC results added, five subjects passed (2020)</span>
           <a class="u-link" href="#education">See →</a></li>
@@ -1755,7 +1782,7 @@
 <footer>
   <span class="mono">© <span id="year"></span> Delon Pyle</span>
   <!-- EDIT: match the newest entry in the Updates list -->
-  <a class="mono" href="#updates">Last updated 27 Oct 2026</a>
+  <a class="mono" href="#updates">Last updated 28 Oct 2026</a>
 </footer>
 
 <!-- Lightbox for certificates -->
@@ -2633,7 +2660,7 @@
       { k: "Containers and virtualisation", re: /docker|containers?|virtuali[sz]|virtual machines?/, ev: "In my skill set (virtual containers)", href: "#skills" },
       { k: "AI and prompt engineering", re: /\bai\b|artificial intelligence|prompt|\bllms?\b|chatgpt|generative/, ev: "AI tooling in my NDMA role; Claude 101, Claude Code 101 and ChatGPT courses", href: "#education" },
       { k: "Networking", re: /network|\blan\b|\bwan\b|fib(re|er)|tcp\/?ip/, ev: "Network troubleshooting at GLSC; fibre-optic work at NDMA; BSc in network administration (in progress)", href: "#experience" },
-      { k: "IT support and hardware", re: /hardware|it support|technical support|help ?desk|troubleshoot|pc repair|end[- ]users?|maintenance/, ev: "PC and hardware repair at GLSC; Computer Hardware grade A in my diploma", href: "#experience" },
+      { k: "IT support and hardware", re: /hardware|it support|technical support|help ?desk|troubleshoot|pc repair|end[- ]users?|maintenance/, ev: "PC and hardware repair at GLSC; Computer Hardware grade A in my diploma; Google IT Support certificate (in progress)", href: "#experience" },
       { k: "Testing and QA", re: /\btest(s|ing|er)?\b|\bqa\b|quality assurance|\bbugs?\b/, ev: "Testing and customisation at Guiana Holdings (2024)", href: "#experience" },
       { k: "Cybersecurity awareness", re: /cyber|security/, ev: "NDMA Cybersecurity Awareness Training (2025)", href: "#education" },
       { k: "Microsoft Office", re: /microsoft office|ms office|office 365|microsoft 365|\bexcel\b|powerpoint|microsoft word/, ev: "In my skill set", href: "#skills" },
