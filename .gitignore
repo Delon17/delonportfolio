@@ -6,3 +6,6 @@ Desktop.ini
 
 # private documents — never publish (shows date of birth / candidate number)
 assets/cesec results.jpg
+
+# Python cache
+__pycache__/
