@@ -15,6 +15,7 @@
     var t = null;
     try { t = localStorage.getItem("theme"); } catch (e) {}
     if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    document.documentElement.classList.add("js");
     document.documentElement.dataset.theme = t;
     document.querySelector('meta[name="theme-color"]').content = t === "light" ? "#F6F7F9" : "#0A0C10";
   })();
@@ -564,6 +565,8 @@
     background: #fff; cursor: zoom-in; line-height: 0;
   }
   .cert-card img { width: 100%; height: auto; display: block; }
+  /* hidden until the clean copy is decoded, so the watermarked file doesn't flash */
+  .js .cert-card img:not(.ready) { opacity: 0; }
   .cert-card.in-progress { border-style: dashed; border-color: var(--accent); }
   .cert-card .ip-progress { color: var(--text-dim); font-size: 0.82rem; }
   .cert-card .ip-progress b { color: var(--accent-2); }
@@ -927,6 +930,7 @@
     .accent-text { -webkit-text-fill-color: #2244cc; color: #2244cc; }
     .lede, .about-grid p, .job p, .work-card p, .stat .label { color: #333; }
     .about-facts, .skill-card, .work-card, .cert-card { border-color: #ccc; background: #fff; }
+    .cert-card img { opacity: 1 !important; }
     .cert-wall { column-count: 2; }
     a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 8pt; color: #666; }
   }
@@ -1805,19 +1809,49 @@
 
   // Certificate lightbox gallery
   const galleryImgs = [...document.querySelectorAll(".cert-card img")];
+
+  // Certificate files in assets/ are watermarked, so that's what a saved or linked
+  // image contains. The clean copy lives scrambled in assets/enc/ and is decoded here
+  // for display only (see scripts/protect-cert.py). If decoding fails, the watermarked
+  // image simply stays on screen.
+  const CERT_KEY = new TextEncoder().encode("delonpyle.com/certificates");
+  const cleanJobs = new Map();
+  const cleanCert = (img) => {
+    if (cleanJobs.has(img)) return cleanJobs.get(img);
+    const file = img.getAttribute("src");
+    img.dataset.file = file;
+    const job = fetch(file.replace("assets/", "assets/enc/").replace(".webp", ".bin"))
+      .then((r) => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+      .then((buf) => {
+        const b = new Uint8Array(buf);
+        for (let i = 0; i < b.length; i++) b[i] ^= CERT_KEY[i % CERT_KEY.length];
+        img.src = URL.createObjectURL(new Blob([b], { type: "image/webp" }));
+        return img.decode ? img.decode().catch(() => {}) : null;
+      })
+      .catch(() => {})
+      .then(() => img.classList.add("ready"));
+    cleanJobs.set(img, job);
+    return job;
+  };
+  const certIo = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { cleanCert(e.target); certIo.unobserve(e.target); }
+    });
+  }, { rootMargin: "800px" });
+  galleryImgs.forEach((img) => certIo.observe(img));
   let lbIndex = 0;
   let lbOpener = null;
   function renderLb() {
     const src = galleryImgs[lbIndex];
     const lbImg = document.getElementById("lightbox-img");
-    lbImg.src = src.src;
+    cleanCert(src).then(() => { if (galleryImgs[lbIndex] === src) lbImg.src = src.src; });
     lbImg.alt = src.alt;
     document.getElementById("lb-count").textContent =
       (lbIndex + 1) + " / " + galleryImgs.length;
   }
   function openLightbox(btn) {
     // cert-card thumbnails hold their img; education buttons point at one via data-cert
-    const img = btn.querySelector("img") || galleryImgs.find((i) => i.getAttribute("src") === btn.dataset.cert);
+    const img = btn.querySelector("img") || galleryImgs.find((i) => (i.dataset.file || i.getAttribute("src")) === btn.dataset.cert);
     lbIndex = Math.max(0, galleryImgs.indexOf(img));
     lbOpener = btn;
     renderLb();
