@@ -1113,7 +1113,7 @@
   <div class="stats-grid" id="stats">
     <div class="stat"><div class="num" data-target="3" data-suffix="+">0</div><div class="label">Years building software</div></div>
     <div class="stat"><div class="num" data-target="5" data-count="#experience .job">0</div><div class="label">Roles held</div></div>
-    <div class="stat"><div class="num" data-target="9" data-count=".cert-card img[src*='/cert-']">0</div><div class="label">Certifications</div></div>
+    <div class="stat"><div class="num" data-target="10" data-count=".cert-card img[src*='/cert-']">0</div><div class="label">Certifications</div></div>
     <div class="stat"><div class="num" data-target="19" data-count="#skills .tag">0</div><div class="label">Skills</div></div>
   </div>
 </section>
@@ -1221,8 +1221,8 @@
           <span class="yr">2026 — in progress</span><strong>Google IT Support certificate</strong>
           <span class="sub">Google · Coursera</span>
           <span class="more">Troubleshooting, networking, operating systems, system administration and IT security.
-            1 of 6 courses complete.
-            <button type="button" class="j-cert" data-cert="assets/cert-google-technical-support-fundamentals.webp" onclick="openLightbox(this)">View certificate →</button></span>
+            2 of 6 courses complete.
+            <button type="button" class="j-cert" data-cert="assets/cert-google-computer-networking.webp" onclick="openLightbox(this)">View latest certificate →</button></span>
         </li>
         <li tabindex="0" data-state="current">
           <span class="here">You are here</span>
@@ -1387,11 +1387,20 @@
           <span class="mono ip-badge">In progress</span>
           <strong>Google IT Support Professional Certificate</strong>
           <span>Six-course program: troubleshooting, networking, operating systems, system administration and IT security.</span>
-          <span class="ip-progress"><b>1 of 6</b> courses complete</span>
+          <span class="ip-progress"><b>2 of 6</b> courses complete</span>
         </div>
         <div class="meta">
           <h4>Currently studying</h4>
           <div class="row"><span class="issuer">Google · Coursera</span><span class="yr">2026</span></div>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <button type="button" onclick="openLightbox(this)">
+          <img src="assets/cert-google-computer-networking.webp" alt="The Bits and Bytes of Computer Networking — Google course certificate via Coursera, awarded to Delon Anthony Pyle" width="1600" height="1236" loading="lazy" decoding="async" />
+        </button>
+        <div class="meta">
+          <h4>The Bits and Bytes of Computer Networking</h4>
+          <div class="row"><span class="issuer">Google · Coursera · <a class="verify" href="https://coursera.org/verify/0IPNE7ST1IAW" target="_blank" rel="noopener">Verify ↗</a></span><span class="yr">2026</span></div>
         </div>
       </div>
       <div class="cert-card reveal">
@@ -1686,6 +1695,9 @@
       <span class="mono idx">Recently added</span>
     </div>
     <ol class="updates reveal">
+      <li><time datetime="2026-11-05">5 Nov 2026</time>
+        <span class="what"><b>New certificate:</b> The Bits and Bytes of Computer Networking, Google (course 2 of 6, IT Support)</span>
+        <button type="button" class="u-link" data-cert="assets/cert-google-computer-networking.webp" onclick="openLightbox(this)">View →</button></li>
       <li><time datetime="2026-10-31">31 Oct 2026</time>
         <span class="what"><b>New certificate:</b> Technical Support Fundamentals, Google (course 1 of 6, IT Support)</span>
         <button type="button" class="u-link" data-cert="assets/cert-google-technical-support-fundamentals.webp" onclick="openLightbox(this)">View →</button></li>
@@ -1698,13 +1710,13 @@
       <li><time datetime="2026-10-27">27 Oct 2026</time>
         <span class="what"><b>Experience:</b> Founder &amp; Developer, AutoBid GY</span>
         <a class="u-link" href="#work">See →</a></li>
-      <li><time datetime="2026-10-26">26 Oct 2026</time>
-        <span class="what"><b>Skills:</b> CI/CD and Firebase added</span>
-        <a class="u-link" href="#skills">See →</a></li>
     </ol>
     <details class="updates-more">
       <summary>Show earlier updates</summary>
       <ol class="updates">
+        <li><time datetime="2026-10-26">26 Oct 2026</time>
+          <span class="what"><b>Skills:</b> CI/CD and Firebase added</span>
+          <a class="u-link" href="#skills">See →</a></li>
         <li><time datetime="2026-10-26">26 Oct 2026</time>
           <span class="what"><b>New certificate:</b> Work-Study Attachment, Guyana Lands &amp; Surveys Commission (2022)</span>
           <button type="button" class="u-link" data-cert="assets/cert-glsc-work-study.webp" onclick="openLightbox(this)">View →</button></li>
@@ -1770,7 +1782,7 @@
 <footer>
   <span class="mono">© <span id="year"></span> Delon Pyle</span>
   <!-- EDIT: match the newest entry in the Updates list -->
-  <a class="mono" href="#updates">Last updated 31 Oct 2026</a>
+  <a class="mono" href="#updates">Last updated 5 Nov 2026</a>
 </footer>
 
 <!-- Lightbox for certificates -->
@@ -2647,7 +2659,7 @@
       { k: "CI/CD and DevOps", re: /ci\s*\/\s*cd|continuous (integration|delivery|deployment)|\bpipelines?\b|devops/, ev: "In my skill set", href: "#skills" },
       { k: "Containers and virtualisation", re: /docker|containers?|virtuali[sz]|virtual machines?/, ev: "In my skill set (virtual containers)", href: "#skills" },
       { k: "AI and prompt engineering", re: /\bai\b|artificial intelligence|prompt|\bllms?\b|chatgpt|generative/, ev: "AI tooling in my NDMA role; Claude 101, Claude Code 101 and ChatGPT courses", href: "#education" },
-      { k: "Networking", re: /network|\blan\b|\bwan\b|fib(re|er)|tcp\/?ip/, ev: "Network troubleshooting at GLSC; fibre-optic work at NDMA; BSc in network administration (in progress)", href: "#experience" },
+      { k: "Networking", re: /network|\blan\b|\bwan\b|fib(re|er)|tcp\/?ip/, ev: "Network troubleshooting at GLSC; fibre-optic work at NDMA; Google Bits and Bytes of Computer Networking (2026); BSc in network administration (in progress)", href: "#experience" },
       { k: "IT support and hardware", re: /hardware|it support|technical support|help ?desk|troubleshoot|pc repair|end[- ]users?|maintenance/, ev: "PC and hardware repair at GLSC; Computer Hardware grade A in my diploma; Google Technical Support Fundamentals (2026); Google IT Support certificate in progress", href: "#experience" },
       { k: "Testing and QA", re: /\btest(s|ing|er)?\b|\bqa\b|quality assurance|\bbugs?\b/, ev: "Testing and customisation at Guiana Holdings (2024)", href: "#experience" },
       { k: "Cybersecurity awareness", re: /cyber|security/, ev: "NDMA Cybersecurity Awareness Training (2025)", href: "#education" },
