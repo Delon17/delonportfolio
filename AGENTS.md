@@ -11,7 +11,8 @@ The resume must stay in sync with the site. Every new document means updating **
    awards — the Certifications stat counts `cert-` images, so the prefix matters.
    Then run `python scripts/protect-cert.py assets/<name>.webp` once: the public file becomes
    watermarked (what anyone saving it gets) and the clean copy is stored scrambled in `assets/enc/`,
-   which the page decodes for display, so visitors see no watermark on the site.
+   which the page paints on a pointer-transparent canvas above the image. Never point an `<img>`
+   at the clean copy: open-in-new-tab and save must always reach the watermarked file.
    Transcripts are `transcript-<slug>.webp` and get a card on the wall plus a "View transcript"
    button next to the matching Education entry's "View diploma".
 2. **`index.html`**
