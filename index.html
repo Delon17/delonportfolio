@@ -380,28 +380,6 @@
   }
   .hero-inner { position: relative; z-index: 2; width: 100%; padding-block: 7rem 3rem; }
 
-  .status {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    padding: 0.4rem 0.85rem;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: var(--chip-bg);
-    margin-bottom: 2rem;
-  }
-  .dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--accent-2);
-    box-shadow: 0 0 0 0 rgba(79, 209, 197, 0.6);
-    animation: pulse 2.4s infinite;
-  }
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(79, 209, 197, 0.5); }
-    70% { box-shadow: 0 0 0 7px rgba(79, 209, 197, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(79, 209, 197, 0); }
-  }
-  .status .mono { color: var(--text-dim); font-size: 0.68rem; }
 
   h1.name {
     font-family: var(--display);
@@ -657,7 +635,6 @@
   @keyframes gy-pulse { 50% { opacity: 0.05; transform: scale(1.9); } }
   @media (prefers-reduced-motion: reduce) { .gy-link, .gy-hub-glow { animation: none; } }
   @media (max-width: 600px) { .gy-map { height: 8.5rem; } .gy-label { display: none; } }
-  .flag-gy { width: 20px; height: 12px; flex: none; border-radius: 2px; box-shadow: 0 0 0 1px var(--line); }
   .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; }
   .work-card {
     display: block;
@@ -808,7 +785,7 @@
     .work-card .arrow { padding-block: 0.65rem; }
     .job .view-cert { padding: 0.7rem 1rem; margin-top: 0.6rem; }
     .journey-list .j-cert { padding-block: 0.5rem; }
-    .status .mono, .journey-list .yr, .journey-list .here, .net-tip .g,
+    .journey-list .yr, .journey-list .here, .net-tip .g,
     .portrait .tag-name, .stat .label { font-size: 0.72rem; }
   }
 
@@ -1101,13 +1078,6 @@
   <div class="net-tip" id="net-tip" role="status" hidden><span class="g mono"></span><strong></strong><span class="u"></span></div>
 
   <div class="wrap hero-inner">
-    <!-- EDIT: status line -->
-    <div class="status">
-      <span class="dot"></span>
-      <span class="mono">Open to new opportunities</span>
-      <!-- the Golden Arrowhead as SVG: Windows shows the flag emoji as plain "GY" letters -->
-      <svg class="flag-gy" viewBox="0 0 50 30" role="img" aria-label="Guyana"><rect width="50" height="30" fill="#009E49"/><path d="M0 0L50 15L0 30Z" fill="#FFF"/><path d="M0 1.8L45.5 15L0 28.2Z" fill="#FCD116"/><path d="M0 0L25 15L0 30Z" fill="#000"/><path d="M0 2.2L21.6 15L0 27.8Z" fill="#CE1126"/></svg>
-    </div>
 
     <h1 class="name">
       <span class="line"><span>Delon</span></span>
