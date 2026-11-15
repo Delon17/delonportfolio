@@ -608,7 +608,7 @@
   .lightbox .close:hover { color: var(--text); }
 
   /* SKILLS */
-  .skill-groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .skill-groups { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
   .skill-card {
     border: 1px solid var(--line-soft);
     border-radius: 14px;
@@ -1124,7 +1124,7 @@
     <div class="stat"><div class="num" data-target="3" data-suffix="+">0</div><div class="label">Years building software</div></div>
     <div class="stat"><div class="num" data-target="5" data-count="#experience .job">0</div><div class="label">Roles held</div></div>
     <div class="stat"><div class="num" data-target="11" data-count=".cert-card img[src*='/cert-']">0</div><div class="label">Certifications</div></div>
-    <div class="stat"><div class="num" data-target="19" data-count="#skills .tag">0</div><div class="label">Skills</div></div>
+    <div class="stat"><div class="num" data-target="26" data-count="#skills .tag">0</div><div class="label">Skills</div></div>
   </div>
 </section>
 
@@ -1410,7 +1410,7 @@
         </button>
         <div class="meta">
           <h4>Operating Systems and You: Becoming a Power User</h4>
-          <div class="row"><span class="issuer">Google · Coursera · <a class="verify" href="https://coursera.org/verify/TNKJT7RLYBRK" target="_blank" rel="noopener">Verify ↗</a></span><span class="yr">2026</span></div>
+          <div class="row"><span class="issuer">Google · Coursera · Grade 96.7% · <a class="verify" href="https://coursera.org/verify/TNKJT7RLYBRK" target="_blank" rel="noopener">Verify ↗</a></span><span class="yr">2026</span></div>
         </div>
       </div>
       <div class="cert-card reveal">
@@ -1419,7 +1419,7 @@
         </button>
         <div class="meta">
           <h4>The Bits and Bytes of Computer Networking</h4>
-          <div class="row"><span class="issuer">Google · Coursera · <a class="verify" href="https://coursera.org/verify/0IPNE7ST1IAW" target="_blank" rel="noopener">Verify ↗</a></span><span class="yr">2026</span></div>
+          <div class="row"><span class="issuer">Google · Coursera · Grade 95.8% · <a class="verify" href="https://coursera.org/verify/0IPNE7ST1IAW" target="_blank" rel="noopener">Verify ↗</a></span><span class="yr">2026</span></div>
         </div>
       </div>
       <div class="cert-card reveal">
@@ -1428,7 +1428,7 @@
         </button>
         <div class="meta">
           <h4>Technical Support Fundamentals</h4>
-          <div class="row"><span class="issuer">Google · Coursera · <a class="verify" href="https://coursera.org/verify/22F0ZVV5OIFH" target="_blank" rel="noopener">Verify ↗</a></span><span class="yr">2026</span></div>
+          <div class="row"><span class="issuer">Google · Coursera · Grade 95.9% · <a class="verify" href="https://coursera.org/verify/22F0ZVV5OIFH" target="_blank" rel="noopener">Verify ↗</a></span><span class="yr">2026</span></div>
         </div>
       </div>
       <div class="cert-card reveal">
@@ -1568,6 +1568,18 @@
           <span class="tag">Version Control</span>
           <span class="tag">Virtual Containers</span>
           <span class="tag">Prompt Engineering</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <h4>IT Support &amp; Infrastructure</h4>
+        <div class="tags">
+          <span class="tag">Technical Support</span>
+          <span class="tag">Linux &amp; Command Line</span>
+          <span class="tag">Networking (TCP/IP, DHCP)</span>
+          <span class="tag">Network Troubleshooting</span>
+          <span class="tag">User Accounts &amp; Permissions</span>
+          <span class="tag">System Monitoring</span>
+          <span class="tag">Technical Documentation</span>
         </div>
       </div>
     </div>
@@ -1715,6 +1727,9 @@
     </div>
     <ol class="updates reveal">
       <li><time datetime="2026-11-15">15 Nov 2026</time>
+        <span class="what"><b>Skills:</b> new IT Support &amp; Infrastructure group: Linux, networking, technical support and more</span>
+        <a class="u-link" href="#skills">See →</a></li>
+      <li><time datetime="2026-11-15">15 Nov 2026</time>
         <span class="what"><b>New certificate:</b> Operating Systems and You: Becoming a Power User, Google (course 3 of 6, IT Support)</span>
         <button type="button" class="u-link" data-cert="assets/cert-google-operating-systems.webp" onclick="openLightbox(this)">View →</button></li>
       <li><time datetime="2026-11-05">5 Nov 2026</time>
@@ -1726,13 +1741,13 @@
       <li><time datetime="2026-10-28">28 Oct 2026</time>
         <span class="what"><b>Now studying:</b> Google IT Support Professional Certificate</span>
         <a class="u-link" href="#education">See →</a></li>
-      <li><time datetime="2026-10-27">27 Oct 2026</time>
-        <span class="what"><b>New for recruiters:</b> Role fit, see how I match your job description</span>
-        <a class="u-link" href="#fit">Try it →</a></li>
     </ol>
     <details class="updates-more">
       <summary>Show earlier updates</summary>
       <ol class="updates">
+        <li><time datetime="2026-10-27">27 Oct 2026</time>
+          <span class="what"><b>New for recruiters:</b> Role fit, see how I match your job description</span>
+          <a class="u-link" href="#fit">Try it →</a></li>
         <li><time datetime="2026-10-27">27 Oct 2026</time>
           <span class="what"><b>Experience:</b> Founder &amp; Developer, AutoBid GY</span>
           <a class="u-link" href="#work">See →</a></li>
@@ -2012,6 +2027,7 @@
       { name: "Languages & Web", dir: [-0.55, 0.35, -0.75] },
       { name: "Frameworks & Tools", dir: [0.7, 0.25, -0.65] },
       { name: "APIs & Systems", dir: [0.05, -0.8, -0.6] },
+      { name: "IT Support & Infrastructure", dir: [-0.15, 0.2, 0.95] },
     ];
     const SKILLS = [
       ["Python", 0, "Frappe apps at NDMA"],
@@ -2032,6 +2048,13 @@
       ["API Integration", 2, "Wiring services together"],
       ["Version Control", 2, "Git workflows"],
       ["Virtual Containers", 2, "Running and shipping apps"],
+      ["Technical Support", 3, "Google IT Support courses; PC and hardware support at GLSC"],
+      ["Linux & Command Line", 3, "Google Operating Systems course (96.7%)"],
+      ["Networking (TCP/IP, DHCP)", 3, "Google Computer Networking course (95.8%); fibre work at NDMA"],
+      ["Network Troubleshooting", 3, "GLSC Information Systems Division; Google networking course"],
+      ["User Accounts & Permissions", 3, "Google Operating Systems course"],
+      ["System Monitoring", 3, "Google Operating Systems course"],
+      ["Technical Documentation", 3, "Google Technical Support Fundamentals (95.9%)"],
       ["Prompt Engineering", 2, "AI tooling as Assistant ICT Engineer"],
     ];
     const RELATED = [
@@ -2041,6 +2064,10 @@
       ["FlutterFlow", "Dart"], ["FlutterFlow", "API Integration"], ["TypeScript", "JavaScript"],
       ["HTML", "CSS"], ["HTML", "JavaScript"], ["Git & GitLab", "Version Control"], ["CI/CD", "Git & GitLab"],
       ["CI/CD", "Version Control"], ["CI/CD", "Virtual Containers"],
+      ["Linux & Command Line", "Virtual Containers"], ["Linux & Command Line", "System Monitoring"],
+      ["Linux & Command Line", "User Accounts & Permissions"], ["Networking (TCP/IP, DHCP)", "Network Troubleshooting"],
+      ["Technical Support", "Network Troubleshooting"], ["Technical Support", "Technical Documentation"],
+      ["Networking (TCP/IP, DHCP)", "RESTful APIs"],
       ["Firebase", "FlutterFlow"], ["Firebase", "Dart"], ["Firebase", "API Integration"],
       ["RESTful APIs", "API Integration"], ["RESTful APIs", "Python"], ["RESTful APIs", "JavaScript"],
       ["Prompt Engineering", "API Integration"], ["Prompt Engineering", "Python"], ["C", "Python"],
@@ -2738,7 +2765,10 @@
       { k: "CI/CD and DevOps", re: /ci\s*\/\s*cd|continuous (integration|delivery|deployment)|\bpipelines?\b|devops/, ev: "In my skill set", href: "#skills" },
       { k: "Containers and virtualisation", re: /docker|containers?|virtuali[sz]|virtual machines?/, ev: "In my skill set (virtual containers)", href: "#skills" },
       { k: "AI and prompt engineering", re: /\bai\b|artificial intelligence|prompt|\bllms?\b|chatgpt|generative/, ev: "AI tooling in my NDMA role; Claude 101, Claude Code 101 and ChatGPT courses", href: "#education" },
-      { k: "Networking", re: /network|\blan\b|\bwan\b|fib(re|er)|tcp\/?ip/, ev: "Network troubleshooting at GLSC; fibre-optic work at NDMA; Google Bits and Bytes of Computer Networking (2026); BSc in network administration (in progress)", href: "#experience" },
+      { k: "Linux and command line", re: /linux|unix|command[- ]line|cli|bash|shell/, ev: "Google Operating Systems and You course (grade 96.7%): Linux commands, package management, users and permissions", href: "#education" },
+      { k: "Technical documentation", re: /documentation|knowledge base|technical writing/, ev: "Google Technical Support Fundamentals (grade 95.9%)", href: "#education" },
+      { k: "Customer and user support", re: /customer (support|service)|user support|end[- ]user|service desk|tickets?|ticketing/, ev: "Google Technical Support Fundamentals; supporting staff at GLSC", href: "#education" },
+      { k: "Networking", re: /network|\blan\b|\bwan\b|fib(re|er)|tcp\/?ip/, ev: "Network troubleshooting at GLSC; fibre-optic work at NDMA; Google Bits and Bytes of Computer Networking (TCP/IP, DHCP, routing; grade 95.8%); BSc in network administration (in progress)", href: "#experience" },
       { k: "IT support and hardware", re: /hardware|it support|technical support|help ?desk|troubleshoot|pc repair|end[- ]users?|maintenance/, ev: "PC and hardware repair at GLSC; Computer Hardware grade A in my diploma; Google Technical Support Fundamentals and Operating Systems courses (2026); Google IT Support certificate in progress", href: "#experience" },
       { k: "Testing and QA", re: /\btest(s|ing|er)?\b|\bqa\b|quality assurance|\bbugs?\b/, ev: "Testing and customisation at Guiana Holdings (2024)", href: "#experience" },
       { k: "Cybersecurity awareness", re: /cyber|security/, ev: "NDMA Cybersecurity Awareness Training (2025)", href: "#education" },
@@ -2772,7 +2802,6 @@
       ["Azure", /azure/, "Firebase, containers, CI/CD"],
       ["Google Cloud", /\bgcp\b|google cloud/, "Firebase (part of Google's cloud)"],
       ["Kubernetes", /kubernetes|\bk8s\b/, "Containers and CI/CD"],
-      ["Linux administration", /linux|unix/, "Networking, IT support, containers"],
       ["Windows Server / Active Directory", /windows server|active directory/, "IT support and networking"],
       ["Cisco / CCNA", /cisco|ccna|ccnp/, "Networking and fibre-optic work; BSc in network administration (in progress)"],
       ["Power BI", /power ?bi/, "SQL and Microsoft Office"],
